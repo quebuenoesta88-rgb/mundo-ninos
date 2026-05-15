@@ -1,151 +1,399 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página para Niños</title>
-    <style>
-        /* --- ESTILOS GENERALES (Muy coloridos para niños) --- */
-        body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-            background-color: #e0f7fa;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula Virtual Primaria</title>
 
-        h1 {
-            color: #ff5722;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px #fff;
-        }
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
 
-        /* --- CONTENEDOR DE LAS PESTAÑAS --- */
-        .contenedor-pestanas {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+    body{
+      background:#f4f7fb;
+    }
 
-        /* --- BOTONES DE LAS PESTAÑAS --- */
-        .boton-pestana {
-            background-color: #ffeb3b;
-            border: 3px solid #fbc02d;
-            border-radius: 20px;
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
+    header{
+      background:linear-gradient(90deg,#1e3c72,#2a5298);
+      color:white;
+      padding:20px;
+      text-align:center;
+    }
 
-        .boton-pestana:hover {
-            transform: scale(1.1);
-        }
+    header h1{
+      font-size:32px;
+    }
 
-        /* Pestaña activa (la que está seleccionada) */
-        .boton-pestana.activa {
-            background-color: #4caf50;
-            color: white;
-            border-color: #388e3c;
-        }
+    nav{
+      background:#ffffff;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      padding:15px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    }
 
-        /* --- CONTENIDO DE LAS PESTAÑAS --- */
-        .contenido-pestana {
-            display: none; /* Oculto por defecto */
-            background-color: white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin: 0 auto;
-            border: 4px dashed #ff9800;
-        }
+    nav button{
+      padding:12px 18px;
+      border:none;
+      border-radius:10px;
+      background:#2a5298;
+      color:white;
+      cursor:pointer;
+      font-size:16px;
+      transition:0.3s;
+    }
 
-        /* Clase para mostrar la pestaña activa */
-        .contenido-pestana.activa {
-            display: block;
-        }
+    nav button:hover{
+      background:#1e3c72;
+      transform:scale(1.05);
+    }
 
-        /* Estilo para las tarjetas dentro de las secciones */
-        .tarjeta {
-            background-color: #fff3e0;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #ff5722;
-            text-align: left;
-        }
-    </style>
+    .contenido{
+      padding:25px;
+    }
+
+    .tab{
+      display:none;
+      animation:fade 0.4s;
+    }
+
+    .tab.active{
+      display:block;
+    }
+
+    @keyframes fade{
+      from{opacity:0;}
+      to{opacity:1;}
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      margin-bottom:20px;
+      border-radius:15px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2{
+      color:#1e3c72;
+      margin-bottom:15px;
+    }
+
+    ul{
+      padding-left:20px;
+    }
+
+    li{
+      margin-bottom:10px;
+    }
+
+    .juego{
+      text-align:center;
+      padding:20px;
+    }
+
+    .pregunta{
+      font-size:24px;
+      margin:20px 0;
+    }
+
+    input{
+      padding:10px;
+      width:120px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      text-align:center;
+      font-size:18px;
+    }
+
+    .btn{
+      margin-top:15px;
+      padding:10px 20px;
+      background:#28a745;
+      color:white;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:16px;
+    }
+
+    .btn:hover{
+      background:#1e7e34;
+    }
+
+    .imagenes{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:15px;
+    }
+
+    .imagenes img{
+      width:100%;
+      border-radius:12px;
+      height:200px;
+      object-fit:cover;
+    }
+
+    iframe{
+      width:100%;
+      height:300px;
+      border-radius:12px;
+      margin-top:10px;
+    }
+
+    audio{
+      width:100%;
+      margin-top:10px;
+    }
+
+    footer{
+      background:#1e3c72;
+      color:white;
+      text-align:center;
+      padding:15px;
+      margin-top:30px;
+    }
+  </style>
 </head>
+
 <body>
 
-    <h1>¡Bienvenidos a DivertiMundo! 🌟</h1>
-    <p>Elige una opción para empezar a divertirte y aprender:</p>
+<header>
+  <h1>📚 Aula Virtual de Cuarto de Primaria</h1>
+  <p>Plataforma educativa interactiva</p>
+</header>
 
-    <!-- MENÚ DE PESTAÑAS -->
-    <div class="contenedor-pestanas">
-        <button class="boton-pestana activa" onclick="abrirPestana(event, 'materias')">📚 Materias</button>
-        <button class="boton-pestana" onclick="abrirPestana(event, 'juegos')">🎮 Juegos</button>
-        <button class="boton-pestana" onclick="abrirPestana(event, 'actividades')">🎨 Actividades</button>
+<nav>
+  <button onclick="mostrarTab('materias')">Materias</button>
+  <button onclick="mostrarTab('juegos')">Juegos</button>
+  <button onclick="mostrarTab('actividades')">Actividades</button>
+  <button onclick="mostrarTab('imagenes')">Imágenes</button>
+  <button onclick="mostrarTab('videos')">Videos</button>
+  <button onclick="mostrarTab('musica')">Marchas, Himnos y Canciones</button>
+</nav>
+
+<div class="contenido">
+
+  <!-- MATERIAS -->
+  <div id="materias" class="tab active">
+
+    <div class="card">
+      <h2>📖 Comunicación y Lenguajes</h2>
+      <ul>
+        <li>Lectura comprensiva</li>
+        <li>Ortografía</li>
+        <li>Diminutivos y aumentativos</li>
+      </ul>
     </div>
 
-    <!-- CONTENIDO: MATERIAS -->
-    <div id="materias" class="contenido-pestana activa">
-        <h2>📚 Nuestras Materias</h2>
-        <p>Aprende cosas increíbles del mundo que te rodea.</p>
-        <div class="tarjeta">
-            <h3>🧮 Matemáticas Divertidas</h3>
-            <p>Aprende a sumar y restar jugando con monstruos de los números.</p>
-        </div>
-        <div class="tarjeta">
-            <h3>🔬 Ciencia Loca</h3>
-            <p>Experimentos caseros y secretos de la naturaleza.</p>
-        </div>
+    <div class="card">
+      <h2>➕ Matemática</h2>
+      <ul>
+        <li>Sumas y restas</li>
+        <li>Multiplicación</li>
+        <li>Perímetros</li>
+      </ul>
     </div>
 
-    <!-- CONTENIDO: JUEGOS -->
-    <div id="juegos" class="contenido-pestana">
-        <h2>🎮 Juegos Educativos</h2>
-        <p>¡Entrena tu cerebro mientras te diviertes!</p>
-        <div class="tarjeta">
-            <h3>🧩 Rompecabezas Geográfico</h3>
-            <p>Ubica los países en el mapa antes de que se acabe el tiempo.</p>
-        </div>
+    <div class="card">
+      <h2>🌿 Ciencias Naturales</h2>
+      <ul>
+        <li>Los seres vivos</li>
+        <li>La alimentación saludable</li>
+        <li>El cuidado del medio ambiente</li>
+      </ul>
     </div>
 
-    <!-- CONTENIDO: ACTIVIDADES -->
-    <div id="actividades" class="contenido-pestana">
-        <h2>🎨 Actividades y Manualidades</h2>
-        <p>¡Saca al artista que llevas dentro!</p>
-        <div class="tarjeta">
-            <h3>🖍️ Dibujos para Colorear</h3>
-            <p>Descarga plantillas de animales y superhéroes para pintar.</p>
-        </div>
+    <div class="card">
+      <h2>🌎 Ciencias Sociales</h2>
+      <ul>
+        <li>Símbolos patrios</li>
+        <li>Historia de Bolivia</li>
+        <li>Regiones del país</li>
+      </ul>
     </div>
-<button class="boton-pestana" onclick="abrirPestana(event, 'premios')">🏆 Premios</button>
-    <!-- JAVASCRIPT PARA HACER FUNCIONAR LAS PESTAÑAS -->
-    <script>
-        function abrirPestana(evento, nombrePestana) {
-            // 1. Ocultar todos los contenidos de las pestañas
-            const contenidos = document.getElementsByClassName("contenido-pestana");
-            for (let i = 0; i < contenidos.length; i++) {
-                contenidos[i].classList.remove("activa");
-            }
 
-            // 2. Quitar la clase "activa" de todos los botones
-            const botones = document.getElementsByClassName("boton-pestana");
-            for (let i = 0; i < botones.length; i++) {
-                botones[i].classList.remove("activa");
-            }
+    <div class="card">
+      <h2>🎨 Artes Plásticas y Visuales</h2>
+      <ul>
+        <li>Dibujo creativo</li>
+        <li>Colores primarios</li>
+        <li>Manualidades</li>
+      </ul>
+    </div>
 
-            // 3. Mostrar la pestaña actual y añadir la clase "activa" al botón que la abrió
-            document.getElementById(nombrePestana).classList.add("activa");
-            evento.currentTarget.classList.add("activa");
-        }
-    </script>
+    <div class="card">
+      <h2>💻 Técnica Tecnológica</h2>
+      <ul>
+        <li>Partes de la computadora</li>
+        <li>Uso del teclado</li>
+        <li>Herramientas digitales</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- JUEGOS -->
+  <div id="juegos" class="tab">
+
+    <div class="card juego">
+      <h2>🎮 Juego de Matemática</h2>
+
+      <div class="pregunta" id="pregunta">
+        ¿Cuánto es 5 + 3?
+      </div>
+
+      <input type="number" id="respuesta">
+
+      <br>
+
+      <button class="btn" onclick="verificar()">
+        Verificar
+      </button>
+
+      <p id="resultado" style="margin-top:15px;font-size:20px;"></p>
+    </div>
+
+    <div class="card">
+      <h2>📚 Juego de Lenguaje</h2>
+      <p>Adivina la palabra correcta:</p>
+      <p><b>Pequeño de perro:</b> Perr___</p>
+    </div>
+
+    <div class="card">
+      <h2>🌎 Juego de Sociales</h2>
+      <p>¿Cuál es la bandera de Bolivia?</p>
+    </div>
+
+    <div class="card">
+      <h2>🌿 Juego de Ciencias Naturales</h2>
+      <p>¿Qué necesitan las plantas para vivir?</p>
+    </div>
+
+    <div class="card">
+      <h2>💻 Juego de Técnica Tecnológica</h2>
+      <p>¿Qué parte de la computadora usamos para escribir?</p>
+    </div>
+
+  </div>
+
+  <!-- ACTIVIDADES -->
+  <div id="actividades" class="tab">
+
+    <div class="card">
+      <h2>📝 Tareas de las Materias</h2>
+
+      <ul>
+        <li>Comunicación: Leer un cuento corto.</li>
+        <li>Matemática: Resolver 10 multiplicaciones.</li>
+        <li>Ciencias Naturales: Dibujar el ciclo del agua.</li>
+        <li>Ciencias Sociales: Investigar símbolos patrios.</li>
+        <li>Artes: Crear un dibujo libre.</li>
+        <li>Técnica Tecnológica: Identificar partes de la computadora.</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <!-- IMÁGENES -->
+  <div id="imagenes" class="tab">
+
+    <div class="card">
+      <h2>🖼️ Galería de Imágenes</h2>
+
+      <div class="imagenes">
+
+        <img src="https://picsum.photos/300/200?1">
+        <img src="https://picsum.photos/300/200?2">
+        <img src="https://picsum.photos/300/200?3">
+        <img src="https://picsum.photos/300/200?4">
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- VIDEOS -->
+  <div id="videos" class="tab">
+
+    <div class="card">
+      <h2>🎥 Videos Educativos</h2>
+
+      <iframe 
+      src="https://www.youtube.com/embed/8g0vmKzHj8M"
+      allowfullscreen>
+      </iframe>
+
+    </div>
+
+  </div>
+
+  <!-- MÚSICA -->
+  <div id="musica" class="tab">
+
+    <div class="card">
+      <h2>🎵 Marchas, Himnos y Canciones</h2>
+
+      <p>Himno Nacional</p>
+
+      <audio controls>
+        <source src="" type="audio/mpeg">
+      </audio>
+
+      <br><br>
+
+      <p>Canción Infantil</p>
+
+      <audio controls>
+        <source src="" type="audio/mpeg">
+      </audio>
+
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Aula Virtual Primaria
+</footer>
+
+<script>
+
+  function mostrarTab(id){
+
+    let tabs = document.querySelectorAll('.tab');
+
+    tabs.forEach(tab => {
+      tab.classList.remove('active');
+    });
+
+    document.getElementById(id).classList.add('active');
+  }
+
+  function verificar(){
+
+    let respuesta = document.getElementById('respuesta').value;
+    let resultado = document.getElementById('resultado');
+
+    if(respuesta == 8){
+      resultado.innerHTML = "✅ ¡Correcto!";
+      resultado.style.color = "green";
+    }else{
+      resultado.innerHTML = "❌ Intenta otra vez";
+      resultado.style.color = "red";
+    }
+  }
+
+</script>
 
 </body>
 </html>
