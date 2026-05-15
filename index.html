@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página para Niños</title>
+    <style>
+        /* --- ESTILOS GENERALES (Muy coloridos para niños) --- */
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff5722;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px #fff;
+        }
+
+        /* --- CONTENEDOR DE LAS PESTAÑAS --- */
+        .contenedor-pestanas {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* --- BOTONES DE LAS PESTAÑAS --- */
+        .boton-pestana {
+            background-color: #ffeb3b;
+            border: 3px solid #fbc02d;
+            border-radius: 20px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .boton-pestana:hover {
+            transform: scale(1.1);
+        }
+
+        /* Pestaña activa (la que está seleccionada) */
+        .boton-pestana.activa {
+            background-color: #4caf50;
+            color: white;
+            border-color: #388e3c;
+        }
+
+        /* --- CONTENIDO DE LAS PESTAÑAS --- */
+        .contenido-pestana {
+            display: none; /* Oculto por defecto */
+            background-color: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 4px dashed #ff9800;
+        }
+
+        /* Clase para mostrar la pestaña activa */
+        .contenido-pestana.activa {
+            display: block;
+        }
+
+        /* Estilo para las tarjetas dentro de las secciones */
+        .tarjeta {
+            background-color: #fff3e0;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #ff5722;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¡Bienvenidos a DivertiMundo! 🌟</h1>
+    <p>Elige una opción para empezar a divertirte y aprender:</p>
+
+    <!-- MENÚ DE PESTAÑAS -->
+    <div class="contenedor-pestanas">
+        <button class="boton-pestana activa" onclick="abrirPestana(event, 'materias')">📚 Materias</button>
+        <button class="boton-pestana" onclick="abrirPestana(event, 'juegos')">🎮 Juegos</button>
+        <button class="boton-pestana" onclick="abrirPestana(event, 'actividades')">🎨 Actividades</button>
+    </div>
+
+    <!-- CONTENIDO: MATERIAS -->
+    <div id="materias" class="contenido-pestana activa">
+        <h2>📚 Nuestras Materias</h2>
+        <p>Aprende cosas increíbles del mundo que te rodea.</p>
+        <div class="tarjeta">
+            <h3>🧮 Matemáticas Divertidas</h3>
+            <p>Aprende a sumar y restar jugando con monstruos de los números.</p>
+        </div>
+        <div class="tarjeta">
+            <h3>🔬 Ciencia Loca</h3>
+            <p>Experimentos caseros y secretos de la naturaleza.</p>
+        </div>
+    </div>
+
+    <!-- CONTENIDO: JUEGOS -->
+    <div id="juegos" class="contenido-pestana">
+        <h2>🎮 Juegos Educativos</h2>
+        <p>¡Entrena tu cerebro mientras te diviertes!</p>
+        <div class="tarjeta">
+            <h3>🧩 Rompecabezas Geográfico</h3>
+            <p>Ubica los países en el mapa antes de que se acabe el tiempo.</p>
+        </div>
+    </div>
+
+    <!-- CONTENIDO: ACTIVIDADES -->
+    <div id="actividades" class="contenido-pestana">
+        <h2>🎨 Actividades y Manualidades</h2>
+        <p>¡Saca al artista que llevas dentro!</p>
+        <div class="tarjeta">
+            <h3>🖍️ Dibujos para Colorear</h3>
+            <p>Descarga plantillas de animales y superhéroes para pintar.</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT PARA HACER FUNCIONAR LAS PESTAÑAS -->
+    <script>
+        function abrirPestana(evento, nombrePestana) {
+            // 1. Ocultar todos los contenidos de las pestañas
+            const contenidos = document.getElementsByClassName("contenido-pestana");
+            for (let i = 0; i < contenidos.length; i++) {
+                contenidos[i].classList.remove("activa");
+            }
+
+            // 2. Quitar la clase "activa" de todos los botones
+            const botones = document.getElementsByClassName("boton-pestana");
+            for (let i = 0; i < botones.length; i++) {
+                botones[i].classList.remove("activa");
+            }
+
+            // 3. Mostrar la pestaña actual y añadir la clase "activa" al botón que la abrió
+            document.getElementById(nombrePestana).classList.add("activa");
+            evento.currentTarget.classList.add("activa");
+        }
+    </script>
+
+</body>
+</html>
