@@ -240,48 +240,113 @@
   </div>
 
   <!-- JUEGOS -->
-  <div id="juegos" class="tab">
+ <script>
 
-    <div class="card juego">
-      <h2>🎮 Juego de Matemática</h2>
+let preguntas = [
 
-      <div class="pregunta" id="pregunta">
-        ¿Cuánto es 5 + 3?
-      </div>
+  { pregunta: "¿Cuánto es 5 + 3?", respuesta: 8 },
 
-      <input type="number" id="respuesta">
+  { pregunta: "¿Cuánto es 10 - 4?", respuesta: 6 },
 
-      <br>
+  { pregunta: "¿Cuánto es 7 x 2?", respuesta: 14 },
 
-      <button class="btn" onclick="verificar()">
-        Verificar
-      </button>
+  { pregunta: "¿Cuánto es 20 / 5?", respuesta: 4 },
 
-      <p id="resultado" style="margin-top:15px;font-size:20px;"></p>
-    </div>
+  { pregunta: "¿Cuánto es 9 + 1?", respuesta: 10 },
 
-    <div class="card">
-      <h2>📚 Juego de Lenguaje</h2>
-      <p>Adivina la palabra correcta:</p>
-      <p><b>Pequeño de perro:</b> Perr___</p>
-    </div>
+  { pregunta: "¿Cuánto es 15 - 5?", respuesta: 10 },
 
-    <div class="card">
-      <h2>🌎 Juego de Sociales</h2>
-      <p>¿Cuál es la bandera de Bolivia?</p>
-    </div>
+  { pregunta: "¿Cuánto es 6 x 6?", respuesta: 36 },
 
-    <div class="card">
-      <h2>🌿 Juego de Ciencias Naturales</h2>
-      <p>¿Qué necesitan las plantas para vivir?</p>
-    </div>
+  { pregunta: "¿Cuánto es 18 / 2?", respuesta: 9 },
 
-    <div class="card">
-      <h2>💻 Juego de Técnica Tecnológica</h2>
-      <p>¿Qué parte de la computadora usamos para escribir?</p>
-    </div>
+  { pregunta: "¿Cuánto es 12 + 8?", respuesta: 20 },
 
-  </div>
+  { pregunta: "¿Cuánto es 14 - 9?", respuesta: 5 },
+
+  { pregunta: "¿Cuánto es 3 x 7?", respuesta: 21 },
+
+  { pregunta: "¿Cuánto es 16 / 4?", respuesta: 4 },
+
+  { pregunta: "¿Cuánto es 25 + 5?", respuesta: 30 },
+
+  { pregunta: "¿Cuánto es 50 - 20?", respuesta: 30 },
+
+  { pregunta: "¿Cuánto es 8 x 5?", respuesta: 40 },
+
+  { pregunta: "¿Cuánto es 81 / 9?", respuesta: 9 },
+
+  { pregunta: "¿Cuánto es 100 - 1?", respuesta: 99 },
+
+  { pregunta: "¿Cuánto es 11 + 11?", respuesta: 22 },
+
+  { pregunta: "¿Cuánto es 9 x 9?", respuesta: 81 },
+
+  { pregunta: "¿Cuánto es 64 / 8?", respuesta: 8 }
+
+];
+
+let actual = 0;
+
+function cargarPregunta(){
+
+  document.getElementById("pregunta").innerHTML =
+    preguntas[actual].pregunta;
+
+  document.getElementById("numeroPregunta").innerHTML =
+    actual + 1;
+
+  document.getElementById("respuesta").value = "";
+
+  document.getElementById("resultado").innerHTML = "";
+}
+
+function verificar(){
+
+  let respuestaUsuario =
+    document.getElementById("respuesta").value;
+
+  let resultado =
+    document.getElementById("resultado");
+
+  if(respuestaUsuario == preguntas[actual].respuesta){
+
+    resultado.innerHTML = "✅ Correcto";
+    resultado.style.color = "green";
+
+  }else{
+
+    resultado.innerHTML =
+      "❌ Incorrecto. La respuesta era " +
+      preguntas[actual].respuesta;
+
+    resultado.style.color = "red";
+  }
+
+  actual++;
+
+  if(actual < preguntas.length){
+
+    setTimeout(() => {
+      cargarPregunta();
+    }, 1500);
+
+  }else{
+
+    setTimeout(() => {
+
+      document.querySelector(".juego").innerHTML = `
+        <h2>🎉 Juego terminado</h2>
+        <p>Completaste las 20 preguntas.</p>
+      `;
+
+    }, 1500);
+  }
+}
+
+cargarPregunta();
+
+</script>
 
   <!-- ACTIVIDADES -->
   <div id="actividades" class="tab">
