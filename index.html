@@ -1,464 +1,253 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aula Virtual Primaria</title>
-
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+export default function AulaVirtualPrimaria() {
+  const materias = [
+    {
+      nombre: 'Comunicación y Lenguajes',
+      icono: '📖',
+      color: 'bg-pink-100',
+      temas: ['Lectura comprensiva', 'Ortografía', 'Cuentos', 'Diminutivos', 'Trabalenguas']
+    },
+    {
+      nombre: 'Matemática',
+      icono: '➕',
+      color: 'bg-blue-100',
+      temas: ['Sumas', 'Restas', 'Multiplicación', 'División', 'Perímetros']
+    },
+    {
+      nombre: 'Ciencias Naturales',
+      icono: '🌿',
+      color: 'bg-green-100',
+      temas: ['Seres vivos', 'Cuidado del cuerpo', 'Plantas', 'Animales', 'Medio ambiente']
+    },
+    {
+      nombre: 'Ciencias Sociales',
+      icono: '🌎',
+      color: 'bg-yellow-100',
+      temas: ['Símbolos patrios', 'Historia', 'Regiones', 'Valores', 'Comunidad']
+    },
+    {
+      nombre: 'Artes Plásticas y Visuales',
+      icono: '🎨',
+      color: 'bg-purple-100',
+      temas: ['Dibujo', 'Colores', 'Manualidades', 'Pintura', 'Creatividad']
+    },
+    {
+      nombre: 'Técnica Tecnológica',
+      icono: '💻',
+      color: 'bg-orange-100',
+      temas: ['Computadora', 'Teclado', 'Internet', 'Herramientas digitales', 'Seguridad']
     }
+  ];
 
-    body{
-      background:#f4f7fb;
-    }
+  const juegos = [
+    'Juego Matemático',
+    'Juego de Lenguaje',
+    'Juego de Sociales',
+    'Juego de Naturales',
+    'Juego Tecnológico'
+  ];
 
-    header{
-      background:linear-gradient(90deg,#1e3c72,#2a5298);
-      color:white;
-      padding:20px;
-      text-align:center;
-    }
+  const actividades = [
+    'Resolver ejercicios de multiplicación.',
+    'Leer un cuento corto y resumirlo.',
+    'Dibujar el ciclo del agua.',
+    'Investigar los símbolos patrios.',
+    'Crear una manualidad reciclable.'
+  ];
 
-    header h1{
-      font-size:32px;
-    }
+  const imagenes = [
+    'https://picsum.photos/400/300?1',
+    'https://picsum.photos/400/300?2',
+    'https://picsum.photos/400/300?3',
+    'https://picsum.photos/400/300?4'
+  ];
 
-    nav{
-      background:#ffffff;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:10px;
-      padding:15px;
-      box-shadow:0 2px 5px rgba(0,0,0,0.1);
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-white">
+      {/* ENCABEZADO */}
+      <header className="bg-blue-700 text-white p-6 shadow-lg">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold">📚 Aula Virtual Primaria</h1>
+            <p className="text-lg mt-2">Plataforma educativa interactiva para niños</p>
+          </div>
 
-    nav button{
-      padding:12px 18px;
-      border:none;
-      border-radius:10px;
-      background:#2a5298;
-      color:white;
-      cursor:pointer;
-      font-size:16px;
-      transition:0.3s;
-    }
+          <div className="bg-white text-blue-700 px-4 py-2 rounded-2xl shadow font-bold">
+            Bienvenidos estudiantes ⭐
+          </div>
+        </div>
+      </header>
 
-    nav button:hover{
-      background:#1e3c72;
-      transform:scale(1.05);
-    }
+      {/* MENÚ */}
+      <nav className="sticky top-0 z-50 bg-white shadow-md p-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-3">
+          {['Materias', 'Juegos', 'Actividades', 'Imágenes', 'Videos', 'Canciones'].map((item) => (
+            <button
+              key={item}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-2xl shadow-md transition-all duration-300 hover:scale-105"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      </nav>
 
-    .contenido{
-      padding:25px;
-    }
+      {/* PORTADA */}
+      <section className="max-w-7xl mx-auto p-6 mt-6">
+        <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-3xl p-10 text-white shadow-xl text-center">
+          <h2 className="text-5xl font-bold mb-4">Aprender es divertido 🎉</h2>
+          <p className="text-xl">
+            Juegos educativos, actividades, videos y contenidos para estudiantes de cuarto de primaria.
+          </p>
+        </div>
+      </section>
 
-    .tab{
-      display:none;
-      animation:fade 0.4s;
-    }
+      {/* MATERIAS */}
+      <section className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-center text-blue-700 mb-10">
+          📘 Materias
+        </h2>
 
-    .tab.active{
-      display:block;
-    }
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {materias.map((materia) => (
+            <div
+              key={materia.nombre}
+              className={`${materia.color} rounded-3xl p-6 shadow-lg hover:scale-105 transition-all duration-300`}
+            >
+              <h3 className="text-2xl font-bold mb-4">
+                {materia.icono} {materia.nombre}
+              </h3>
 
-    @keyframes fade{
-      from{opacity:0;}
-      to{opacity:1;}
-    }
+              <ul className="space-y-2 text-lg">
+                {materia.temas.map((tema) => (
+                  <li key={tema}>✅ {tema}</li>
+                ))}
+              </ul>
 
-    .card{
-      background:white;
-      padding:20px;
-      margin-bottom:20px;
-      border-radius:15px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    }
+              <button className="mt-5 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl w-full">
+                Ingresar
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
 
-    h2{
-      color:#1e3c72;
-      margin-bottom:15px;
-    }
+      {/* JUEGOS */}
+      <section className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-center text-green-700 mb-10">
+          🎮 Juegos Educativos
+        </h2>
 
-    ul{
-      padding-left:20px;
-    }
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {juegos.map((juego) => (
+            <div
+              key={juego}
+              className="bg-white rounded-3xl p-6 shadow-lg border-4 border-green-200"
+            >
+              <h3 className="text-2xl font-bold mb-4">🎯 {juego}</h3>
 
-    li{
-      margin-bottom:10px;
-    }
+              <p className="text-gray-700 mb-4">
+                Juego interactivo con 20 preguntas para aprender mientras juegas.
+              </p>
 
-    .juego{
-      text-align:center;
-      padding:20px;
-    }
+              <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-xl w-full font-bold">
+                Jugar Ahora
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
 
-    .pregunta{
-      font-size:24px;
-      margin:20px 0;
-    }
+      {/* ACTIVIDADES */}
+      <section className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-center text-orange-700 mb-10">
+          📝 Actividades y Tareas
+        </h2>
 
-    input{
-      padding:10px;
-      width:120px;
-      border-radius:8px;
-      border:1px solid #ccc;
-      text-align:center;
-      font-size:18px;
-    }
+        <div className="bg-white rounded-3xl p-8 shadow-lg">
+          <ul className="space-y-4 text-lg">
+            {actividades.map((actividad, index) => (
+              <li
+                key={index}
+                className="bg-orange-100 p-4 rounded-2xl"
+              >
+                📌 {actividad}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-    .btn{
-      margin-top:15px;
-      padding:10px 20px;
-      background:#28a745;
-      color:white;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:16px;
-    }
+      {/* IMÁGENES */}
+      <section className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-center text-purple-700 mb-10">
+          🖼️ Galería de Imágenes
+        </h2>
 
-    .btn:hover{
-      background:#1e7e34;
-    }
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {imagenes.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt="Galería"
+              className="rounded-3xl shadow-lg hover:scale-105 transition-all duration-300"
+            />
+          ))}
+        </div>
+      </section>
 
-    .imagenes{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:15px;
-    }
+      {/* VIDEOS */}
+      <section className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-center text-red-700 mb-10">
+          🎥 Videos Educativos
+        </h2>
 
-    .imagenes img{
-      width:100%;
-      border-radius:12px;
-      height:200px;
-      object-fit:cover;
-    }
+        <div className="grid md:grid-cols-2 gap-6">
+          <iframe
+            className="w-full h-72 rounded-3xl shadow-lg"
+            src="https://www.youtube.com/embed/8g0vmKzHj8M"
+            title="Video"
+            allowFullScreen
+          ></iframe>
 
-    iframe{
-      width:100%;
-      height:300px;
-      border-radius:12px;
-      margin-top:10px;
-    }
+          <iframe
+            className="w-full h-72 rounded-3xl shadow-lg"
+            src="https://www.youtube.com/embed/fn2pBMGi8gQ"
+            title="Video"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </section>
 
-    audio{
-      width:100%;
-      margin-top:10px;
-    }
+      {/* CANCIONES */}
+      <section className="max-w-7xl mx-auto p-6 mb-10">
+        <h2 className="text-4xl font-bold text-center text-pink-700 mb-10">
+          🎵 Marchas, Himnos y Canciones
+        </h2>
 
-    footer{
-      background:#1e3c72;
-      color:white;
-      text-align:center;
-      padding:15px;
-      margin-top:30px;
-    }
-  </style>
-</head>
+        <div className="grid md:grid-cols-3 gap-6">
+          {['Himno Nacional', 'Canciones Infantiles', 'Marcha Escolar'].map((item) => (
+            <div
+              key={item}
+              className="bg-white rounded-3xl p-6 shadow-lg text-center"
+            >
+              <div className="text-6xl mb-4">🎶</div>
 
-<body>
+              <h3 className="text-2xl font-bold mb-4">{item}</h3>
 
-<header>
-  <h1>📚 Aula Virtual de Cuarto de Primaria</h1>
-  <p>Plataforma educativa interactiva</p>
-</header>
+              <audio controls className="w-full">
+                <source src="" type="audio/mpeg" />
+              </audio>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<nav>
-  <button onclick="mostrarTab('materias')">Materias</button>
-  <button onclick="mostrarTab('juegos')">Juegos</button>
-  <button onclick="mostrarTab('actividades')">Actividades</button>
-  <button onclick="mostrarTab('imagenes')">Imágenes</button>
-  <button onclick="mostrarTab('videos')">Videos</button>
-  <button onclick="mostrarTab('musica')">Marchas, Himnos y Canciones</button>
-</nav>
-
-<div class="contenido">
-
-  <!-- MATERIAS -->
-  <div id="materias" class="tab active">
-
-    <div class="card">
-      <h2>📖 Comunicación y Lenguajes</h2>
-      <ul>
-        <li>Lectura comprensiva</li>
-        <li>Ortografía</li>
-        <li>Diminutivos y aumentativos</li>
-      </ul>
+      {/* PIE DE PÁGINA */}
+      <footer className="bg-blue-700 text-white text-center p-6 mt-10">
+        <p className="text-lg font-bold">
+          © 2026 Aula Virtual Primaria - Plataforma Educativa
+        </p>
+      </footer>
     </div>
-
-    <div class="card">
-      <h2>➕ Matemática</h2>
-      <ul>
-        <li>Sumas y restas</li>
-        <li>Multiplicación</li>
-        <li>Perímetros</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>🌿 Ciencias Naturales</h2>
-      <ul>
-        <li>Los seres vivos</li>
-        <li>La alimentación saludable</li>
-        <li>El cuidado del medio ambiente</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>🌎 Ciencias Sociales</h2>
-      <ul>
-        <li>Símbolos patrios</li>
-        <li>Historia de Bolivia</li>
-        <li>Regiones del país</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>🎨 Artes Plásticas y Visuales</h2>
-      <ul>
-        <li>Dibujo creativo</li>
-        <li>Colores primarios</li>
-        <li>Manualidades</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>💻 Técnica Tecnológica</h2>
-      <ul>
-        <li>Partes de la computadora</li>
-        <li>Uso del teclado</li>
-        <li>Herramientas digitales</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- JUEGOS -->
- <script>
-
-let preguntas = [
-
-  { pregunta: "¿Cuánto es 5 + 3?", respuesta: 8 },
-
-  { pregunta: "¿Cuánto es 10 - 4?", respuesta: 6 },
-
-  { pregunta: "¿Cuánto es 7 x 2?", respuesta: 14 },
-
-  { pregunta: "¿Cuánto es 20 / 5?", respuesta: 4 },
-
-  { pregunta: "¿Cuánto es 9 + 1?", respuesta: 10 },
-
-  { pregunta: "¿Cuánto es 15 - 5?", respuesta: 10 },
-
-  { pregunta: "¿Cuánto es 6 x 6?", respuesta: 36 },
-
-  { pregunta: "¿Cuánto es 18 / 2?", respuesta: 9 },
-
-  { pregunta: "¿Cuánto es 12 + 8?", respuesta: 20 },
-
-  { pregunta: "¿Cuánto es 14 - 9?", respuesta: 5 },
-
-  { pregunta: "¿Cuánto es 3 x 7?", respuesta: 21 },
-
-  { pregunta: "¿Cuánto es 16 / 4?", respuesta: 4 },
-
-  { pregunta: "¿Cuánto es 25 + 5?", respuesta: 30 },
-
-  { pregunta: "¿Cuánto es 50 - 20?", respuesta: 30 },
-
-  { pregunta: "¿Cuánto es 8 x 5?", respuesta: 40 },
-
-  { pregunta: "¿Cuánto es 81 / 9?", respuesta: 9 },
-
-  { pregunta: "¿Cuánto es 100 - 1?", respuesta: 99 },
-
-  { pregunta: "¿Cuánto es 11 + 11?", respuesta: 22 },
-
-  { pregunta: "¿Cuánto es 9 x 9?", respuesta: 81 },
-
-  { pregunta: "¿Cuánto es 64 / 8?", respuesta: 8 }
-
-];
-
-let actual = 0;
-
-function cargarPregunta(){
-
-  document.getElementById("pregunta").innerHTML =
-    preguntas[actual].pregunta;
-
-  document.getElementById("numeroPregunta").innerHTML =
-    actual + 1;
-
-  document.getElementById("respuesta").value = "";
-
-  document.getElementById("resultado").innerHTML = "";
+  );
 }
-
-function verificar(){
-
-  let respuestaUsuario =
-    document.getElementById("respuesta").value;
-
-  let resultado =
-    document.getElementById("resultado");
-
-  if(respuestaUsuario == preguntas[actual].respuesta){
-
-    resultado.innerHTML = "✅ Correcto";
-    resultado.style.color = "green";
-
-  }else{
-
-    resultado.innerHTML =
-      "❌ Incorrecto. La respuesta era " +
-      preguntas[actual].respuesta;
-
-    resultado.style.color = "red";
-  }
-
-  actual++;
-
-  if(actual < preguntas.length){
-
-    setTimeout(() => {
-      cargarPregunta();
-    }, 1500);
-
-  }else{
-
-    setTimeout(() => {
-
-      document.querySelector(".juego").innerHTML = `
-        <h2>🎉 Juego terminado</h2>
-        <p>Completaste las 20 preguntas.</p>
-      `;
-
-    }, 1500);
-  }
-}
-
-cargarPregunta();
-
-</script>
-
-  <!-- ACTIVIDADES -->
-  <div id="actividades" class="tab">
-
-    <div class="card">
-      <h2>📝 Tareas de las Materias</h2>
-
-      <ul>
-        <li>Comunicación: Leer un cuento corto.</li>
-        <li>Matemática: Resolver 10 multiplicaciones.</li>
-        <li>Ciencias Naturales: Dibujar el ciclo del agua.</li>
-        <li>Ciencias Sociales: Investigar símbolos patrios.</li>
-        <li>Artes: Crear un dibujo libre.</li>
-        <li>Técnica Tecnológica: Identificar partes de la computadora.</li>
-      </ul>
-
-    </div>
-
-  </div>
-
-  <!-- IMÁGENES -->
-  <div id="imagenes" class="tab">
-
-    <div class="card">
-      <h2>🖼️ Galería de Imágenes</h2>
-
-      <div class="imagenes">
-
-        <img src="https://picsum.photos/300/200?1">
-        <img src="https://picsum.photos/300/200?2">
-        <img src="https://picsum.photos/300/200?3">
-        <img src="https://picsum.photos/300/200?4">
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- VIDEOS -->
-  <div id="videos" class="tab">
-
-    <div class="card">
-      <h2>🎥 Videos Educativos</h2>
-
-      <iframe 
-      src="https://www.youtube.com/embed/8g0vmKzHj8M"
-      allowfullscreen>
-      </iframe>
-
-    </div>
-
-  </div>
-
-  <!-- MÚSICA -->
-  <div id="musica" class="tab">
-
-    <div class="card">
-      <h2>🎵 Marchas, Himnos y Canciones</h2>
-
-      <p>Himno Nacional</p>
-
-      <audio controls>
-        <source src="" type="audio/mpeg">
-      </audio>
-
-      <br><br>
-
-      <p>Canción Infantil</p>
-
-      <audio controls>
-        <source src="" type="audio/mpeg">
-      </audio>
-
-    </div>
-
-  </div>
-
-</div>
-
-<footer>
-  © 2026 Aula Virtual Primaria
-</footer>
-
-<script>
-
-  function mostrarTab(id){
-
-    let tabs = document.querySelectorAll('.tab');
-
-    tabs.forEach(tab => {
-      tab.classList.remove('active');
-    });
-
-    document.getElementById(id).classList.add('active');
-  }
-
-  function verificar(){
-
-    let respuesta = document.getElementById('respuesta').value;
-    let resultado = document.getElementById('resultado');
-
-    if(respuesta == 8){
-      resultado.innerHTML = "✅ ¡Correcto!";
-      resultado.style.color = "green";
-    }else{
-      resultado.innerHTML = "❌ Intenta otra vez";
-      resultado.style.color = "red";
-    }
-  }
-
-</script>
-
-</body>
-</html>
