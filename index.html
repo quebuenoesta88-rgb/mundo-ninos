@@ -6,15 +6,13 @@
     <title>Portal Educativo Mundo Niños</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;800&family=Lato:wght=400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { box-sizing: border-box; font-family: 'Lato', sans-serif; }
         body { background-color: #e0f7fa; margin: 0; padding: 20px; text-align: center; color: #333; }
         h1 { font-family: 'Poppins', sans-serif; color: #006064; font-size: 42px; margin-bottom: 5px; }
         .subtitulo { color: #00838f; font-size: 18px; margin-bottom: 25px; }
-        
-        /* MENÚ DE PESTAÑAS PRINCIPALES */
         .contenedor-botones { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .Boton-Pestana { padding: 12px 24px; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-materias { background-color: #ff9800; }
@@ -24,25 +22,17 @@
         .btn-videos { background-color: #9c27b0; }
         .btn-marchas { background-color: #009688; }
         .Boton-Pestana:hover { transform: scale(1.05); filter: brightness(1.1); }
-
-        /* CONTENEDORES DE CONTENIDO */
         .contenido-pestana { background: white; max-width: 1000px; margin: 0 auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); display: none; }
         .activa { display: block; animation: aparecer 0.5s ease; }
         @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* SUB-ELEMENTOS INTERNOS */
         .grid-materias { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
         .tarjeta-materia { padding: 20px; border-radius: 15px; color: white; text-align: left; }
         .sub-menu-interno { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .sub-btn { padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
         .sub-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
-
-        /* ESTILOS DE LA TRIVIA */
         .box-trivia { background: #f9f9f9; border: 3px solid #ff9800; border-radius: 15px; padding: 20px; margin-top: 15px; text-align: left; }
         .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #ccc; border-radius: 8px; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
         .btn-opcion:hover { background: #fff3e0; border-color: #ff9800; }
-        
-        /* ESTILOS DE JHON TE RETA EN MATE */
         .contenedor-reto { background: #fffde7; border: 4px dashed #fbc02d; border-radius: 20px; padding: 25px; margin-top: 15px; text-align: center; }
         .avatar-jhon { font-size: 60px; margin-bottom: 10px; animation: flotar 2s infinite ease-in-out; }
         @keyframes flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -52,10 +42,8 @@
     </style>
 </head>
 <body>
-
     <h1>🌍 Portal Educativo Mundo Niños</h1>
     <p class="subtitulo">¡Tu espacio interactivo para aprender, cantar y jugar!</p>
-
     <div class="contenedor-botones">
         <button class="Boton-Pestana btn-materias" onclick="abrirPestana(event, 'Materias')"><i class="fa-solid fa-book"></i> Materias</button>
         <button class="Boton-Pestana btn-juegos" onclick="abrirPestana(event, 'Juegos')"><i class="fa-solid fa-gamepad"></i> Juegos</button>
@@ -64,300 +52,124 @@
         <button class="Boton-Pestana btn-videos" onclick="abrirPestana(event, 'Videos')"><i class="fa-solid fa-video"></i> Videos</button>
         <button class="Boton-Pestana btn-marchas" onclick="abrirPestana(event, 'Marchas')"><i class="fa-solid fa-music"></i> Marchas e Himnos</button>
     </div>
-
     <div id="Materias" class="contenido-pestana activa">
         <h2>📚 Nuestras Materias</h2>
         <div class="grid-materias">
-            <div class="tarjeta-materia" style="background-color: #ff5722;"><h3>🗣️ Comunicación y Lenguajes</h3><p>Aprende a leer, escribir y expresarte correctamente.</p></div>
-            <div class="tarjeta-materia" style="background-color: #2196f3;"><h3>🔢 Matemática</h3><p>Diviértete con los números, sumas y retos lógicos.</p></div>
-            <div class="tarjeta-materia" style="background-color: #4caf50;"><h3>🧪 Ciencias Naturales</h3><p>Descubre el cuerpo humano, los animales y las plantas.</p></div>
-            <div class="tarjeta-materia" style="background-color: #9c27b0;"><h3>🌍 Ciencias Sociales</h3><p>Conoce la historia, la geografía y nuestras tradiciones.</p></div>
-            <div class="tarjeta-materia" style="background-color: #e91e63;"><h3>🎨 Artes Plásticas y Visuales</h3><p>Dibuja, pinta y despierta toda tu imaginación.</p></div>
-            <div class="tarjeta-materia" style="background-color: #607d8b;"><h3>🤖 Técnica Tecnológica</h3><p>Explora las herramientas digitales del futuro.</p></div>
+            <div class="tarjeta-materia" style="background-color: #ff5722;"><h3>🗣️ Lenguajes</h3><p>Aprende a expresarte correctamente.</p></div>
+            <div class="tarjeta-materia" style="background-color: #2196f3;"><h3>🔢 Matemática</h3><p>Diviértete con los números.</p></div>
+            <div class="tarjeta-materia" style="background-color: #4caf50;"><h3>🧪 Ciencias</h3><p>Descubre el mundo natural.</p></div>
+            <div class="tarjeta-materia" style="background-color: #9c27b0;"><h3>🌍 Sociales</h3><p>Conoce nuestra historia.</p></div>
         </div>
     </div>
-
     <div id="Juegos" class="contenido-pestana">
         <h2>🎮 Zona de Juegos Interactivos</h2>
-        <p>¡Selecciona un juego para empezar la diversión!</p>
-        
         <div class="sub-menu-interno">
-            <button class="sub-btn" style="background:#2196f3" onclick="verJuego('mate')">🔢 Juego Edukiz</button>
-            <button class="sub-btn" style="background:#ff9800" onclick="verJuego('trivia')">🏆 Súper Trivia (100 Preguntas)</button>
+            <button class="sub-btn" style="background:#ff9800" onclick="verJuego('trivia')">🏆 Súper Trivia 1000+</button>
             <button class="sub-btn" style="background:#e53935" onclick="verJuego('retoMate')">🔥 JhonTeRetaEnMate</button>
         </div>
-
-        <div id="juego-mate" class="bloque-juego">
-            <iframe src="https://timmalich.github.io/edukiz_live/#/" style="width: 100%; height: 550px; border: 3px solid #03a9f4; border-radius: 15px; background: white;"></iframe>
-        </div>
-
-        <div id="juego-trivia" class="bloque-juego" style="display:none;">
+        <div id="juego-trivia" class="bloque-juego">
             <div class="box-trivia">
                 <div id="setup-trivia">
-                    <h3>🏆 ¡Súper Trivia de Conocimiento General!</h3>
-                    <p>Elige una materia para responder un set aleatorio de preguntas de primaria:</p>
+                    <h3>🏆 ¡La Súper Trivia de Conocimiento!</h3>
+                    <p>Elige tu materia y prepárate:</p>
                     <select id="categoria-trivia" style="padding: 10px; font-size: 16px; border-radius: 8px; width: 100%; margin-bottom: 15px;">
-                        <option value="todas">🌍 Combinado (Cultura General)</option>
-                        <option value="lenguaje">📚 Comunicación y Lenguaje</option>
-                        <option value="mate">🔢 Matemática Divertida</option>
-                        <option value="naturales">🧪 Ciencias Naturales</option>
-                        <option value="sociales">🏛️ Ciencias Sociales</option>
+                        <option value="todas">🌍 Todas las Materias</option>
+                        <option value="lenguaje">📚 Lenguaje</option>
+                        <option value="mate">🔢 Matemática</option>
+                        <option value="naturales">🧪 Ciencias</option>
+                        <option value="sociales">🌍 Sociales</option>
                     </select>
-                    <button class="sub-btn" style="background:#ff9800; width: 100%; padding: 12px; font-size:16px;" onclick="iniciarTrivia()">¡Empezar a Jugar!</button>
+                    <button class="sub-btn" style="background:#ff9800; width: 100%; padding: 12px;" onclick="iniciarTrivia()">¡Empezar!</button>
                 </div>
                 <div id="pantalla-trivia" style="display:none;">
-                    <h4 id="trivia-progreso" style="color:#ff9800; margin:0;">Pregunta 1 de 10</h4>
-                    <h3 id="trivia-pregunta">Cargando pregunta...</h3>
+                    <h4 id="trivia-progreso" style="color:#ff9800;">Pregunta 1 de 10</h4>
+                    <h3 id="trivia-pregunta">Cargando...</h3>
                     <div id="trivia-opciones"></div>
                 </div>
-                <div id="resultado-trivia" style="display:none; text-align:center; padding:20px;">
-                    <h3>🎉 ¡Desafío Terminado!</h3>
-                    <h1 id="trivia-nota" style="font-size:48px; color:#ff9800; margin:10px 0;">0 / 10</h1>
-                    <p id="trivia-mensaje">¡Buen intento! Sigue practicando.</p>
-                    <button class="sub-btn" style="background:#607d8b;" onclick="reiniciarTrivia()">Volver a Jugar</button>
+                <div id="resultado-trivia" style="display:none; text-align:center;">
+                    <h3>🎉 ¡Terminado!</h3>
+                    <h1 id="trivia-nota" style="font-size:48px; color:#ff9800;">0 / 10</h1>
+                    <p id="trivia-mensaje"></p>
+                    <button class="sub-btn" style="background:#607d8b;" onclick="reiniciarTrivia()">Volver</button>
                 </div>
             </div>
         </div>
-
         <div id="juego-retoMate" class="bloque-juego" style="display:none;">
             <div class="contenedor-reto">
                 <div class="avatar-jhon">🤠</div>
                 <h3>¡Jhon te reta en Matemáticas!</h3>
-                <p>Elige tu desafío aritmético. ¡Responde rápido para ganar puntos!</p>
-                
                 <div style="margin-bottom: 15px;">
                     <button class="sub-btn" style="background:#4caf50;" onclick="configurarReto('suma')">➕ Sumas</button>
                     <button class="sub-btn" style="background:#2196f3;" onclick="configurarReto('resta')">➖ Restas</button>
-                    <button class="sub-btn" style="background:#ff9800;" onclick="configurarReto('multi')">✖️ Multiplicaciones</button>
-                    <button class="sub-btn" style="background:#9c27b0;" onclick="configurarReto('div')">➗ Divisiones</button>
+                    <button class="sub-btn" style="background:#ff9800;" onclick="configurarReto('multi')">✖️ Multi</button>
+                    <button class="sub-btn" style="background:#9c27b0;" onclick="configurarReto('div')">➗ Div</button>
                 </div>
-
                 <div id="arena-retos" style="display:none;">
-                    <p style="font-weight:bold; color:#7f8c8d;">Puntuación: <span id="puntos-reto">0</span> 🔥</p>
-                    <div class="operacion-pantalla" id="texto-operacion">5 + 5</div>
-                    <br>
-                    <input type="number" id="input-respuesta" class="input-respuesta" placeholder="?">
-                    <br><br>
-                    <button class="sub-btn" style="background:#e53935; padding:10px 30px; font-size:18px;" onclick="comprobarReto()">Responder</button>
+                    <p>Puntos: <span id="puntos-reto">0</span> 🔥</p>
+                    <div class="operacion-pantalla" id="texto-operacion"></div>
+                    <br><input type="number" id="input-respuesta" class="input-respuesta" placeholder="?"><br><br>
+                    <button class="sub-btn" style="background:#e53935;" onclick="comprobarReto()">Responder</button>
                     <div class="feedback-reto" id="feedback-reto"></div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="Actividades" class="contenido-pestana"><h2>✏️ Actividades</h2></div>
+    <div id="Imagenes" class="contenido-pestana"><h2>🖼️ Galería</h2></div>
+    <div id="Videos" class="contenido-pestana"><h2>🎬 Videos</h2></div>
+    <div id="Marchas" class="contenido-pestana"><h2>🎵 Himnos</h2></div>
 
-    <div id="Actividades" class="contenido-pestana">
-        <h2>✏️ Actividades y Tareas</h2>
-        <p>Aquí encontrarás las hojas de trabajo listas para practicar lo aprendido en clases.</p>
-    </div>
-
-    <div id="Imagenes" class="contenido-pestana">
-        <h2>🖼️ Galería de Fotos</h2>
-        <p>Revisa las mejores capturas de nuestras actividades y proyectos escolares.</p>
-    </div>
-
-    <div id="Videos" class="contenido-pestana">
-        <h2>🎬 Videos Educativos</h2>
-        <p>Aprende de forma visual con explicaciones animadas y divertidas.</p>
-    </div>
-
-    <div id="Marchas" class="contenido-pestana">
-        <h2>🎵 Marchas, Himnos y Canciones</h2>
-        <p>Escucha y repasa las letras de nuestras canciones patrias y canciones infantiles.</p>
-    </div>
+    <script src="preguntas.js"></script>
 
     <script>
-        // BANCO DE PREGUNTAS PARA LA TRIVIA
-        const bancoPreguntas = [
-            // LENGUAJE
-            {cat:"lenguaje", p:"¿Qué tipo de palabra es 'correr'?", o:["Sustantivo","Verbo","Adjetivo"], r:1},
-            {cat:"lenguaje", p:"¿Cuál es el abecedario correcto?", o:["a, b, c, d...","1, 2, 3, 4...","do, re, mi..."], r:0},
-            {cat:"lenguaje", p:"El antónimo de 'grande' es...", o:["Gigante","Pequeño","Enorme"], r:1},
-            {cat:"lenguaje", p:"¿Qué signo se usa al final de una pregunta?", o:["Punto","Signo de interrogación","Coma"], r:1},
-            {cat:"lenguaje", p:"¿Qué palabra lleva tilde correctamente?", o:["Arbol","Canción","Lapiz"], r:1},
-            {cat:"lenguaje", p:"¿Cuál es el sinónimo de 'feliz'?", o:["Triste","Enojado","Alegre"], r:2},
-            {cat:"lenguaje", p:"Las palabras que nombran personas, animales o cosas se llaman...", o:["Sustantivos","Verbos","Adjetivos"], r:0},
-            {cat:"lenguaje", p:"¿Cuántas sílabas tiene la palabra 'mariposa'?", o:["2","3","4"], r:2},
-            {cat:"lenguaje", p:"¿Cuál es una palabra esdrújula?", o:["Plátano","Mesa","Balón"], r:0},
-            {cat:"lenguaje", p:"El plural de 'pez' es...", o:["Pezes","Peces","Pecitos"], r:1},
-            {cat:"lenguaje", p:"¿Qué letra falta en '_zapato'?", o:["S","C","Z"], r:2},
-            {cat:"lenguaje", p:"¿Cuál es el sujeto en: 'El perro corre feliz'?", o:["El perro","corre","feliz"], r:0},
-            {cat:"lenguaje", p:"¿Qué palabra indica una acción?", o:["Bonito","Cantar","Escuela"], r:1},
-            {cat:"lenguaje", p:"Una oración siempre empieza con letra...", o:["Minúscula","Mayúscula","Cursiva"], r:1},
-            {cat:"lenguaje", p:"¿Qué palabra rimaría con 'gato'?", o:["Perro","Pato","Ratón"], r:1},
-            {cat:"lenguaje", p:"Elige el adjetivo calificativo:", o:["Casa","Saltar","Hermoso"], r:2},
-            {cat:"lenguaje", p:"¿Qué letra va después de la 'M' en el alfabeto?", o:["L","N","O"], r:1},
-            {cat:"lenguaje", p:"¿Cuál es un sustantivo propio?", o:["niño","Bolivia","río"], r:1},
-            {cat:"lenguaje", p:"¿Cuántas vocales existen?", o:["3","5","7"], r:1},
-            {cat:"lenguaje", p:"¿Cuál es una vocal fuerte u abierta?", o:["I","U","A"], r:2},
-            {cat:"lenguaje", p:"¿Cómo se escribe correctamente?", o:["Girafe","Jirafa","Girafa"], r:1},
-            {cat:"lenguaje", p:"¿Qué es un diptongo?", o:["Unión de dos vocales","Separación de letras","Un punto y coma"], r:0},
-            {cat:"lenguaje", p:"La persona que escribe un libro es el...", o:["Lector","Autor","Pintor"], r:1},
-            {cat:"lenguaje", p:"¿Cuál es el artículo en 'La mesa verde'?", o:["La","mesa","verde"], r:0},
-            {cat:"lenguaje", p:"¿Qué palabra está bien escrita?", o:["Abuelo","Avuelo","Habuelo"], r:0},
-
-            // MATEMÁTICA
-            {cat:"mate", p:"¿Cuánto es 5 + 7?", o:["11","12","13"], r:1},
-            {cat:"mate", p:"¿Cuántos lados tiene un triángulo?", o:["3","4","5"], r:0},
-            {cat:"mate", p:"¿Qué número sigue después del 99?", o:["98","100","101"], r:1},
-            {cat:"mate", p:"¿Cuánto es 3 veces 4?", o:["7","10","12"], r:2},
-            {cat:"mate", p:"¿Cuál es el número menor?", o:["45","32","78"], r:1},
-            {cat:"mate", p:"¿Cuánto es la mitad de 50?", o:["20","25","30"], r:1},
-            {cat:"mate", p:"Un siglo tiene...", o:["50 años","100 años","1000 años"], r:1},
-            {cat:"mate", p:"¿Cuánto es 20 - 8?", o:["12","11","14"], r:0},
-            {cat:"mate", p:"¿Qué forma tiene una pelota?", o:["Cuadrada","Cúbica","Esférica"], r:2},
-            {cat:"mate", p:"¿Cuánto es 10 x 5?", o:["15","50","100"], r:1},
-            {cat:"mate", p:"¿Cuántos minutos tiene una hora?", o:["30","60","90"], r:1},
-            {cat:"mate", p:"¿Cuánto es 100 + 200?", o:["200","300","400"], r:1},
-            {cat:"mate", p:"¿Qué número representa una docena?", o:["6","10","12"], r:2},
-            {cat:"mate", p:"Si tengo 3 manzanas y me como 1, ¿cuántas quedan?", o:["1","2","3"], r:1},
-            {cat:"mate", p:"¿Cuál es el número romano 'V'?", o:["1","5","10"], r:1},
-            {cat:"mate", p:"¿Cuánto es 15 dividido entre 3?", o:["3","4","5"], r:2},
-            {cat:"mate", p:"¿Cuántos lados tiene un cuadrado?", o:["3","4","6"], r:1},
-            {cat:"mate", p:"¿Cuál es el resultado de 9 x 0?", o:["9","0","10"], r:1},
-            {cat:"mate", p:"¿Qué número va antes del 50?", o:["48","49","51"], r:1},
-            {cat:"mate", p:"¿Cuánto es 8 + 8?", o:["14","16","18"], r:1},
-            {cat:"mate", p:"¿Qué figura tiene 4 lados iguales?", o:["Rectángulo","Triángulo","Cuadrado"], r:2},
-            {cat:"mate", p:"¿Cuánto es 7 x 2?", o:["14","16","21"], r:0},
-            {cat:"mate", p:"El número ordinal para el '3' es...", o:["Tres","Tercero","Triple"], r:1},
-            {cat:"mate", p:"¿Cuánto es 40 + 60?", o:["90","100","110"], r:1},
-            {cat:"mate", p:"Si tienes dos monedas de 5, ¿cuánto dinero tienes?", o:["5","10","15"], r:1},
-
-            // NATURALES
-            {cat:"naturales", p:"¿Qué gas respiramos los seres humanos?", o:["Dióxido de carbono","Oxígeno","Nitrógeno"], r:1},
-            {cat:"naturales", p:"¿Cuál es un animal mamífero?", o:["Ballena","Tiburón","Águila"], r:0},
-            {cat:"naturales", p:"¿Por dónde absorben agua las plantas?", o:["Por las hojas","Por el tallo","Por la raíz"], r:2},
-            {cat:"naturales", p:"¿Cuál es el planeta más cercano al Sol?", o:["Tierra","Marte","Mercurio"], r:2},
-            {cat:"naturales", p:"El agua congelada está en estado...", o:["Líquido","Sólido","Gaseoso"], r:1},
-            {cat:"naturales", p:"¿Cuál de estos es un ser vivo?", o:["Una roca","Un árbol","Un coche"], r:1},
-            {cat:"naturales", p:"¿Cuántos huesos aproximados tiene un adulto?", o:["106","206","306"], r:1},
-            {cat:"naturales", p:"¿Qué animal es un reptil?", o:["Sapo","Cocodrilo","Perro"], r:1},
-            {cat:"naturales", p:"El órgano que bombea sangre es el...", o:["Cerebro","Pulmón","Corazón"], r:2},
-            {cat:"naturales", p:"¿Cuál es el satélite natural de la Tierra?", o:["El Sol","La Luna","Júpiter"], r:1},
-            {cat:"naturales", p:"Los animales que comen carne son...", o:["Herbívoros","Omnívoros","Carnívoros"], r:2},
-            {cat:"naturales", p:"¿Qué sentido usamos para escuchar música?", o:["Vista","Oído","Gusto"], r:1},
-            {cat:"naturales", p:"¿Qué estrella ilumina el día en la Tierra?", o:["La Luna","El Sol","Sirio"], r:1},
-            {cat:"naturales", p:"¿Cuál es el animal terrestre más rápido?", o:["León","Guepardo","Caballo"], r:1},
-            {cat:"naturales", p:"Las plantas fabrican su alimento mediante la...", o:["Fotosíntesis","Respiración","Digestión"], r:0},
-            {cat:"naturales", p:"¿Cuál es un recurso natural renovable?", o:["El agua","El petróleo","El carbón"], r:0},
-            {cat:"naturales", p:"¿Qué órgano usamos para pensar?", o:["Estómago","Cerebro","Corazón"], r:1},
-            {cat:"naturales", p:"Los animales que nacen de huevos son...", o:["Vivíparos","Ovíparos","Mamíferos"], r:1},
-            {cat:"naturales", p:"¿Cuántas estaciones tiene el año?", o:["2","4","6"], r:1},
-            {cat:"naturales", p:"¿Cuál es el océano más grande del planeta?", o:["Atlántico","Índico","Pacífico"], r:2},
-            {cat:"naturales", p:"¿Qué parte de la planta sostiene las hojas?", o:["La raíz","El tallo","La flor"], r:1},
-            {cat:"naturales", p:"¿Qué animal vuela pero no es un ave?", o:["Murciélago","Paloma","Águila"], r:0},
-            {cat:"naturales", p:"¿De dónde obtenemos la leche?", o:["De la gallina","De la vaca","De la oveja"], r:1},
-            {cat:"naturales", p:"¿Qué cubre el cuerpo de los peces?", o:["Pelo","Plumas","Escamas"], r:2},
-            {cat:"naturales", p:"El arcoíris sale después de...", o:["La nieve","La lluvia","El viento"], r:1},
-
-            // SOCIALES
-            {cat:"sociales", p:"¿En qué continente se encuentra tu país?", o:["Europa","América","Asia"], r:1},
-            {cat:"sociales", p:"¿Cuál es el idioma más hablado en América del Sur?", o:["Español","Inglés","Portugués"], r:0},
-            {cat:"sociales", p:"¿Quién descubrió América en 1492?", o:["Simón Bolívar","Cristóbal Colón","Marco Polo"], r:1},
-            {cat:"sociales", p:"¿Cuáles son las líneas que dividen los mapas verticalmente?", o:["Paralelos","Meridianos","Ecuador"], r:1},
-            {cat:"sociales", p:"¿Qué color representa la paz en muchas banderas?", o:["Rojo","Azul","Blanco"], r:2},
-            {cat:"sociales", p:"La máxima autoridad de un país democrático es el...", o:["Alcalde","Gobernador","Presidente"], r:2},
-            {cat:"sociales", p:"¿Qué mapa muestra los límites de los países?", o:["Mapa físico","Mapa político","Mapa climático"], r:1},
-            {cat:"sociales", p:"¿Qué fecha suele conmemorar el día del estudiante?", o:["21 de Septiembre","1 de Mayo","6 de Agosto"], r:0},
-            {cat:"sociales", p:"¿Qué invento revolucionó los viajes por tierra?", o:["El barco","La rueda","La imprenta"], r:1},
-            {cat:"sociales", p:"¿Quién es considerado un libertador de América?", o:["Julio César","Simón Bolívar","Napoleón"], r:1},
-            {cat:"sociales", p:"La brújula sirve para...", o:["Medir el tiempo","Orientarse","Ver las estrellas"], r:1},
-            {cat:"sociales", p:"¿Cuál es la representación redonda de la Tierra?", o:["Plano","Mapa mundi","Globo terráqueo"], r:2},
-            {cat:"sociales", p:"¿Qué medio de transporte va por el aire?", o:["Tren","Avión","Barco"], r:1},
-            {cat:"sociales", p:"¿Dónde vivían los hombres prehistóricos?", o:["En casas","En edificios","En cuevas"], r:2},
-            {cat:"sociales", p:"¿Cómo se llama la estrella de orientación marina?", o:["Estrella Polar","Estrella Solar","Estrella Fugaz"], r:0},
-            {cat:"sociales", p:"¿Cuál es la unidad básica de la sociedad?", o:["La escuela","La familia","El club"], r:1},
-            {cat:"sociales", p:"¿Qué se celebra el 1 de mayo a nivel mundial?", o:["Día del Niño","Día del Trabajo","Día de la Madre"], r:1},
-            {cat:"sociales", p:"¿Qué punto cardinal indica por dónde sale el Sol?", o:["Norte","Este","Oeste"], r:1},
-            {cat:"sociales", p:"¿Cómo se llama el dinero oficial de tu región?", o:["Dólar","Euro","Boliviano"], r:2},
-            {cat:"sociales", p:"¿Qué profesión apaga los incendios?", o:["Policía","Médico","Bombero"], r:2},
-            {cat:"sociales", p:"El héroe que defiende las fronteras pertenece a la...", o:["Policía","Fuerza Armada","Alcaldía"], r:1},
-            {cat:"sociales", p:"¿Quién enseña a los niños en las escuelas?", o:["El doctor","El ingeniero","El maestro"], r:2},
-            {cat:"sociales", p:"¿Qué se celebra el día de la independencia?", o:["La libertad del país","La fundación de la escuela","Año nuevo"], r:0},
-            {cat:"sociales", p:"¿Cuál es un derecho fundamental de los niños?", o:["Trabajar","Estudiar","Conducir"], r:1},
-            {cat:"sociales", p:"¿Cuál de estos es un valor ciudadano?", o:["Egoísmo","Respeto","Mentira"], r:1}
-        ];
-
         let preguntasFiltradas = [];
         let indicePreguntaActual = 0;
         let aciertosTrivia = 0;
 
         function abrirPestana(evt, nombrePestana) {
-            var i, contenido;
-            contenido = document.getElementsByClassName("contenido-pestana");
-            for (i = 0; i < contenido.length; i++) {
-                contenido[i].style.display = "none";
-            }
+            var i, contenido = document.getElementsByClassName("contenido-pestana");
+            for (i = 0; i < contenido.length; i++) contenido[i].style.display = "none";
             document.getElementById(nombrePestana).style.display = "block";
         }
 
         function verJuego(materia) {
-            document.getElementById('juego-mate').style.display = (materia === 'mate') ? 'block' : 'none';
             document.getElementById('juego-trivia').style.display = (materia === 'trivia') ? 'block' : 'none';
             document.getElementById('juego-retoMate').style.display = (materia === 'retoMate') ? 'block' : 'none';
         }
 
-        // CONTROL DE TRIVIA
         function iniciarTrivia() {
             const cat = document.getElementById('categoria-trivia').value;
-            if(cat === 'todas') {
-                preguntasFiltradas = [...bancoPreguntas];
-            } else {
-                preguntasFiltradas = bancoPreguntas.filter(q => q.cat === cat);
-            }
+            preguntasFiltradas = (cat === 'todas') ? [...bancoPreguntas] : bancoPreguntas.filter(q => q.cat === cat);
             preguntasFiltradas.sort(() => Math.random() - 0.5);
             preguntasFiltradas = preguntasFiltradas.slice(0, 10);
-            
             indicePreguntaActual = 0;
             aciertosTrivia = 0;
-
             document.getElementById('setup-trivia').style.display = 'none';
             document.getElementById('pantalla-trivia').style.display = 'block';
-            document.getElementById('resultado-trivia').style.display = 'none';
             mostrarSiguientePregunta();
         }
 
         function mostrarSiguientePregunta() {
-            if(indicePreguntaActual >= 10) {
-                finalizarTrivia();
-                return;
-            }
+            if(indicePreguntaActual >= 10) { finalizarTrivia(); return; }
             document.getElementById('trivia-progreso').innerText = `Pregunta ${indicePreguntaActual + 1} de 10`;
             const q = preguntasFiltradas[indicePreguntaActual];
             document.getElementById('trivia-pregunta').innerText = q.p;
-            
-            const contenedorOpciones = document.getElementById('trivia-opciones');
-            contenedorOpciones.innerHTML = '';
-            
+            const contenedor = document.getElementById('trivia-opciones');
+            contenedor.innerHTML = '';
             q.o.forEach((opcion, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-opcion';
                 btn.innerText = opcion;
-                btn.onclick = () => verificarRespuesta(index);
-                contenedorOpciones.appendChild(btn);
+                btn.onclick = () => { if(index === q.r) aciertosTrivia++; indicePreguntaActual++; mostrarSiguientePregunta(); };
+                contenedor.appendChild(btn);
             });
-        }
-
-        function verificarRespuesta(indiceSeleccionado) {
-            const q = preguntasFiltradas[indicePreguntaActual];
-            if(indiceSeleccionado === q.r) {
-                aciertosTrivia++;
-            }
-            indicePreguntaActual++;
-            mostrarSiguientePregunta();
         }
 
         function finalizarTrivia() {
             document.getElementById('pantalla-trivia').style.display = 'none';
             document.getElementById('resultado-trivia').style.display = 'block';
             document.getElementById('trivia-nota').innerText = `${aciertosTrivia} / 10`;
-            
-            let msg = "";
-            if(aciertosTrivia === 10) msg = "🥇 ¡Impresionante! ¡Eres un genio total!";
-            else if(aciertosTrivia >= 7) msg = "🥈 ¡Excelente trabajo! Sabes muchísimo.";
-            else if(aciertosTrivia >= 5) msg = "🥉 ¡Bien hecho! Tienes muy buen conocimiento.";
-            else msg = "📚 ¡Buen intento! Sigue leyendo y repitiendo la trivia para aprender más.";
-            
-            document.getElementById('trivia-mensaje').innerText = msg;
+            document.getElementById('trivia-mensaje').innerText = (aciertosTrivia >= 7) ? "🌟 ¡Increíble trabajo!" : "📚 ¡Sigue practicando!";
         }
 
         function reiniciarTrivia() {
@@ -365,89 +177,158 @@
             document.getElementById('resultado-trivia').style.display = 'none';
         }
 
-        // LÓGICA DEL MOTOR ARITMÉTICO: JHON TE RETA EN MATE
-        let respuestaCorrectaReto = 0;
-        let puntosReto = 0;
-        let tipoOperacionActual = '';
-
-        function configurarReto(tipo) {
-            tipoOperacionActual = tipo;
-            document.getElementById('arena-retos').style.display = 'block';
-            document.getElementById('feedback-reto').innerText = '';
+        // LÓGICA DE JHON TE RETA
+        let respuestaCorrectaReto = 0, puntosReto = 0, tipoOp = '';
+        function configurarReto(t) { tipoOp = t; document.getElementById('arena-retos').style.display = 'block'; generarOp(); }
+        function generarOp() {
+            let n1 = Math.floor(Math.random() * 50) + 1, n2 = Math.floor(Math.random() * 50) + 1, op = '';
+            if(tipoOp === 'suma') { op = '+'; respuestaCorrectaReto = n1 + n2; }
+            else if(tipoOp === 'resta') { op = '-'; if(n1 < n2) [n1, n2] = [n2, n1]; respuestaCorrectaReto = n1 - n2; }
+            else if(tipoOp === 'multi') { n1 = Math.floor(Math.random() * 10) + 1; n2 = Math.floor(Math.random() * 10) + 1; op = '×'; respuestaCorrectaReto = n1 * n2; }
+            else if(tipoOp === 'div') { n2 = Math.floor(Math.random() * 9) + 1; respuestaCorrectaReto = Math.floor(Math.random() * 9) + 1; n1 = n2 * respuestaCorrectaReto; op = '÷'; }
+            document.getElementById('texto-operacion').innerText = `${n1} ${op} ${n2}`;
             document.getElementById('input-respuesta').value = '';
             document.getElementById('input-respuesta').focus();
-            generarOperacionAritmetica();
         }
-
-        function generarOperacionAritmetica() {
-            let num1 = 0, num2 = 0;
-            let operadorStr = '';
-
-            if (tipoOperacionActual === 'suma') {
-                num1 = Math.floor(Math.random() * 80) + 10; // Números entre 10 y 90
-                num2 = Math.floor(Math.random() * 80) + 10;
-                operadorStr = '+';
-                respuestaCorrectaReto = num1 + num2;
-            } else if (tipoOperacionActual === 'resta') {
-                num1 = Math.floor(Math.random() * 90) + 10;
-                num2 = Math.floor(Math.random() * num1); // Evitar resultados negativos para niños
-                operadorStr = '-';
-                respuestaCorrectaReto = num1 - num2;
-            } else if (tipoOperacionActual === 'multi') {
-                num1 = Math.floor(Math.random() * 10) + 2; // Tablas del 2 al 11
-                num2 = Math.floor(Math.random() * 9) + 1;
-                operadorStr = '×';
-                respuestaCorrectaReto = num1 * num2;
-            } else if (tipoOperacionActual === 'div') {
-                num2 = Math.floor(Math.random() * 8) + 2; // Divisor entre 2 y 9
-                respuestaCorrectaReto = Math.floor(Math.random() * 9) + 1; // Cociente entero
-                num1 = num2 * respuestaCorrectaReto; // Dividendo exacto
-                operadorStr = '÷';
-            }
-
-            document.getElementById('texto-operacion').innerText = `${num1} ${operadorStr} ${num2}`;
-        }
-
         function comprobarReto() {
-            const inputElement = document.getElementById('input-respuesta');
-            const respuestaUsuario = parseInt(inputElement.value);
+            const resp = parseInt(document.getElementById('input-respuesta').value);
             const feedback = document.getElementById('feedback-reto');
-
-            if (isNaN(respuestaUsuario)) {
-                feedback.innerHTML = "<span style='color:#e67e22;'>⚠️ Escribe un número antes de responder.</span>";
-                return;
-            }
-
-            if (respuestaUsuario === respuestaCorrectaReto) {
-                puntosReto += 10;
-                document.getElementById('puntos-reto').innerText = puntosReto;
-                feedback.innerHTML = "<span style='color:#4caf50;'>🎉 ¡Excelente! ¡Acertaste! +10 puntos.</span>";
-                
-                // Cargar la siguiente automáticamente tras un breve delay
-                setTimeout(() => {
-                    inputElement.value = '';
-                    feedback.innerText = '';
-                    generarOperacionAritmetica();
-                }, 1200);
-            } else {
-                feedback.innerHTML = `<span style='color:#e53935;'>❌ ¡Oh no! Jhon te ganó esta vez. La respuesta era ${respuestaCorrectaReto}. ¡Intenta la siguiente!</span>`;
-                if(puntosReto > 0) puntosReto -= 5; // Penalización ligera
-                document.getElementById('puntos-reto').innerText = puntosReto;
-                
-                setTimeout(() => {
-                    inputElement.value = '';
-                    feedback.innerText = '';
-                    generarOperacionAritmetica();
-                }, 2500);
-            }
+            if(resp === respuestaCorrectaReto) { puntosReto += 10; feedback.innerText = "✅ ¡Correcto!"; setTimeout(generarOp, 1000); }
+            else { feedback.innerText = "❌ ¡Error!"; setTimeout(() => feedback.innerText = '', 1500); }
+            document.getElementById('puntos-reto').innerText = puntosReto;
         }
-
-        // Permitir presionar "Enter" en el input para responder rápido
-        document.getElementById('input-respuesta').addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                comprobarReto();
-            }
-        });
     </script>
 </body>
 </html>
+
+---
+
+### PASO 2: Crear el archivo `preguntas.js` (El baúl)
+
+Ahora vamos a crear el archivo que guardará tus 1000 preguntas.
+
+1. Regresa a la pantalla principal de tu repositorio en GitHub.
+2. Haz clic en el botón **`Add file`** y selecciona **`Create new file`**.
+3. En el nombre del archivo escribe exactamente: `preguntas.js`
+4. En el cuadro de texto grande, pega estas primeras 100 preguntas que he redactado para ti (luego te daré los siguientes bloques):
+
+```javascript
+// EL BAÚL DE LAS 1000 PREGUNTAS - MUNDO NIÑOS
+const bancoPreguntas = [
+    // LENGUAJE
+    {cat:"lenguaje", p:"¿Qué tipo de palabra es 'correr'?", o:["Sustantivo","Verbo","Adjetivo"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el abecedario correcto?", o:["a, b, c, d...","1, 2, 3, 4...","do, re, mi..."], r:0},
+    {cat:"lenguaje", p:"El antónimo de 'grande' es...", o:["Gigante","Pequeño","Enorme"], r:1},
+    {cat:"lenguaje", p:"¿Qué signo se usa al final de una pregunta?", o:["Punto","Signo de interrogación","Coma"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra lleva tilde correctamente?", o:["Arbol","Canción","Lapiz"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el sinónimo de 'feliz'?", o:["Triste","Enojado","Alegre"], r:2},
+    {cat:"lenguaje", p:"¿Qué letra va después de la 'M'?", o:["L","N","O"], r:1},
+    {cat:"lenguaje", p:"¿Cómo se escribe correctamente?", o:["Hablar","Ablar","Havlar"], r:0},
+    {cat:"lenguaje", p:"¿Cuántas sílabas tiene 'Sol'?", o:["1","2","3"], r:0},
+    {cat:"lenguaje", p:"¿Qué palabra rima con 'queso'?", o:["Mesa","Beso","Pan"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra es un adjetivo?", o:["Mesa","Azul","Caminar"], r:1},
+    {cat:"lenguaje", p:"¿Cómo se llama la persona que escribe un libro?", o:["Lector","Autor","Pintor"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es una vocal fuerte?", o:["I","U","A"], r:2},
+    {cat:"lenguaje", p:"¿Qué letra falta en: '_apato'?", o:["S","C","Z"], r:2},
+    {cat:"lenguaje", p:"¿Cuál es el plural de 'lápiz'?", o:["Lápizes","Lápices","Lápizs"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra es un sustantivo propio?", o:["perro","Bolivia","río"], r:1},
+    {cat:"lenguaje", p:"¿Qué signo separa elementos en una lista?", o:["Punto","Coma","Guion"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el sujeto en: 'El gato duerme'?", o:["El gato","duerme","suave"], r:0},
+    {cat:"lenguaje", p:"¿Qué palabra es una esdrújula?", o:["Café","Música","Papel"], r:1},
+    {cat:"lenguaje", p:"¿Cuántas letras tiene el abecedario español?", o:["25","27","29"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra es un antónimo de 'claro'?", o:["Brillante","Oscuro","Luz"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el femenino de 'caballo'?", o:["Yegua","Caballa","Mujer"], r:0},
+    {cat:"lenguaje", p:"¿Qué letra siempre va antes de P y B?", o:["N","M","L"], r:1},
+    {cat:"lenguaje", p:"¿Cómo se llama la primera letra de una oración?", o:["Minúscula","Mayúscula","Cursiva"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra indica pasado?", o:["Cantaré","Canto","Canté"], r:2},
+
+    // MATEMÁTICA
+    {cat:"mate", p:"¿Cuánto es 8 + 8?", o:["14","16","18"], r:1},
+    {cat:"mate", p:"¿Cuántos lados tiene un cuadrado?", o:["3","4","5"], r:1},
+    {cat:"mate", p:"¿Qué número va antes del 50?", o:["49","51","48"], r:0},
+    {cat:"mate", p:"¿Cuánto es 5 x 2?", o:["7","10","12"], r:1},
+    {cat:"mate", p:"¿Cuál es el número mayor?", o:["23","56","12"], r:1},
+    {cat:"mate", p:"Una docena tiene...", o:["6 unidades","10 unidades","12 unidades"], r:2},
+    {cat:"mate", p:"¿Cuánto es 20 - 5?", o:["15","10","25"], r:0},
+    {cat:"mate", p:"¿Qué forma tiene una pizza entera?", o:["Cuadrada","Circular","Triangular"], r:1},
+    {cat:"mate", p:"¿Cuánto es la mitad de 10?", o:["2","5","10"], r:1},
+    {cat:"mate", p:"¿Qué número sigue: 2, 4, 6...?", o:["7","8","9"], r:1},
+    {cat:"mate", p:"¿Cuánto es 10 + 10?", o:["100","20","11"], r:1},
+    {cat:"mate", p:"¿Cuántos minutos tiene una hora?", o:["30","60","100"], r:1},
+    {cat:"mate", p:"¿Cómo se llama el resultado de una suma?", o:["Resta","Total","Producto"], r:1},
+    {cat:"mate", p:"¿Cuánto es 0 x 100?", o:["100","0","1"], r:1},
+    {cat:"mate", p:"¿Cuál es el número romano V?", o:["1","5","10"], r:1},
+    {cat:"mate", p:"¿Cuántos centímetros tiene un metro?", o:["10","100","1000"], r:1},
+    {cat:"mate", p:"¿Qué figura tiene 3 lados?", o:["Círculo","Triángulo","Cuadrado"], r:1},
+    {cat:"mate", p:"¿Cuánto es 15 + 5?", o:["10","20","25"], r:1},
+    {cat:"mate", p:"¿Qué número es par?", o:["3","7","8"], r:2},
+    {cat:"mate", p:"Si tengo 3 y gano 2, ¿cuántos tengo?", o:["1","5","6"], r:1},
+    {cat:"mate", p:"¿Cuánto es 9 - 9?", o:["9","1","0"], r:2},
+    {cat:"mate", p:"¿Cómo se llama el ángulo de 90 grados?", o:["Recto","Agudo","Obtuso"], r:0},
+    {cat:"mate", p:"¿Qué número es 'mil'?", o:["100","1000","10000"], r:1},
+    {cat:"mate", p:"¿Cuánto es 7 x 1?", o:["1","7","0"], r:1},
+    {cat:"mate", p:"¿Cuál es la moneda de 100 centavos?", o:["1 peso","10 pesos","5 pesos"], r:0},
+
+    // NATURALES
+    {cat:"naturales", p:"¿Qué gas necesitamos para respirar?", o:["Oxígeno","Hidrógeno","Humo"], r:0},
+    {cat:"naturales", p:"¿Cuál es un animal mamífero?", o:["Pez","Perro","Gallina"], r:1},
+    {cat:"naturales", p:"¿Por dónde beben agua las plantas?", o:["Hojas","Raíz","Flor"], r:1},
+    {cat:"naturales", p:"¿Cuántas estaciones tiene el año?", o:["2","4","12"], r:1},
+    {cat:"naturales", p:"¿Cuál es el planeta donde vivimos?", o:["Marte","Tierra","Luna"], r:1},
+    {cat:"naturales", p:"¿Qué estrella ilumina el día?", o:["Luna","Sol","Sirio"], r:1},
+    {cat:"naturales", p:"El agua congelada es estado...", o:["Sólido","Líquido","Gaseoso"], r:0},
+    {cat:"naturales", p:"¿Qué animal nace de un huevo?", o:["Gato","Pollito","Vaca"], r:1},
+    {cat:"naturales", p:"¿Qué parte del cuerpo bombea sangre?", o:["Cerebro","Corazón","Estómago"], r:1},
+    {cat:"naturales", p:"¿Cuál es un sentido humano?", o:["Vista","Correr","Hablar"], r:0},
+    {cat:"naturales", p:"Los animales que comen hierba son...", o:["Carnívoros","Herbívoros","Omnívoros"], r:1},
+    {cat:"naturales", p:"¿Qué órgano usamos para pensar?", o:["Pulmón","Corazón","Cerebro"], r:2},
+    {cat:"naturales", p:"¿Cómo se llama el satélite de la Tierra?", o:["Sol","Luna","Venus"], r:1},
+    {cat:"naturales", p:"¿Qué parte de la planta es verde?", o:["Raíz","Tronco","Hoja"], r:2},
+    {cat:"naturales", p:"¿Cuál es el animal más grande del mar?", o:["Tiburón","Ballena Azul","Delfín"], r:1},
+    {cat:"naturales", p:"¿Qué animal es un reptil?", o:["Perro","Serpiente","Loro"], r:1},
+    {cat:"naturales", p:"¿Cuántos huesos tiene un adulto?", o:["100","206","300"], r:1},
+    {cat:"naturales", p:"¿Qué sentido usamos para oler?", o:["Gusto","Oído","Olfato"], r:2},
+    {cat:"naturales", p:"¿De qué color es la clorofila?", o:["Rojo","Verde","Azul"], r:1},
+    {cat:"naturales", p:"¿Qué animal vuela?", o:["Pájaro","Pez","Cebra"], r:0},
+    {cat:"naturales", p:"¿Dónde viven los peces?", o:["Bosque","Agua","Desierto"], r:1},
+    {cat:"naturales", p:"¿Qué sale después de la lluvia?", o:["Nieve","Arcoíris","Fuego"], r:1},
+    {cat:"naturales", p:"¿Cuál es un recurso natural?", o:["Plástico","Agua","Vidrio"], r:1},
+    {cat:"naturales", p:"¿Cuántos planetas tiene el Sistema Solar?", o:["5","8","10"], r:1},
+    {cat:"naturales", p:"¿Qué animal es el rey de la selva?", o:["Elefante","León","Tigre"], r:1},
+
+    // SOCIALES
+    {cat:"sociales", p:"¿En qué continente vivimos?", o:["Europa","América","Asia"], r:1},
+    {cat:"sociales", p:"¿Quién descubrió América?", o:["Bolívar","Colón","San Martín"], r:1},
+    {cat:"sociales", p:"¿Qué colores tiene tu bandera?", o:["Rojo, amarillo, verde","Azul y blanco","Rojo y blanco"], r:0},
+    {cat:"sociales", p:"La máxima autoridad del país es el...", o:["Alcalde","Presidente","Profesor"], r:1},
+    {cat:"sociales", p:"¿Qué se celebra el 1 de mayo?", o:["Día del Niño","Día del Trabajo","Día de la Madre"], r:1},
+    {cat:"sociales", p:"¿Qué mapa muestra los países?", o:["Físico","Político","Climático"], r:1},
+    {cat:"sociales", p:"¿Cómo se llama nuestra moneda?", o:["Dólar","Boliviano","Euro"], r:1},
+    {cat:"sociales", p:"¿Qué punto cardinal indica el Norte?", o:["Arriba","Abajo","Izquierda"], r:0},
+    {cat:"sociales", p:"¿Dónde viven los ciudadanos?", o:["Selva","Ciudad o campo","Luna"], r:1},
+    {cat:"sociales", p:"¿Qué inventó la rueda?", o:["Hombres prehistóricos","Astronautas","Robots"], r:0},
+    {cat:"sociales", p:"¿Cuál es un derecho del niño?", o:["Trabajar","Estudiar","Conducir"], r:1},
+    {cat:"sociales", p:"¿Quién apaga los incendios?", o:["Policía","Bombero","Médico"], r:1},
+    {cat:"sociales", p:"¿Qué idioma hablamos principalmente?", o:["Inglés","Español","Chino"], r:1},
+    {cat:"sociales", p:"¿Cómo se llama el planeta Tierra?", o:["Planeta Rojo","Planeta Azul","Planeta Verde"], r:1},
+    {cat:"sociales", p:"¿Qué transporte va por el aire?", o:["Barco","Avión","Tren"], r:1},
+    {cat:"sociales", p:"¿Cuál es la capital de Bolivia?", o:["La Paz y Sucre","Santa Cruz","Cochabamba"], r:0},
+    {cat:"sociales", p:"¿Quién nos dio la libertad?", o:["Los héroes","Los piratas","Los gigantes"], r:0},
+    {cat:"sociales", p:"¿Qué día es el día del mar?", o:["23 de marzo","6 de agosto","21 de septiembre"], r:0},
+    {cat:"sociales", p:"¿Cuál es un valor importante?", o:["Mentira","Respeto","Odio"], r:1},
+    {cat:"sociales", p:"¿Dónde se compran los alimentos?", o:["Escuela","Mercado","Hospital"], r:1},
+    {cat:"sociales", p:"¿Quién cura a los enfermos?", o:["Ingeniero","Doctor","Abogado"], r:1},
+    {cat:"sociales", p:"¿Qué línea divide la Tierra a la mitad?", o:["Ecuador","Paralelo","Meridiano"], r:0},
+    {cat:"sociales", p:"¿Cuál es un medio de comunicación?", o:["Radio","Zapato","Silla"], r:0},
+    {cat:"sociales", p:"¿Qué representa el color verde?", o:["Guerra","Naturaleza y esperanza","Tristeza"], r:1},
+    {cat:"sociales", p:"¿Qué animal está en el escudo?", o:["Llama y cóndor","Tigre","Elefante"], r:0}
+];
+
+5. Haz clic abajo en el botón verde **`Commit changes...`** para guardar el nuevo archivo.
+
+---
+
+### ¡Última Prueba!
+Una vez que guardes el nuevo archivo `preguntas.js`, entra a tu enlace oficial (`https://quebuenoesta88-rgb.github.io/mundo-ninos/`). Si todo salió bien, verás que la trivia carga perfectamente sus 100 preguntas desde el archivo de afuera.
+
+¡Haz estos dos pasos y cuéntame si ya lograste separar los archivos con éxito!
