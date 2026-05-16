@@ -1,0 +1,60 @@
+// EL BAÚL DE LAS 1000 PREGUNTAS - MUNDO NIÑOS
+const bancoPreguntas = [
+    // LENGUAJE
+    {cat:"lenguaje", p:"¿Qué tipo de palabra es 'correr'?", o:["Sustantivo","Verbo","Adjetivo"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el abecedario correcto?", o:["a, b, c, d...","1, 2, 3, 4...","do, re, mi..."], r:0},
+    {cat:"lenguaje", p:"El antónimo de 'grande' es...", o:["Gigante","Pequeño","Enorme"], r:1},
+    {cat:"lenguaje", p:"¿Qué signo se usa al final de una pregunta?", o:["Punto","Signo de interrogación","Coma"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra lleva tilde correctamente?", o:["Arbol","Canción","Lapiz"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es el sinónimo de 'feliz'?", o:["Triste","Enojado","Alegre"], r:2},
+    {cat:"lenguaje", p:"¿Qué letra va después de la 'M'?", o:["L","N","O"], r:1},
+    {cat:"lenguaje", p:"¿Cómo se escribe correctamente?", o:["Hablar","Ablar","Havlar"], r:0},
+    {cat:"lenguaje", p:"¿Cuántas sílabas tiene 'Sol'?", o:["1","2","3"], r:0},
+    {cat:"lenguaje", p:"¿Qué palabra rima con 'queso'?", o:["Mesa","Beso","Pan"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra es un adjetivo?", o:["Mesa","Azul","Caminar"], r:1},
+    {cat:"lenguaje", p:"¿Cómo se llama la persona que escribe un libro?", o:["Lector","Autor","Pintor"], r:1},
+    {cat:"lenguaje", p:"¿Cuál es una vocal fuerte?", o:["I","U","A"], r:2},
+    {cat:"lenguaje", p:"¿Qué letra falta en: '_apato'?", o:["S","C","Z"], r:2},
+    {cat:"lenguaje", p:"¿Cuál es el plural de 'lápiz'?", o:["Lápizes","Lápices","Lápizs"], r:1},
+    {cat:"lenguaje", p:"¿Qué palabra es un sustantivo propio?", o:["perro","Bolivia","río"], r:1},
+    {cat:"lenguaje", p:"¿Qué signo separa elementos en una lista?", o:["Punto","Coma","Guion"], r:1},
+    {cat:"sol", p:"¿Cuál es el sujeto en: 'El gato duerme'?", o:["El gato","duerme","suave"], r:0},
+    {cat:"lenguaje", p:"¿Qué palabra es una esdrújula?", o:["Café","Música","Papel"], r:1},
+    {cat:"lenguaje", p:"¿Cuántas letras tiene el abecedario español?", o:["25","27","29"], r:1},
+
+    // MATEMÁTICA
+    {cat:"mate", p:"¿Cuánto es 8 + 8?", o:["14","16","18"], r:1},
+    {cat:"mate", p:"¿Cuántos lados tiene un cuadrado?", o:["3","4","5"], r:1},
+    {cat:"mate", p:"¿Qué número va antes del 50?", o:["49","51","48"], r:0},
+    {cat:"mate", p:"¿Cuánto es 5 x 2?", o:["7","10","12"], r:1},
+    {cat:"mate", p:"¿Cuál es el número mayor?", o:["23","56","12"], r:1},
+    {cat:"mate", p:"Una docena tiene...", o:["6 unidades","10 unidades","12 unidades"], r:2},
+    {cat:"mate", p:"¿Cuánto es 20 - 5?", o:["15","10","25"], r:0},
+    {cat:"mate", p:"¿Qué forma tiene una pizza entera?", o:["Cuadrada","Circular","Triangular"], r:1},
+    {cat:"mate", p:"¿Cuánto es la mitad de 10?", o:["2","5","10"], r:1},
+    {cat:"mate", p:"¿Qué número sigue: 2, 4, 6...?", o:["7","8","9"], r:1},
+
+    // NATURALES
+    {cat:"naturales", p:"¿Qué gas necesitamos para respirar?", o:["Oxígeno","Hidrógeno","Humo"], r:0},
+    {cat:"naturales", p:"¿Cuál es un animal mamífero?", o:["Pez","Perro","Gallina"], r:1},
+    {cat:"naturales", p:"¿Por dónde beben agua las plantas?", o:["Hojas","Raíz","Flor"], r:1},
+    {cat:"naturales", p:"¿Cuántas estaciones tiene el año?", o:["2","4","12"], r:1},
+    {cat:"naturales", p:"¿Cuál es el planeta donde vivimos?", o:["Marte","Tierra","Luna"], r:1},
+    {cat:"naturales", p:"¿Qué estrella ilumina el día?", o:["Luna","Sol","Sirio"], r:1},
+    {cat:"naturales", p:"El agua congelada es estado...", o:["Sólido","Líquido","Gaseoso"], r:0},
+    {cat:"naturales", p:"¿Qué animal nace de un huevo?", o:["Gato","Pollito","Vaca"], r:1},
+    {cat:"naturales", p:"¿Qué parte del cuerpo bombea sangre?", o:["Cerebro","Corazón","Estómago"], r:1},
+    {cat:"naturales", p:"¿Cuál es un sentido humano?", o:["Vista","Correr","Hablar"], r:0},
+
+    // SOCIALES
+    {cat:"sociales", p:"¿En qué continente vivimos?", o:["Europa","América","Asia"], r:1},
+    {cat:"sociales", p:"¿Quién descubrió América?", o:["Bolívar","Colón","San Martín"], r:1},
+    {cat:"sociales", p:"¿Qué colores tiene la bandera de Bolivia?", o:["Rojo, amarillo y verde","Azul y blanco","Rojo y blanco"], r:0},
+    {cat:"sociales", p:"La máxima autoridad del país es el...", o:["Alcalde","Presidente","Profesor"], r:1},
+    {cat:"sociales", p:"¿Qué se celebra el 1 de mayo?", o:["Día del Niño","Día del Trabajo","Día de la Madre"], r:1},
+    {cat:"sociales", p:"¿Qué mapa muestra los países y fronteras?", o:["Físico","Político","Climático"], r:1},
+    {cat:"sociales", p:"¿Cómo se llama la moneda oficial de Bolivia?", o:["Dólar","Boliviano","Euro"], r:1},
+    {cat:"sociales", p:"¿Qué punto cardinal indica hacia arriba en un mapa convencional?", o:["Norte","Sur","Este"], r:0},
+    {cat:"sociales", p:"¿Dónde viven legalmente los ciudadanos?", o:["En la Luna","En ciudades o comunidades rurales","En barcos piratas"], r:1},
+    {cat:"sociales", p:"¿Qué gran invento de la prehistoria facilitó el transporte?", o:["La rueda","El microondas","El teléfono"], r:0}
+];
