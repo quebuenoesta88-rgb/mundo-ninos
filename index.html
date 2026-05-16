@@ -6,7 +6,7 @@
     <title>Portal Educativo Mundo Niños</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { box-sizing: border-box; font-family: 'Lato', sans-serif; }
@@ -35,6 +35,17 @@
         .tarjeta-materia { padding: 20px; border-radius: 15px; color: white; text-align: left; }
         .sub-menu-interno { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .sub-btn { padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
+
+        /* ESTILOS DE LA TRIVIA */
+        .box-trivia { background: #f9f9f9; border: 3px solid #ff9800; border-radius: 15px; padding: 20px; margin-top: 15px; text-align: left; }
+        .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #ccc; border-radius: 8px; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .btn-opcion:hover { background: #fff3e0; border-color: #ff9800; }
+        
+        /* ESTILOS DEL MEMORAMA */
+        .tablero-memoria { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: 20px auto; }
+        .carta { height: 80px; background: #9c27b0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: transparent; cursor: pointer; user-select: none; }
+        .carta.volteada { background: white; border: 2px solid #9c27b0; color: black; }
+        .carta.emparejada { background: #e1bee7; color: #7b1fa2; cursor: default; }
     </style>
 </head>
 <body>
@@ -65,19 +76,51 @@
 
     <div id="Juegos" class="contenido-pestana">
         <h2>🎮 Zona de Juegos Interactivos</h2>
-        <p>¡Selecciona una opción! La pestaña de Matemática tiene el juego Edukiz cargado en vivo:</p>
+        <p>¡Selecciona un juego para empezar la diversión!</p>
         
         <div class="sub-menu-interno">
-            <button class="sub-btn" style="background:#2196f3" onclick="verJuego('mate')">🔢 Matemática (Edukiz)</button>
-            <button class="sub-btn" style="background:#4caf50" onclick="verJuego('otros')">📚 Otras Materias</button>
+            <button class="sub-btn" style="background:#2196f3" onclick="verJuego('mate')">🔢 Juego Edukiz</button>
+            <button class="sub-btn" style="background:#ff9800" onclick="verJuego('trivia')">🏆 Súper Trivia (100 Preguntas)</button>
+            <button class="sub-btn" style="background:#9c27b0" onclick="verJuego('memoria')">🃏 Memorama Escolar</button>
         </div>
 
         <div id="juego-mate" class="bloque-juego">
             <iframe src="https://timmalich.github.io/edukiz_live/#/" style="width: 100%; height: 550px; border: 3px solid #03a9f4; border-radius: 15px; background: white;"></iframe>
         </div>
-        <div id="juego-otros" class="bloque-juego" style="display:none; padding:40px; background:#f9f9f9; border-radius:15px;">
-            <h3>🎮 Próximamente nuevos desafíos</h3>
-            <p>Estamos preparando increíbles juegos de lenguaje, sociales y ciencias para ti.</p>
+
+        <div id="juego-trivia" class="bloque-juego" style="display:none;">
+            <div class="box-trivia">
+                <div id="setup-trivia">
+                    <h3>🏆 ¡Súper Trivia de Conocimiento General!</h3>
+                    <p>Elige una materia para responder un set aleatorio de preguntas de primaria:</p>
+                    <select id="categoria-trivia" style="padding: 10px; font-size: 16px; border-radius: 8px; width: 100%; margin-bottom: 15px;">
+                        <option value="todas">🌍 Combinado (Cultura General)</option>
+                        <option value="lenguaje">📚 Comunicación y Lenguaje</option>
+                        <option value="mate">🔢 Matemática Divertida</option>
+                        <option value="naturales">🧪 Ciencias Naturales</option>
+                        <option value="sociales">🏛️ Ciencias Sociales</option>
+                    </select>
+                    <button class="sub-btn" style="background:#ff9800; width: 100%; padding: 12px; font-size:16px;" onclick="iniciarTrivia()">¡Empezar a Jugar!</button>
+                </div>
+                <div id="pantalla-trivia" style="display:none;">
+                    <h4 id="trivia-progreso" style="color:#ff9800; margin:0;">Pregunta 1 de 10</h4>
+                    <h3 id="trivia-pregunta">Cargando pregunta...</h3>
+                    <div id="trivia-opciones"></div>
+                </div>
+                <div id="resultado-trivia" style="display:none; text-align:center; padding:20px;">
+                    <h3>🎉 ¡Desafío Terminado!</h3>
+                    <h1 id="trivia-nota" style="font-size:48px; color:#ff9800; margin:10px 0;">0 / 10</h1>
+                    <p id="trivia-mensaje">¡Buen intento! Sigue practicando.</p>
+                    <button class="sub-btn" style="background:#607d8b;" onclick="reiniciarTrivia()">Volver a Jugar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="juego-memoria" class="bloque-juego" style="display:none; padding: 20px; background: #f3e5f5; border-radius: 15px; border: 3px solid #9c27b0;">
+            <h3>🃏 Memorama de Emojis</h3>
+            <p>¡Encuentra los pares de cartas iguales en el menor tiempo posible!</p>
+            <button class="sub-btn" style="background:#9c27b0;" onclick="reiniciarMemoria()">Reiniciar Tablero</button>
+            <div class="tablero-memoria" id="tablero-memoria"></div>
         </div>
     </div>
 
@@ -102,8 +145,124 @@
     </div>
 
     <script>
+        // BANCO DE 100 PREGUNTAS PARA PRIMARIA
+        const bancoPreguntas = [
+            // LENGUAJE (25 Preguntas)
+            {cat:"lenguaje", p:"¿Qué tipo de palabra es 'correr'?", o:["Sustantivo","Verbo","Adjetivo"], r:1},
+            {cat:"lenguaje", p:"¿Cuál es el abecedario correcto?", o:["a, b, c, d...","1, 2, 3, 4...","do, re, mi..."], r:0},
+            {cat:"lenguaje", p:"El antónimo de 'grande' es...", o:["Gigante","Pequeño","Enorme"], r:1},
+            {cat:"lenguaje", p:"¿Qué signo se usa al final de una pregunta?", o:["Punto","Signo de interrogación","Coma"], r:1},
+            {cat:"lenguaje", p:"¿Qué palabra lleva tilde correctamente?", o:["Arbol","Canción","Lapiz"], r:1},
+            {cat:"lenguaje", p:"¿Cuál es el sinónimo de 'feliz'?", o:["Triste","Enojado","Alegre"], r:2},
+            {cat:"lenguaje", p:"Las palabras que nombran personas, animales o cosas se llaman...", o:["Sustantivos","Verbos","Adjetivos"], r:0},
+            {cat:"lenguaje", p:"¿Cuántas sílabas tiene la palabra 'mariposa'?", o:["2","3","4"], r:2},
+            {cat:"lenguaje", p:"¿Cuál es una palabra esdrújula?", o:["Plátano","Mesa","Balón"], r:0},
+            {cat:"lenguaje", p:"El plural de 'pez' es...", o:["Pezes","Peces","Pecitos"], r:1},
+            {cat:"lenguaje", p:"¿Qué letra falta en '_zapato'?", o:["S","C","Z"], r:2},
+            {cat:"lenguaje", p:"¿Cuál es el sujeto en: 'El perro corre feliz'?", o:["El perro","corre","feliz"], r:0},
+            {cat:"lenguaje", p:"¿Qué palabra indica una acción?", o:["Bonito","Cantar","Escuela"], r:1},
+            {cat:"lenguaje", p:"Una oración siempre empieza con letra...", o:["Minúscula","Mayúscula","Cursiva"], r:1},
+            {cat:"lenguaje", p:"¿Qué palabra rimaría con 'gato'?", o:["Perro","Pato","Ratón"], r:1},
+            {cat:"lenguaje", p:"Elige el adjetivo calificativo:", o:["Casa","Saltar","Hermoso"], r:2},
+            {cat:"lenguaje", p:"¿Qué letra va después de la 'M' en el alfabeto?", o:["L","N","O"], r:1},
+            {cat:"lenguaje", p:"¿Cuál es un sustantivo propio?", o:["niño","Bolivia","río"], r:1},
+            {cat:"lenguaje", p:"¿Cuántas vocales existen?", o:["3","5","7"], r:1},
+            {cat:"lenguaje", p:"¿Cuál es una vocal fuerte u abierta?", o:["I","U","A"], r:2},
+            {cat:"lenguaje", p:"¿Cómo se escribe correctamente?", o:["Girafe","Jirafa","Girafa"], r:1},
+            {cat:"lenguaje", p:"¿Qué es un diptongo?", o:["Unión de dos vocales","Separación de letras","Un punto y coma"], r:0},
+            {cat:"lenguaje", p:"La persona que escribe un libro es el...", o:["Lector","Autor","Pintor"], r:1},
+            {cat:"lenguaje", p:"¿Cuál es el artículo en 'La mesa verde'?", o:["La","mesa","verde"], r:0},
+            {cat:"lenguaje", p:"¿Qué palabra está bien escrita?", o:["Abuelo","Avuelo","Habuelo"], r:0},
+
+            // MATEMÁTICA (25 Preguntas)
+            {cat:"mate", p:"¿Cuánto es 5 + 7?", o:["11","12","13"], r:1},
+            {cat:"mate", p:"¿Cuántos lados tiene un triángulo?", o:["3","4","5"], r:0},
+            {cat:"mate", p:"¿Qué número sigue después del 99?", o:["98","100","101"], r:1},
+            {cat:"mate", p:"¿Cuánto es 3 veces 4?", o:["7","10","12"], r:2},
+            {cat:"mate", p:"¿Cuál es el número menor?", o:["45","32","78"], r:1},
+            {cat:"mate", p:"¿Cuánto es la mitad de 50?", o:["20","25","30"], r:1},
+            {cat:"mate", p:"Un siglo tiene...", o:["50 años","100 años","1000 años"], r:1},
+            {cat:"mate", p:"¿Cuánto es 20 - 8?", o:["12","11","14"], r:0},
+            {cat:"mate", p:"¿Qué forma tiene una pelota?", o:["Cuadrada","Cúbica","Esférica"], r:2},
+            {cat:"mate", p:"¿Cuánto es 10 x 5?", o:["15","50","100"], r:1},
+            {cat:"mate", p:"¿Cuántos minutos tiene una hora?", o:["30","60","90"], r:1},
+            {cat:"mate", p:"¿Cuánto es 100 + 200?", o:["200","300","400"], r:1},
+            {cat:"mate", p:"¿Qué número representa una docena?", o:["6","10","12"], r:2},
+            {cat:"mate", p:"Si tengo 3 manzanas y me como 1, ¿cuántas quedan?", o:["1","2","3"], r:1},
+            {cat:"mate", p:"¿Cuál es el número romano 'V'?", o:["1","5","10"], r:1},
+            {cat:"mate", p:"¿Cuánto es 15 dividido entre 3?", o:["3","4","5"], r:2},
+            {cat:"mate", p:"¿Cuántos lados tiene un cuadrado?", o:["3","4","6"], r:15},
+            {cat:"mate", p:"¿Cuál es el resultado de 9 x 0?", o:["9","0","10"], r:1},
+            {cat:"mate", p:"¿Qué número va antes del 50?", o:["48","49","51"], r:1},
+            {cat:"mate", p:"¿Cuánto es 8 + 8?", o:["14","16","18"], r:1},
+            {cat:"mate", p:"¿Qué figura tiene 4 lados iguales?", o:["Rectángulo","Triángulo","Cuadrado"], r:2},
+            {cat:"mate", p:"¿Cuánto es 7 x 2?", o:["14","16","21"], r:0},
+            {cat:"mate", p:"El número ordinal para el '3' es...", o:["Tres","Tercero","Triple"], r:1},
+            {cat:"mate", p:"¿Cuánto es 40 + 60?", o:["90","100","110"], r:1},
+            {cat:"mate", p:"Si tienes dos monedas de 5, ¿cuánto dinero tienes?", o:["5","10","15"], r:1},
+
+            // NATURALES (25 Preguntas)
+            {cat:"naturales", p:"¿Qué gas respiramos los seres humanos?", o:["Dióxido de carbono","Oxígeno","Nitrógeno"], r:1},
+            {cat:"naturales", p:"¿Cuál es un animal mamífero?", o:["Ballena","Tiburón","Águila"], r:0},
+            {cat:"naturales", p:"¿Por dónde absorben agua las plantas?", o:["Por las hojas","Por el tallo","Por la raíz"], r:2},
+            {cat:"naturales", p:"¿Cuál es el planeta más cercano al Sol?", o:["Tierra","Marte","Mercurio"], r:2},
+            {cat:"naturales", p:"El agua congelada está en estado...", o:["Líquido","Sólido","Gaseoso"], r:1},
+            {cat:"naturales", p:"¿Cuál de estos es un ser vivo?", o:["Una roca","Un árbol","Un coche"], r:1},
+            {cat:"naturales", p:"¿Cuántos huesos aproximados tiene un adulto?", o:["106","206","306"], r:1},
+            {cat:"naturales", p:"¿Qué animal es un reptil?", o:["Sapo","Cocodrilo","Perro"], r:1},
+            {cat:"naturales", p:"El órgano que bombea sangre es el...", o:["Cerebro","Pulmón","Corazón"], r:2},
+            {cat:"naturales", p:"¿Cuál es el satélite natural de la Tierra?", o:["El Sol","La Luna","Júpiter"], r:1},
+            {cat:"naturales", p:"Los animales que comen carne son...", o:["Herbívoros","Omnívoros","Carnívoros"], r:2},
+            {cat:"naturales", p:"¿Qué sentido usamos para escuchar música?", o:["Vista","Oído","Gusto"], r:1},
+            {cat:"naturales", p:"¿Qué estrella ilumina el día en la Tierra?", o:["La Luna","El Sol","Sirio"], r:1},
+            {cat:"naturales", p:"¿Cuál es el animal terrestre más rápido?", o:["León","Guepardo","Caballo"], r:1},
+            {cat:"naturales", p:"Las plantas fabrican su alimento mediante la...", o:["Fotosíntesis","Respiración","Digestión"], r:0},
+            {cat:"naturales", p:"¿Cuál es un recurso natural renovable?", o:["El agua","El petróleo","El carbón"], r:0},
+            {cat:"naturales", p:"¿Qué órgano usamos para pensar?", o:["Estómago","Cerebro","Corazón"], r:1},
+            {cat:"naturales", p:"Los animales que nacen de huevos son...", o:["Vivíparos","Ovíparos","Mamíferos"], r:1},
+            {cat:"naturales", p:"¿Cuántas estaciones tiene el año?", o:["2","4","6"], r:1},
+            {cat:"naturales", p:"¿Cuál es el océano más grande del planeta?", o:["Atlántico","Índico","Pacífico"], r:2},
+            {cat:"naturales", p:"¿Qué parte de la planta sostiene las hojas?", o:["La raíz","El tallo","La flor"], r:1},
+            {cat:"naturales", p:"¿Qué animal vuela pero no es un ave?", o:["Murciélago","Paloma","Águila"], r:0},
+            {cat:"naturales", p:"¿De dónde obtenemos la leche?", o:["De la gallina","De la vaca","De la oveja"], r:1},
+            {cat:"naturales", p:"¿Qué cubre el cuerpo de los peces?", o:["Pelo","Plumas","Escamas"], r:2},
+            {cat:"naturales", p:"El arcoíris sale después de...", o:["La nieve","La lluvia","El viento"], r:1},
+
+            // SOCIALES (25 Preguntas)
+            {cat:"sociales", p:"¿En qué continente se encuentra tu país?", o:["Europa","América","Asia"], r:1},
+            {cat:"sociales", p:"¿Cuál es el idioma más hablado en América del Sur?", o:["Español","Inglés","Portugués"], r:0},
+            {cat:"sociales", p:"¿Quién descubrió América en 1492?", o:["Simón Bolívar","Cristóbal Colón","Marco Polo"], r:1},
+            {cat:"sociales", p:"¿Cuáles son las líneas que dividen los mapas verticalmente?", o:["Paralelos","Meridianos","Ecuador"], r:1},
+            {cat:"sociales", p:"¿Qué color representa la paz en muchas banderas?", o:["Rojo","Azul","Blanco"], r:2},
+            {cat:"sociales", p:"La máxima autoridad de un país democrático es el...", o:["Alcalde","Gobernador","Presidente"], r:2},
+            {cat:"sociales", p:"¿Qué mapa muestra los límites de los países?", o:["Mapa físico","Mapa político","Mapa climático"], r:1},
+            {cat:"sociales", p:"¿Qué fecha suele conmemorar el día del estudiante?", o:["21 de Septiembre","1 de Mayo","6 de Agosto"], r:0},
+            {cat:"sociales", p:"¿Qué invento revolucionó los viajes por tierra?", o:["El barco","La rueda","La imprenta"], r:1},
+            {cat:"sociales", p:"¿Dónde vivían los hombres prehistóricos?", o:["En casas","En edificios","En cuevas"], r:2},
+            {cat:"sociales", p:"¿Cómo se llama la estrella de orientación marina?", o:["Estrella Polar","Estrella Solar","Estrella Fugaz"], r:0},
+            {cat:"sociales", p:"¿Cuál es la representación redonda de la Tierra?", o:["Plano","Mapa mundi","Globo terráqueo"], r:2},
+            {cat:"sociales", p:"¿Qué medio de transporte va por el aire?", o:["Tren","Avión","Barco"], r:1},
+            {cat:"sociales", p:"¿Quién es considerado un libertador de América?", o:["Julio César","Simón Bolívar","Napoleón"], r:1},
+            {cat:"sociales", p:"La brújula sirve para...", o:["Medir el tiempo","Orientarse","Ver las estrellas"], r:1},
+            {cat:"sociales", p:"¿Cuál es la unidad básica de la sociedad?", o:["La escuela","La familia","El club"], r:1},
+            {cat:"sociales", p:"¿Qué se celebra el 1 de mayo a nivel mundial?", o:["Día del Niño","Día del Trabajo","Día de la Madre"], r:1},
+            {cat:"sociales", p:"¿Qué punto cardinal indica por dónde sale el Sol?", o:["Norte","Este","Oeste"], r:1},
+            {cat:"sociales", p:"¿Cómo se llama el dinero oficial de tu región?", o:["Dólar","Euro","Boliviano"], r:2},
+            {cat:"sociales", p:"¿Qué profesión apaga los incendios?", o:["Policía","Médico","Bombero"], r:2},
+            {cat:"sociales", p:"El héroe que defiende las fronteras pertenece a la...", o:["Policía","Fuerza Armada","Alcaldía"], r:1},
+            {cat:"sociales", p:"¿Quién enseña a los niños en las escuelas?", o:["El doctor","El ingeniero","El maestro"], r:2},
+            {cat:"sociales", p:"¿Qué se celebra el día de la independencia?", o:["La libertad del país","La fundación de la escuela","Año nuevo"], r:0},
+            {cat:"sociales", p:"¿Cuál es un derecho fundamental de los niños?", o:["Trabajar","Estudiar","Conducir"], r:1},
+            {cat:"sociales", p:"¿Cuál de estos es un valor ciudadano?", o:["Egoísmo","Respeto","Mentira"], r:1}
+        ];
+
+        // VARIABLES DE JUEGO DE TRIVIA
+        let preguntasFiltradas = [];
+        let indicePreguntaActual = 0;
+        let aciertosTrivia = 0;
+
         function abrirPestana(evt, nombrePestana) {
-            var i, contenido, botones;
+            var i, contenido;
             contenido = document.getElementsByClassName("contenido-pestana");
             for (i = 0; i < contenido.length; i++) {
                 contenido[i].style.display = "none";
@@ -113,7 +272,130 @@
 
         function verJuego(materia) {
             document.getElementById('juego-mate').style.display = (materia === 'mate') ? 'block' : 'none';
-            document.getElementById('juego-otros').style.display = (materia === 'otros') ? 'block' : 'none';
+            document.getElementById('juego-trivia').style.display = (materia === 'trivia') ? 'block' : 'none';
+            document.getElementById('juego-memoria').style.display = (materia === 'memoria') ? 'block' : 'none';
+            if(materia === 'memoria') reiniciarMemoria();
+        }
+
+        // CONTROL DE TRIVIA
+        function iniciarTrivia() {
+            const cat = document.getElementById('categoria-trivia').value;
+            if(cat === 'todas') {
+                preguntasFiltradas = [...bancoPreguntas];
+            } else {
+                preguntasFiltradas = bancoPreguntas.filter(q => q.cat === cat);
+            }
+            // Mezclar y tomar 10 preguntas al azar
+            preguntasFiltradas.sort(() => Math.random() - 0.5);
+            preguntasFiltradas = preguntasFiltradas.slice(0, 10);
+            
+            indicePreguntaActual = 0;
+            aciertosTrivia = 0;
+
+            document.getElementById('setup-trivia').style.display = 'none';
+            document.getElementById('pantalla-trivia').style.display = 'block';
+            document.getElementById('resultado-trivia').style.display = 'none';
+            mostrarSiguientePregunta();
+        }
+
+        function mostrarSiguientePregunta() {
+            if(indicePreguntaActual >= 10) {
+                finalizarTrivia();
+                return;
+            }
+            document.getElementById('trivia-progreso').innerText = `Pregunta ${indicePreguntaActual + 1} de 10`;
+            const q = preguntasFiltradas[indicePreguntaActual];
+            document.getElementById('trivia-pregunta').innerText = q.p;
+            
+            const contenedorOpciones = document.getElementById('trivia-opciones');
+            contenedorOpciones.innerHTML = '';
+            
+            q.o.forEach((opcion, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-opcion';
+                btn.innerText = opcion;
+                btn.onclick = () => verificarRespuesta(index);
+                contenedorOpciones.appendChild(btn);
+            });
+        }
+
+        function verificarRespuesta(indiceSeleccionado) {
+            const q = preguntasFiltradas[indicePreguntaActual];
+            if(indiceSeleccionado === q.r) {
+                aciertosTrivia++;
+            }
+            indicePreguntaActual++;
+            mostrarSiguientePregunta();
+        }
+
+        function finalizarTrivia() {
+            document.getElementById('pantalla-trivia').style.display = 'none';
+            document.getElementById('resultado-trivia').style.display = 'block';
+            document.getElementById('trivia-nota').innerText = `${aciertosTrivia} / 10`;
+            
+            let msg = "";
+            if(aciertosTrivia === 10) msg = "🥇 ¡Impresionante! ¡Eres un genio total!";
+            else if(aciertosTrivia >= 7) msg = "🥈 ¡Excelente trabajo! Sabes muchísimo.";
+            else if(aciertosTrivia >= 5) msg = "🥉 ¡Bien hecho! Tienes muy buen conocimiento.";
+            else msg = "📚 ¡Buen intento! Sigue leyendo y repitiendo la trivia para aprender más.";
+            
+            document.getElementById('trivia-mensaje').innerText = msg;
+        }
+
+        function reiniciarTrivia() {
+            document.getElementById('setup-trivia').style.display = 'block';
+            document.getElementById('resultado-trivia').style.display = 'none';
+        }
+
+        // LÓGICA JUEGO DE MEMORIA
+        const emojis = ['🐶','🐶','🐱','🐱','🐸','🐸','🦊','🦊','🦁','🦁','🐵','🐵','🦉','🦉','🦄','🦄'];
+        let cartasAbiertas = [];
+        let bloqueado = false;
+
+        function reiniciarMemoria() {
+            const tablero = document.getElementById('tablero-memoria');
+            tablero.innerHTML = '';
+            cartasAbiertas = [];
+            bloqueado = false;
+            
+            // Mezclar emojis
+            const listaMezclada = [...emojis].sort(() => Math.random() - 0.5);
+            
+            listaMezclada.forEach((emoji) => {
+                const carta = document.createElement('div');
+                carta.className = 'carta';
+                carta.dataset.emoji = emoji;
+                carta.innerText = emoji;
+                carta.onclick = () => voltearCarta(carta);
+                tablero.appendChild(carta);
+            });
+        }
+
+        function voltearCarta(carta) {
+            if (bloqueado || carta.classList.contains('volteada') || carta.classList.contains('emparejada')) return;
+            
+            carta.classList.add('volteada');
+            cartasAbiertas.push(carta);
+            
+            if (cartasAbiertas.length === 2) {
+                bloqueado = true;
+                const c1 = cartasAbiertas[0];
+                const c2 = cartasAbiertas[1];
+                
+                if (c1.dataset.emoji === c2.dataset.emoji) {
+                    c1.classList.add('emparejada');
+                    c2.classList.add('emparejada');
+                    cartasAbiertas = [];
+                    bloqueado = false;
+                } else {
+                    setTimeout(() => {
+                        c1.classList.remove('volteada');
+                        c2.classList.remove('volteada');
+                        cartasAbiertas = [];
+                        bloqueado = false;
+                    }, 1000);
+                }
+            }
         }
     </script>
 </body>
