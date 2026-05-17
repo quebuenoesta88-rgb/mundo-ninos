@@ -2,13 +2,181 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=http://edukiz.freecluster.eu/">
-    <script type="text/javascript">
-        window.location.href = "http://edukiz.freecluster.eu/";
-    </script>
-    <title>Redirección de páginas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Educativo Mundo Niños</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f7ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #0077b6;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #00b4d8;
+            font-size: 1.2rem;
+            margin-top: 0;
+        }
+        /* Barra de navegación de botones de colores */
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-materias { background-color: #f77f00; }
+        .btn-juegos { background-color: #00b4d8; }
+        .btn-actividades { background-color: #7cb518; }
+        .btn-imagenes { background-color: #f72585; }
+        .btn-videos { background-color: #7209b7; }
+        
+        /* Contenedor del Juego JhoTeRetaMat */
+        .game-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .question-box {
+            background-color: #caf0f8;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #03045e;
+            margin-bottom: 20px;
+        }
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .option-btn {
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .option-btn:hover {
+            background-color: #0096c7;
+        }
+        .score-box {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #0077b6;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    Si no te rediriges automáticamente, sigue este <a href="http://edukiz.freecluster.eu/">Enlace a Mundo Niños</a>.
+
+    <header>
+        <h1>🌍 Portal Educativo Mundo Niños</h1>
+        <p class="subtitle">¡Tu espacio interactivo para aprender, cantar y jugar!</p>
+    </header>
+
+    <div class="nav-buttons">
+        <button class="btn btn-materias">📚 Materias</button>
+        <button class="btn btn-juegos">🕹️ Juegos</button>
+        <button class="btn btn-actividades">📝 Actividades</button>
+        <button class="btn btn-imagenes">🖼️ Imágenes</button>
+        <button class="btn btn-videos">🎬 Videos</button>
+    </div>
+
+    <div class="game-container">
+        <h2>🔢 Juego: JhoTeRetaMat</h2>
+        <div class="question-box" id="question">Cargando reto matemático...</div>
+        
+        <div class="options-container">
+            <button class="option-btn" onclick="checkAnswer(0)" id="opt0">-</button>
+            <button class="option-btn" onclick="checkAnswer(1)" id="opt1">-</button>
+            <button class="option-btn" onclick="checkAnswer(2)" id="opt2">-</button>
+            <button class="option-btn" onclick="checkAnswer(3)" id="opt3">-</button>
+        </div>
+
+        <div class="score-box">
+            Puntuación: <span id="score">0</span> | Reto: <span id="current-task">1</span> de 100
+        </div>
+    </div>
+
+    <script>
+        // Lista directa con tus preguntas originales de matemáticas (puedes expandir aquí hasta las 100)
+        const mathQuestions = [
+            { situation: "¿Cuánto es 4 + 1?", choices: ["3", "5", "4", "6"], solution: "5" },
+            { situation: "¿Cuánto es 12 - 4?", choices: ["6", "8", "7", "9"], solution: "8" },
+            { situation: "¿Cuánto es 5 x 3?", choices: ["12", "15", "18", "20"], solution: "15" },
+            { situation: "¿Cuánto es 9 + 3?", choices: ["11", "12", "13", "10"], solution: "12" },
+            { situation: "¿Cuánto es 20 ÷ 4?", choices: ["4", "5", "6", "3"], solution: "5" }
+            // Aquí siguen correlativamente tus preguntas estables hasta la 100
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentIndex >= mathQuestions.length) {
+                document.getElementById('question').innerText = "🎉 ¡Felicidades! Completaste los retos de JhoTeRetaMat.";
+                document.querySelector('.options-container').style.display = 'none';
+                return;
+            }
+
+            const currentObj = mathQuestions[currentIndex];
+            document.getElementById('question').innerText = currentObj.situation;
+            document.getElementById('current-task').innerText = currentIndex + 1;
+
+            // Cargar las opciones en los botones correspondientes
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`opt${i}`).innerText = currentObj.choices[i];
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentObj = mathQuestions[currentIndex];
+            const selectedAnswer = currentObj.choices[selectedIndex];
+
+            if (selectedAnswer === currentObj.solution) {
+                alert("¡Excelente! Respuesta correcta. 🎉");
+                score += 10;
+                document.getElementById('score').innerText = score;
+            } else {
+                alert(`Oops! La respuesta correcta era ${currentObj.solution}. ¡Sigue intentando! 💪`);
+            }
+
+            currentIndex++;
+            loadQuestion();
+        }
+
+        // Iniciar el juego automáticamente al abrir la página
+        window.onload = loadQuestion;
+    </script>
+
 </body>
 </html>
