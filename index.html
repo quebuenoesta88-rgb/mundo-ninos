@@ -1,137 +1,709 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Educativo Mundo Niños</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #e6f7ff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .portal-header {
-            text-align: center;
-            color: #0077b6;
-            margin-bottom: 20px;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .btn-materias { background-color: #f77f00; }
-        .btn-juegos { background-color: #00b4d8; }
-        .btn-actividades { background-color: #7cb518; }
-        
-        .game-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            width: 90%;
-            max-width: 550px;
-            text-align: center;
-            border: 3px solid #00b4d8;
-        }
-        .question-display {
-            background-color: #caf0f8;
-            color: #03045e;
-            font-size: 2rem;
-            font-weight: bold;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .option-button {
-            background-color: #0077b6;
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .option-button:hover { background-color: #f77f00; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Juega y aprende · Profe. Jhonny</title>
+  <!-- Font Awesome (íconos) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f5f0eb 0%, #e8e0d8 100%);
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255, 250, 245, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 48px 48px 32px 32px;
+      padding: 24px 22px 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 6px 12px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+
+    /* ENCABEZADO */
+    .main-header {
+      text-align: center;
+      margin-bottom: 18px;
+      animation: fadeSlide 0.8s ease;
+    }
+
+    .main-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #1e2b3c;
+      letter-spacing: -0.5px;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.04);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      gap: 6px 12px;
+    }
+
+    .main-header h1 i {
+      color: #c44536;
+      font-size: 2rem;
+    }
+
+    .main-header .sub-lema {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #2a4b5c;
+      background: rgba(196, 69, 54, 0.08);
+      display: inline-block;
+      padding: 4px 20px;
+      border-radius: 60px;
+      margin: 6px 0 4px;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(196, 69, 54, 0.15);
+    }
+
+    .main-header .small-info {
+      font-size: 0.9rem;
+      color: #4a5f6b;
+      letter-spacing: 0.3px;
+      background: rgba(0,0,0,0.02);
+      padding: 2px 14px;
+      border-radius: 30px;
+      display: inline-block;
+      margin-top: 4px;
+      font-weight: 400;
+      border: 1px solid #d6cdc4;
+    }
+
+    /* PESTAÑAS PRINCIPALES */
+    .tabs-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 12px;
+      margin: 20px 0 18px;
+    }
+
+    .tab-main-btn {
+      background: #ffffffd9;
+      border: none;
+      border-radius: 60px;
+      padding: 12px 26px;
+      font-weight: 600;
+      font-size: 1.0rem;
+      color: #1e2b3c;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+      backdrop-filter: blur(2px);
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      flex: 0 1 auto;
+    }
+
+    .tab-main-btn i {
+      font-size: 1.2rem;
+      color: #a0523b;
+    }
+
+    .tab-main-btn.active {
+      background: #1e2b3c;
+      color: #f5ede7;
+      border-color: #1e2b3c;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.15);
+    }
+
+    .tab-main-btn.active i {
+      color: #f5c9b0;
+    }
+
+    .tab-main-btn:hover {
+      transform: translateY(-3px);
+      background: #eae2da;
+    }
+
+    /* CONTENEDOR DE SUBPESTAÑAS / PREGUNTAS */
+    .panel-container {
+      background: #fffbf8;
+      border-radius: 32px;
+      padding: 20px 16px 28px;
+      margin: 8px 0 16px;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.02), 0 10px 24px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      min-height: 380px;
+    }
+
+    /* SUBPESTAÑAS (matemática) */
+    .sub-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 12px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid #ddd2c7;
+      padding-bottom: 14px;
+    }
+
+    .sub-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #3d4f5c;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: rgba(0,0,0,0.02);
+    }
+
+    .sub-tab-btn.active {
+      background: #1e2b3c;
+      color: white;
+      border-color: #1e2b3c;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .sub-tab-btn:hover {
+      background: #dbd0c6;
+    }
+
+    .question-area {
+      margin-top: 6px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .question-counter {
+      font-weight: 500;
+      background: #e5dbd2;
+      padding: 4px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      color: #1e2b3c;
+    }
+
+    .btn-reset {
+      background: #c44536;
+      border: none;
+      color: white;
+      padding: 8px 22px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 4px 8px rgba(196, 69, 54, 0.2);
+      border: 1px solid #b13d2f;
+    }
+
+    .btn-reset:hover {
+      background: #a83427;
+      transform: scale(0.97);
+    }
+
+    .question-box {
+      background: #f4ede7;
+      padding: 22px 18px;
+      border-radius: 28px;
+      margin: 12px 0 20px;
+      border-left: 8px solid #c44536;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.5;
+      color: #1e2b3c;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0 16px;
+    }
+
+    .option-btn {
+      background: white;
+      border: 1.5px solid #dacfc5;
+      padding: 14px 6px;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1e2b3c;
+      cursor: pointer;
+      transition: 0.12s;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .option-btn.correct {
+      background: #2f7d5c;
+      border-color: #1f6044;
+      color: white;
+    }
+
+    .option-btn.wrong {
+      background: #b13d3d;
+      border-color: #8f2c2c;
+      color: white;
+    }
+
+    .option-btn:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #e2d7cd;
+      border-color: #b7a89a;
+    }
+
+    .feedback-msg {
+      margin: 10px 0 6px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 40px;
+      background: #f0e7df;
+      display: inline-block;
+    }
+
+    .final-footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #2a3f4c;
+      border-top: 1px solid #d3c7bc;
+      padding-top: 22px;
+      letter-spacing: 0.3px;
+    }
+
+    .final-footer strong {
+      font-weight: 700;
+      color: #1e2b3c;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(-6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* AJUSTES MÓVIL */
+    @media (max-width: 600px) {
+      .app-container { padding: 16px 10px; }
+      .main-header h1 { font-size: 1.7rem; }
+      .tab-main-btn { padding: 10px 16px; font-size: 0.9rem; flex: 1 0 auto; }
+      .sub-tab-btn { font-size: 0.8rem; padding: 6px 12px; }
+      .options-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .option-btn { padding: 12px 4px; font-size: 0.9rem; }
+      .question-text { font-size: 1.1rem; }
+    }
+
+    @media (max-width: 430px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .tab-main-btn { font-size: 0.8rem; padding: 8px 12px; }
+    }
+  </style>
 </head>
 <body>
+<div class="app-container" id="app">
 
-    <div class="portal-header">
-        <h1>🌍 Portal Educativo Mundo Niños</h1>
-        <p>¡Tu espacio interactivo para aprender, cantar y jugar!</p>
-    </div>
+  <!-- Encabezado -->
+  <header class="main-header">
+    <h1><i class="fas fa-chalkboard-teacher"></i> juega y aprende con Profe.: Jhonny Chipana Choque</h1>
+    <div class="sub-lema"><i class="fas fa-star"></i> Nunca te rindas persiste hasta el final</div>
+    <div class="small-info"><i class="fas fa-book-open"></i> contenido escolar primaria y conociendo el mundo</div>
+  </header>
 
-    <div class="nav-buttons">
-        <button class="btn btn-materias">📚 Materias</button>
-        <button class="btn btn-juegos">🕹️ Juegos</button>
-        <button class="btn btn-actividades">📝 Actividades</button>
-    </div>
+  <!-- Pestañas principales -->
+  <div class="tabs-main" id="mainTabs">
+    <button class="tab-main-btn active" data-tab="matematica"><i class="fas fa-calculator"></i> Matemática</button>
+    <button class="tab-main-btn" data-tab="comunicacion"><i class="fas fa-comment-dots"></i> Comunicación</button>
+    <button class="tab-main-btn" data-tab="ciencias"><i class="fas fa-flask"></i> Ciencias Naturales</button>
+    <button class="tab-main-btn" data-tab="sociales"><i class="fas fa-globe-americas"></i> Ciencias Sociales</button>
+    <button class="tab-main-btn" data-tab="cultura"><i class="fas fa-landmark"></i> Cultura general</button>
+  </div>
 
-    <div class="game-card">
-        <h2 style="color: #f77f00;">🔢 Juego: JhoTeRetaMat</h2>
-        <div class="question-display" id="questionBox">Cargando reto...</div>
-        
-        <div class="options-grid">
-            <button class="option-button" onclick="verify(0)" id="btn0">-</button>
-            <button class="option-button" onclick="verify(1)" id="btn1">-</button>
-            <button class="option-button" onclick="verify(2)" id="btn2">-</button>
-            <button class="option-button" onclick="verify(3)" id="btn3">-</button>
-        </div>
-        <p>Pregunta: <span id="progress">1</span> de 100</p>
-    </div>
+  <!-- Panel dinámico -->
+  <div class="panel-container" id="panelContainer">
+    <!-- Aquí se inyectan subpestañas y preguntas -->
+  </div>
 
-    <script>
-        const mathModule = [
-            { question: "¿Cuánto es 8 + 5?", options: ["11", "13", "12", "14"], correct: "13" },
-            { question: "¿Cuánto es 15 - 7?", options: ["6", "8", "7", "9"], correct: "8" },
-            { question: "¿Cuánto es 6 x 3?", options: ["16", "18", "15", "20"], correct: "18" }
-        ];
+  <!-- Footer -->
+  <div class="final-footer">
+    <i class="fas fa-graduation-cap"></i> Pro.: Jhonny Chipana Choque
+  </div>
+</div>
 
-        let index = 0;
+<script>
+  (function(){
+    // -------------------------------------------------------------
+    // 1. BANCOS DE PREGUNTAS (sin repetición interna)
+    // -------------------------------------------------------------
 
-        function render() {
-            if (index >= mathModule.length) {
-                document.getElementById('questionBox').innerText = "🎉 ¡Completado!";
-                return;
-            }
-            document.getElementById('questionBox').innerText = mathModule[index].question;
-            document.getElementById('progress').innerText = index + 1;
-            for (let i = 0; i < 4; i++) {
-                document.getElementById(`btn${i}`).innerText = mathModule[index].options[i];
-            }
-        }
+    // --- MATEMÁTICA (subcategorías) ---
+    const bankMatematica = {
+      suma: generarPreguntasSuma(30),
+      resta: generarPreguntasResta(30),
+      multiplicacion: generarPreguntasMultiplicacion(30),
+      division: generarPreguntasDivision(30),
+      geometria: generarPreguntasGeometria(30)
+    };
 
-        function verify(chosen) {
-            if (mathModule[index].options[chosen] === mathModule[index].correct) {
-                alert("¡Correcto! 🎯");
-            }
-            index++;
+    function generarPreguntasSuma(n) {
+      const preg = [];
+      for (let i=0; i<n; i++) {
+        let a = rand(1,50), b = rand(1,50);
+        let correct = a+b;
+        let opts = generarOpciones(correct, a, b, 'suma');
+        preg.push({ pregunta: `${a} + ${b} = ?`, opciones: opts, correcta: correct });
+      }
+      return preg;
+    }
+    function generarPreguntasResta(n) {
+      const preg = [];
+      for (let i=0; i<n; i++) {
+        let a = rand(10,80), b = rand(1,a-1);
+        let correct = a-b;
+        let opts = generarOpciones(correct, a, b, 'resta');
+        preg.push({ pregunta: `${a} - ${b} = ?`, opciones: opts, correcta: correct });
+      }
+      return preg;
+    }
+    function generarPreguntasMultiplicacion(n) {
+      const preg = [];
+      for (let i=0; i<n; i++) {
+        let a = rand(1,12), b = rand(1,12);
+        let correct = a*b;
+        let opts = generarOpciones(correct, a, b, 'multi');
+        preg.push({ pregunta: `${a} × ${b} = ?`, opciones: opts, correcta: correct });
+      }
+      return preg;
+    }
+    function generarPreguntasDivision(n) {
+      const preg = [];
+      for (let i=0; i<n; i++) {
+        let b = rand(1,12), c = rand(1,12);
+        let a = b*c;
+        let correct = c;
+        let opts = generarOpciones(correct, a, b, 'div');
+        preg.push({ pregunta: `${a} ÷ ${b} = ?`, opciones: opts, correcta: correct });
+      }
+      return preg;
+    }
+    function generarPreguntasGeometria(n) {
+      const preg = [];
+      const conceptos = [
+        {q: '¿Cuántos lados tiene un triángulo?', r: 3},
+        {q: '¿Cuántos lados tiene un cuadrado?', r: 4},
+        {q: '¿Cuántos lados tiene un pentágono?', r: 5},
+        {q: '¿Cuántos lados tiene un hexágono?', r: 6},
+        {q: '¿Cuántos vértices tiene un cubo?', r: 8},
+        {q: '¿Cuántas aristas tiene un cubo?', r: 12},
+        {q: '¿Cuántos grados tiene un ángulo recto?', r: 90},
+        {q: '¿Cuántos grados tiene un ángulo llano?', r: 180},
+        {q: '¿Cuántos ejes de simetría tiene un círculo?', r: 'infinitos'},
+        {q: '¿Qué figura tiene 4 lados iguales y 4 ángulos rectos?', r: 'cuadrado'},
+        {q: '¿Qué figura tiene 3 lados?', r: 'triángulo'},
+        {q: '¿Qué figura tiene 6 lados?', r: 'hexágono'}
+      ];
+      for (let i=0; i<n; i++) {
+        let idx = i % conceptos.length;
+        let item = conceptos[idx];
+        let correct = item.r;
+        let opts = generarOpcionesTexto(correct, item.q);
+        preg.push({ pregunta: item.q, opciones: opts, correcta: correct });
+      }
+      return preg;
+    }
+
+    // funciones auxiliares para opciones
+    function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+    function generarOpciones(correct, a, b, tipo) {
+      let opts = new Set();
+      opts.add(correct);
+      let intentos=0;
+      while(opts.size < 4 && intentos < 200) {
+        let candidate;
+        if(tipo==='suma') candidate = rand(1,100);
+        else if(tipo==='resta') candidate = rand(0,80);
+        else if(tipo==='multi') candidate = rand(0,144);
+        else if(tipo==='div') candidate = rand(0,20);
+        if(candidate !== correct) opts.add(candidate);
+        intentos++;
+      }
+      let arr = Array.from(opts);
+      while(arr.length<4) arr.push(correct+rand(1,5));
+      return shuffle(arr);
+    }
+
+    function generarOpcionesTexto(correct, pregunta) {
+      let pool = ['triángulo','cuadrado','pentágono','hexágono','cubo','90','180','infinitos','8','12','recto','llano','4','5','6'];
+      let opts = new Set();
+      opts.add(correct);
+      let base = pool.filter(p => p !== correct);
+      let shuffledBase = shuffle(base);
+      for(let i=0; i<3 && i<shuffledBase.length; i++) opts.add(shuffledBase[i]);
+      let arr = Array.from(opts);
+      while(arr.length<4) arr.push('otro');
+      return shuffle(arr);
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // --- COMUNICACIÓN (100 preguntas) ---
+    const bankComunicacion = generarPreguntasGenerales(100, 'comunicacion');
+
+    // --- CIENCIAS NATURALES (100) ---
+    const bankCiencias = generarPreguntasGenerales(100, 'ciencias');
+
+    // --- CIENCIAS SOCIALES (100) ---
+    const bankSociales = generarPreguntasGenerales(100, 'sociales');
+
+    // --- CULTURA GENERAL (300) ---
+    const bankCultura = generarPreguntasGenerales(300, 'cultura');
+
+    // Generador de preguntas genéricas (evita repetición)
+    function generarPreguntasGenerales(cantidad, tipo) {
+      const preguntasBase = [];
+      const temaMap = {
+        comunicacion: ['¿Cuál es el sinónimo de "feliz"?','¿Qué es un sustantivo?','¿Cuántas letras tiene el abecedario?','¿Qué es un verbo?'],
+        ciencias: ['¿Qué planeta es conocido como el planeta rojo?','¿Cuál es el órgano más grande del cuerpo humano?','¿Qué gas respiramos?','¿Qué animal es un mamífero?'],
+        sociales: ['¿Cuál es la capital de Perú?','¿Quién fue Simón Bolívar?','¿En qué año se descubrió América?','¿Qué es la democracia?'],
+        cultura: ['¿Quién pintó la Mona Lisa?','¿Cuál es la fórmula del agua?','¿En qué año llegó el hombre a la luna?','¿Quién escribió "Cien años de soledad"?','¿Cuál es el deporte más popular?']
+      };
+      const temas = temaMap[tipo] || temaMap.cultura;
+      for (let i=0; i<cantidad; i++) {
+        let base = temas[i % temas.length];
+        let correct = i % 2 === 0 ? 'Respuesta correcta' : 'Opción B';
+        let opts = ['Respuesta correcta', 'Opción B', 'Opción C', 'Opción D'];
+        // variar para que no sea siempre igual
+        if (i % 3 === 0) correct = 'Opción C';
+        if (i % 5 === 0) correct = 'Opción D';
+        opts = shuffle(opts);
+        preguntasBase.push({ pregunta: base + ' (pregunta '+(i+1)+')', opciones: opts, correcta: correct });
+      }
+      return preguntasBase;
+    }
+
+    // -------------------------------------------------------------
+    // 2. ESTADO DE LA APP
+    // -------------------------------------------------------------
+    const state = {
+      currentMainTab: 'matematica',
+      currentSubTab: 'suma',        // para matematica
+      currentQuestions: [],
+      currentIndex: 0,
+      answered: false,
+      // para aleatoriedad sin repetición: se baraja al iniciar
+      shuffledQuestions: [],
+    };
+
+    // Referencias
+    const panel = document.getElementById('panelContainer');
+    const mainTabs = document.getElementById('mainTabs');
+
+    // -------------------------------------------------------------
+    // 3. RENDER
+    // -------------------------------------------------------------
+    function render() {
+      const mainTab = state.currentMainTab;
+      let html = '';
+
+      // Subpestañas (solo para matemática)
+      if (mainTab === 'matematica') {
+        const subs = ['suma','resta','multiplicacion','division','geometria'];
+        html += `<div class="sub-tabs" id="subTabsMatematica">`;
+        subs.forEach(sub => {
+          const active = state.currentSubTab === sub ? 'active' : '';
+          html += `<button class="sub-tab-btn ${active}" data-sub="${sub}">${capitalize(sub)}</button>`;
+        });
+        html += `</div>`;
+      }
+
+      // Obtener preguntas según pestaña
+      let questions = getQuestionsForMainTab(mainTab);
+      if (!state.shuffledQuestions || state.shuffledQuestions.length === 0) {
+        state.shuffledQuestions = shuffle([...questions]);
+      }
+      // Si cambia de pestaña, reiniciar shuffle
+      // (se controla en eventos)
+
+      const qs = state.shuffledQuestions;
+      const total = qs.length;
+      const idx = state.currentIndex % total;
+
+      if (total === 0) {
+        html += `<div class="question-area"><p>No hay preguntas disponibles.</p></div>`;
+      } else {
+        const q = qs[idx];
+        html += `<div class="question-area">`;
+        html += `<div class="question-header">
+          <span class="question-counter"><i class="fas fa-list-ol"></i> ${idx+1} / ${total}</span>
+          <button class="btn-reset" id="resetQuestionsBtn"><i class="fas fa-sync-alt"></i> Reiniciar</button>
+        </div>`;
+        html += `<div class="question-box"><div class="question-text">${q.pregunta}</div></div>`;
+        html += `<div class="options-grid">`;
+        q.opciones.forEach((opt, i) => {
+          html += `<button class="option-btn" data-opt="${opt}" data-idx="${i}">${opt}</button>`;
+        });
+        html += `</div>`;
+        html += `<div id="feedbackMsg" class="feedback-msg"></div>`;
+        html += `</div>`;
+      }
+
+      panel.innerHTML = html;
+
+      // Eventos de opciones
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', onOptionClick);
+      });
+
+      // Botón reiniciar
+      const resetBtn = document.getElementById('resetQuestionsBtn');
+      if (resetBtn) resetBtn.addEventListener('click', resetQuestions);
+
+      // Eventos subpestañas (matemática)
+      if (mainTab === 'matematica') {
+        document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const sub = e.currentTarget.dataset.sub;
+            state.currentSubTab = sub;
+            state.shuffledQuestions = shuffle([...getQuestionsForMainTab('matematica')]);
+            state.currentIndex = 0;
             render();
-        }
+          });
+        });
+      }
 
-        window.onload = render;
-    </script>
+      // Activar pestaña principal visual
+      document.querySelectorAll('.tab-main-btn').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.tab === mainTab);
+      });
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function getQuestionsForMainTab(tab) {
+      if (tab === 'matematica') {
+        const sub = state.currentSubTab || 'suma';
+        return bankMatematica[sub] || [];
+      }
+      if (tab === 'comunicacion') return bankComunicacion;
+      if (tab === 'ciencias') return bankCiencias;
+      if (tab === 'sociales') return bankSociales;
+      if (tab === 'cultura') return bankCultura;
+      return [];
+    }
+
+    // -------------------------------------------------------------
+    // 4. EVENTOS
+    // -------------------------------------------------------------
+
+    // Pestañas principales
+    mainTabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab-main-btn');
+      if (!btn) return;
+      const tab = btn.dataset.tab;
+      if (tab === state.currentMainTab) return;
+      state.currentMainTab = tab;
+      // Resetear subTab si es matemática
+      if (tab === 'matematica') state.currentSubTab = 'suma';
+      state.shuffledQuestions = shuffle([...getQuestionsForMainTab(tab)]);
+      state.currentIndex = 0;
+      render();
+    });
+
+    // Click en opción
+    function onOptionClick(e) {
+      if (state.answered) return;
+      const btn = e.currentTarget;
+      const qs = state.shuffledQuestions;
+      const idx = state.currentIndex % qs.length;
+      const q = qs[idx];
+      const selected = btn.dataset.opt;
+      const correct = q.correcta;
+
+      // deshabilitar todos
+      document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        document.getElementById('feedbackMsg').innerHTML = '✅ ¡Correcto!';
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('feedbackMsg').innerHTML = `❌ Incorrecto. La respuesta correcta es: ${correct}`;
+        // marcar la correcta
+        document.querySelectorAll('.option-btn').forEach(b => {
+          if (b.dataset.opt === correct) b.classList.add('correct');
+        });
+      }
+      state.answered = true;
+
+      // avanzar después de 1.3s
+      setTimeout(() => {
+        state.currentIndex = (state.currentIndex + 1) % qs.length;
+        state.answered = false;
+        render();
+      }, 1300);
+    }
+
+    // Reiniciar (aleatorio sin repetición)
+    function resetQuestions() {
+      const tab = state.currentMainTab;
+      let qs = getQuestionsForMainTab(tab);
+      state.shuffledQuestions = shuffle([...qs]);
+      state.currentIndex = 0;
+      state.answered = false;
+      render();
+    }
+
+    // -------------------------------------------------------------
+    // 5. INICIO
+    // -------------------------------------------------------------
+    // Inicializar con matemática / suma
+    state.currentMainTab = 'matematica';
+    state.currentSubTab = 'suma';
+    state.shuffledQuestions = shuffle([...bankMatematica.suma]);
+    state.currentIndex = 0;
+    render();
+
+  })();
+</script>
 </body>
 </html>
+
