@@ -1,426 +1,1033 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juega y aprende con Profe.: Jhonny Chipana Choque</title>
-    <style>
-        :root {
-            --primary: #4A90E2;
-            --secondary: #2ECC71;
-            --accent: #E74C3C;
-            --dark: #2C3E50;
-            --light: #F8F9FA;
-            --gradient: linear-gradient(135deg, #6B11FF, #00D2FF);
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif}
+:root{
+--c1:#6C3FC5;--c2:#FF6B35;--c3:#00BFA5;--c4:#E91E8C;--c5:#2196F3;
+--bg:#f0f4ff;--card:#fff;--text:#1a1a2e;--muted:#666;
+--correct:#00C853;--wrong:#FF1744;--shadow:0 4px 20px rgba(0,0,0,0.12);
+}
+.wrap{background:var(--bg);min-height:100vh;padding:0 0 40px}
 
-        body {
-            background: #f0f4f8;
-            color: var(--dark);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+/* HEADER */
+.header{background:linear-gradient(135deg,#6C3FC5 0%,#E91E8C 50%,#FF6B35 100%);padding:24px 16px 20px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-30px;left:-30px;width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%}
+.header::after{content:'';position:absolute;bottom:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.06);border-radius:50%}
+.header h1{font-size:clamp(16px,4vw,22px);font-weight:800;color:#fff;line-height:1.3;text-shadow:0 2px 8px rgba(0,0,0,0.3);position:relative;z-index:1}
+.header .star{display:inline-block;animation:spin 4s linear infinite;margin:0 4px}
+.header .motto{color:rgba(255,255,255,0.95);font-size:13px;font-weight:600;margin-top:8px;font-style:italic;position:relative;z-index:1}
+.header .sub{color:rgba(255,255,255,0.75);font-size:11px;margin-top:4px;position:relative;z-index:1}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
-        /* Header & Hero Section */
-        header {
-            background: var(--gradient);
-            color: white;
-            text-align: center;
-            padding: 3rem 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            animation: fadeIn 1s ease-in-out;
-        }
+/* FLOATING STARS */
+.stars{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star-dot{position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{0%{opacity:0.2;transform:scale(1)}100%{opacity:1;transform:scale(1.5)}}
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+/* MAIN TABS */
+.main-tabs{display:flex;overflow-x:auto;background:#fff;border-bottom:3px solid var(--bg);scrollbar-width:none;-ms-overflow-style:none;box-shadow:var(--shadow)}
+.main-tabs::-webkit-scrollbar{display:none}
+.mtab{flex:0 0 auto;padding:12px 14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:3px solid transparent;transition:all 0.3s;white-space:nowrap;margin-bottom:-3px;display:flex;align-items:center;gap:5px}
+.mtab.active{color:var(--c1);border-bottom-color:var(--c1)}
+.mtab:hover:not(.active){color:var(--text);background:#f8f8ff}
+.tab-icon{font-size:16px}
 
-        .phrase {
-            font-size: 1.5rem;
-            font-style: italic;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            color: #fff3e0;
-        }
+/* SUB TABS (Math only) */
+.sub-tabs{display:flex;overflow-x:auto;background:#f8f0ff;padding:8px 12px;gap:8px;scrollbar-width:none}
+.sub-tabs::-webkit-scrollbar{display:none}
+.stab{flex:0 0 auto;padding:7px 14px;font-size:11px;font-weight:700;border-radius:20px;border:2px solid var(--c1);color:var(--c1);background:#fff;cursor:pointer;transition:all 0.25s;white-space:nowrap}
+.stab.active{background:var(--c1);color:#fff}
 
-        .subtitle {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.9;
-        }
+/* CONTENT */
+.tab-content{display:none;padding:16px}
+.tab-content.active{display:block;animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-        /* Main Container & Tabs */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
-            width: 100%;
-        }
+/* QUIZ AREA */
+.quiz-box{background:var(--card);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.quiz-header{padding:16px 20px;background:linear-gradient(135deg,var(--c1),#9C27B0);color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.quiz-title{font-size:15px;font-weight:700}
+.quiz-stats{display:flex;gap:12px;font-size:12px;font-weight:600}
+.stat-badge{background:rgba(255,255,255,0.25);padding:4px 10px;border-radius:12px}
 
-        .tabs-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
+.progress-bar{height:6px;background:rgba(255,255,255,0.3)}
+.progress-fill{height:100%;background:#FFD700;border-radius:0 3px 3px 0;transition:width 0.5s ease}
 
-        .tab-btn {
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+.question-area{padding:20px}
+.q-num{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px}
+.q-text{font-size:16px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:20px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{padding:12px 16px;border-radius:14px;border:2px solid #e0e0e0;background:#fff;text-align:left;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);transition:all 0.2s;display:flex;align-items:center;gap:10px}
+.opt-btn:hover:not(:disabled){border-color:var(--c1);background:#f5f0ff;transform:translateX(4px)}
+.opt-btn.correct{border-color:var(--correct);background:#e8f5e9;color:#1b5e20}
+.opt-btn.wrong{border-color:var(--wrong);background:#ffebee;color:#b71c1c}
+.opt-letter{width:28px;height:28px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.opt-btn.correct .opt-letter{background:var(--correct);color:#fff}
+.opt-btn.wrong .opt-letter{background:var(--wrong);color:#fff}
 
-        .tab-btn:hover, .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
-        }
+.feedback{padding:12px 16px;border-radius:12px;margin-top:14px;font-size:14px;font-weight:600;display:none;animation:popIn 0.3s ease}
+.feedback.show{display:flex;align-items:center;gap:8px}
+.feedback.correct{background:#e8f5e9;color:#2e7d32;border-left:4px solid var(--correct)}
+.feedback.wrong{background:#ffebee;color:#c62828;border-left:4px solid var(--wrong)}
+@keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
 
-        /* Subtabs para Matemática */
-        .subtabs-nav {
-            display: none;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            animation: slideDown 0.4s ease;
-        }
+.nav-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.nav-btn{flex:1;min-width:100px;padding:11px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-next{background:var(--c1);color:#fff}
+.btn-next:hover{background:#5a2fa5;transform:scale(1.02)}
+.btn-restart{background:var(--c2);color:#fff}
+.btn-restart:hover{background:#e55a25}
 
-        .subtab-btn {
-            background: #eef2f7;
-            border: 1px solid #ccc;
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+/* RESULT */
+.result-box{text-align:center;padding:32px 20px}
+.result-score{font-size:56px;font-weight:900;background:linear-gradient(135deg,var(--c1),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.result-label{font-size:16px;color:var(--muted);margin-top:4px}
+.result-stars{font-size:36px;margin:16px 0;animation:bounce 0.5s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.result-msg{font-size:15px;font-weight:600;color:var(--text);margin-bottom:20px}
 
-        .subtab-btn:hover, .subtab-btn.active {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
-        }
+/* START SCREEN */
+.start-box{text-align:center;padding:32px 20px}
+.start-icon{font-size:56px;margin-bottom:12px;animation:bounce2 1s ease infinite alternate}
+@keyframes bounce2{from{transform:scale(1)}to{transform:scale(1.1)}}
+.start-title{font-size:18px;font-weight:800;color:var(--c1);margin-bottom:8px}
+.start-info{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.start-btn{background:linear-gradient(135deg,var(--c1),var(--c4));color:#fff;border:none;padding:14px 40px;border-radius:25px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(108,63,197,0.4);transition:all 0.3s}
+.start-btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(108,63,197,0.5)}
 
-        /* Game Area */
-        .game-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-            display: none;
-            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+/* FOOTER */
+.footer{text-align:center;padding:24px 16px;color:var(--muted);font-size:13px}
+.footer strong{color:var(--c1);font-size:14px}
 
-        .game-card.active {
-            display: block;
-        }
+/* MATH TABS - different color */
+#tab-mat .quiz-header{background:linear-gradient(135deg,#1565C0,#42A5F5)}
+#tab-com .quiz-header{background:linear-gradient(135deg,#2E7D32,#66BB6A)}
+#tab-cna .quiz-header{background:linear-gradient(135deg,#00838F,#26C6DA)}
+#tab-cso .quiz-header{background:linear-gradient(135deg,#6A1B9A,#AB47BC)}
+#tab-cul .quiz-header{background:linear-gradient(135deg,#E65100,#FFA726)}
+</style>
 
-        .progress-bar {
-            background: #eee;
-            height: 10px;
-            border-radius: 5px;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
+<div class="wrap">
+<div class="header">
+  <div class="stars" id="starsContainer"></div>
+  <h1><span class="star">⭐</span> JUEGA Y APRENDE <span class="star">⭐</span><br>con Profe.: Jhonny Chipana Choque</h1>
+  <p class="motto">"Nunca te rindas... persiste hasta el final"</p>
+  <p class="sub">Contenido escolar primaria &bull; Conociendo el mundo</p>
+</div>
 
-        .progress {
-            background: var(--secondary);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
+<div class="main-tabs" id="mainTabs">
+  <button class="mtab active" onclick="showTab('mat')"><span class="tab-icon">🔢</span>Matemática</button>
+  <button class="mtab" onclick="showTab('com')"><span class="tab-icon">📖</span>Comunicación</button>
+  <button class="mtab" onclick="showTab('cna')"><span class="tab-icon">🌿</span>Cs. Naturales</button>
+  <button class="mtab" onclick="showTab('cso')"><span class="tab-icon">🌍</span>Cs. Sociales</button>
+  <button class="mtab" onclick="showTab('cul')"><span class="tab-icon">🏆</span>Cultura General</button>
+</div>
 
-        .question-text {
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
+<!-- MATEMÁTICA -->
+<div class="tab-content active" id="tab-mat">
+  <div class="sub-tabs">
+    <button class="stab active" onclick="showSub('suma')">➕ Suma</button>
+    <button class="stab" onclick="showSub('resta')">➖ Resta</button>
+    <button class="stab" onclick="showSub('multi')">✖️ Multiplicación</button>
+    <button class="stab" onclick="showSub('div')">➗ División</button>
+    <button class="stab" onclick="showSub('geo')">📐 Geometría</button>
+  </div>
+  <div style="margin-top:12px" id="quizArea-mat"></div>
+</div>
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
+<!-- COMUNICACIÓN -->
+<div class="tab-content" id="tab-com">
+  <div id="quizArea-com"></div>
+</div>
 
-        @media(min-width: 600px) {
-            .options-grid { grid-template-columns: 1fr 1fr; }
-        }
+<!-- CIENCIAS NATURALES -->
+<div class="tab-content" id="tab-cna">
+  <div id="quizArea-cna"></div>
+</div>
 
-        .option-btn {
-            background: var(--light);
-            border: 2px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-        }
+<!-- CIENCIAS SOCIALES -->
+<div class="tab-content" id="tab-cso">
+  <div id="quizArea-cso"></div>
+</div>
 
-        .option-btn:hover {
-            background: #e2e8f0;
-            border-color: #cbd5e1;
-        }
+<!-- CULTURA GENERAL -->
+<div class="tab-content" id="tab-cul">
+  <div id="quizArea-cul"></div>
+</div>
 
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem 1rem;
-            margin-top: auto;
-        }
+<div class="footer">
+  <strong>Prof.: Jhonny Chipana Choque</strong><br>
+  Educando con amor, tecnología y perseverancia ✨
+</div>
+</div>
 
-        footer p {
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
+<script>
+// ============================================================
+// ALL QUESTIONS DATA
+// ============================================================
+const QUESTIONS = {
 
-        footer .author {
-            font-weight: bold;
-            color: var(--secondary);
-        }
+suma: [
+  {q:"¿Cuánto es 15 + 23?",o:["38","37","39","40"],a:0},
+  {q:"¿Cuánto es 47 + 36?",o:["83","82","84","85"],a:0},
+  {q:"¿Cuánto es 128 + 254?",o:["382","381","383","380"],a:0},
+  {q:"¿Cuánto es 9 + 9 + 9?",o:["27","26","28","25"],a:0},
+  {q:"¿Cuánto es 345 + 456?",o:["801","800","802","799"],a:0},
+  {q:"¿Cuánto es 77 + 33?",o:["110","100","111","120"],a:0},
+  {q:"¿Cuánto es 256 + 144?",o:["400","401","399","410"],a:0},
+  {q:"¿Cuánto es 88 + 12?",o:["100","99","101","110"],a:0},
+  {q:"¿Cuánto es 500 + 375?",o:["875","874","876","870"],a:0},
+  {q:"¿Cuánto es 63 + 27?",o:["90","89","91","80"],a:0},
+  {q:"¿Cuánto es 111 + 222?",o:["333","332","334","330"],a:0},
+  {q:"¿Cuánto es 450 + 550?",o:["1000","999","1001","990"],a:0},
+  {q:"¿Cuánto es 16 + 16?",o:["32","31","33","30"],a:0},
+  {q:"¿Cuánto es 203 + 197?",o:["400","401","399","410"],a:0},
+  {q:"¿Cuánto es 75 + 25?",o:["100","99","101","95"],a:0},
+  {q:"¿Cuánto es 312 + 88?",o:["400","401","399","410"],a:0},
+  {q:"¿Cuánto es 44 + 56?",o:["100","110","99","101"],a:0},
+  {q:"¿Cuánto es 670 + 230?",o:["900","901","899","910"],a:0},
+  {q:"¿Cuánto es 18 + 27?",o:["45","44","46","43"],a:0},
+  {q:"¿Cuánto es 99 + 1?",o:["100","101","99","110"],a:0},
+  {q:"¿Cuánto es 234 + 111?",o:["345","344","346","340"],a:0},
+  {q:"¿Cuánto es 500 + 500?",o:["1000","999","1001","900"],a:0},
+  {q:"¿Cuánto es 37 + 48?",o:["85","84","86","80"],a:0},
+  {q:"¿Cuánto es 720 + 180?",o:["900","901","899","910"],a:0},
+  {q:"¿Cuánto es 55 + 45?",o:["100","99","101","110"],a:0},
+  {q:"¿Cuánto es 123 + 456?",o:["579","578","580","570"],a:0},
+  {q:"¿Cuánto es 800 + 200?",o:["1000","999","1001","900"],a:0},
+  {q:"¿Cuánto es 64 + 36?",o:["100","99","101","110"],a:0},
+  {q:"¿Cuánto es 275 + 325?",o:["600","599","601","610"],a:0},
+  {q:"¿Cuánto es 489 + 511?",o:["1000","999","1001","1010"],a:0}
+],
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+resta: [
+  {q:"¿Cuánto es 50 - 23?",o:["27","26","28","25"],a:0},
+  {q:"¿Cuánto es 100 - 37?",o:["63","62","64","60"],a:0},
+  {q:"¿Cuánto es 85 - 48?",o:["37","36","38","35"],a:0},
+  {q:"¿Cuánto es 200 - 75?",o:["125","124","126","120"],a:0},
+  {q:"¿Cuánto es 500 - 234?",o:["266","265","267","260"],a:0},
+  {q:"¿Cuánto es 1000 - 450?",o:["550","549","551","545"],a:0},
+  {q:"¿Cuánto es 73 - 29?",o:["44","43","45","40"],a:0},
+  {q:"¿Cuánto es 300 - 156?",o:["144","143","145","140"],a:0},
+  {q:"¿Cuánto es 64 - 27?",o:["37","36","38","35"],a:0},
+  {q:"¿Cuánto es 120 - 45?",o:["75","74","76","70"],a:0},
+  {q:"¿Cuánto es 90 - 36?",o:["54","53","55","50"],a:0},
+  {q:"¿Cuánto es 400 - 175?",o:["225","224","226","220"],a:0},
+  {q:"¿Cuánto es 88 - 33?",o:["55","54","56","50"],a:0},
+  {q:"¿Cuánto es 750 - 250?",o:["500","499","501","495"],a:0},
+  {q:"¿Cuánto es 63 - 18?",o:["45","44","46","40"],a:0},
+  {q:"¿Cuánto es 200 - 99?",o:["101","100","102","110"],a:0},
+  {q:"¿Cuánto es 77 - 38?",o:["39","38","40","35"],a:0},
+  {q:"¿Cuánto es 600 - 345?",o:["255","254","256","260"],a:0},
+  {q:"¿Cuánto es 55 - 17?",o:["38","37","39","35"],a:0},
+  {q:"¿Cuánto es 1000 - 1?",o:["999","998","1000","997"],a:0},
+  {q:"¿Cuánto es 246 - 123?",o:["123","122","124","120"],a:0},
+  {q:"¿Cuánto es 800 - 600?",o:["200","199","201","210"],a:0},
+  {q:"¿Cuánto es 42 - 19?",o:["23","22","24","20"],a:0},
+  {q:"¿Cuánto es 500 - 125?",o:["375","374","376","370"],a:0},
+  {q:"¿Cuánto es 99 - 44?",o:["55","54","56","50"],a:0},
+  {q:"¿Cuánto es 350 - 175?",o:["175","174","176","170"],a:0},
+  {q:"¿Cuánto es 67 - 34?",o:["33","32","34","30"],a:0},
+  {q:"¿Cuánto es 900 - 450?",o:["450","449","451","445"],a:0},
+  {q:"¿Cuánto es 82 - 57?",o:["25","24","26","20"],a:0},
+  {q:"¿Cuánto es 1000 - 750?",o:["250","249","251","245"],a:0}
+],
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+multi: [
+  {q:"¿Cuánto es 6 × 7?",o:["42","41","43","40"],a:0},
+  {q:"¿Cuánto es 8 × 9?",o:["72","71","73","70"],a:0},
+  {q:"¿Cuánto es 12 × 5?",o:["60","59","61","55"],a:0},
+  {q:"¿Cuánto es 7 × 7?",o:["49","48","50","47"],a:0},
+  {q:"¿Cuánto es 9 × 9?",o:["81","80","82","79"],a:0},
+  {q:"¿Cuánto es 15 × 4?",o:["60","59","61","55"],a:0},
+  {q:"¿Cuánto es 11 × 11?",o:["121","120","122","119"],a:0},
+  {q:"¿Cuánto es 6 × 8?",o:["48","47","49","46"],a:0},
+  {q:"¿Cuánto es 25 × 4?",o:["100","99","101","95"],a:0},
+  {q:"¿Cuánto es 13 × 7?",o:["91","90","92","89"],a:0},
+  {q:"¿Cuánto es 9 × 6?",o:["54","53","55","52"],a:0},
+  {q:"¿Cuánto es 20 × 5?",o:["100","99","101","95"],a:0},
+  {q:"¿Cuánto es 8 × 8?",o:["64","63","65","62"],a:0},
+  {q:"¿Cuánto es 7 × 9?",o:["63","62","64","61"],a:0},
+  {q:"¿Cuánto es 12 × 12?",o:["144","143","145","142"],a:0},
+  {q:"¿Cuánto es 5 × 15?",o:["75","74","76","73"],a:0},
+  {q:"¿Cuánto es 6 × 6?",o:["36","35","37","34"],a:0},
+  {q:"¿Cuánto es 14 × 5?",o:["70","69","71","68"],a:0},
+  {q:"¿Cuánto es 3 × 33?",o:["99","98","100","97"],a:0},
+  {q:"¿Cuánto es 8 × 7?",o:["56","55","57","54"],a:0},
+  {q:"¿Cuánto es 10 × 10?",o:["100","99","101","95"],a:0},
+  {q:"¿Cuánto es 9 × 4?",o:["36","35","37","34"],a:0},
+  {q:"¿Cuánto es 16 × 5?",o:["80","79","81","75"],a:0},
+  {q:"¿Cuánto es 7 × 8?",o:["56","55","57","54"],a:0},
+  {q:"¿Cuánto es 11 × 9?",o:["99","98","100","97"],a:0},
+  {q:"¿Cuánto es 6 × 9?",o:["54","53","55","52"],a:0},
+  {q:"¿Cuánto es 13 × 4?",o:["52","51","53","50"],a:0},
+  {q:"¿Cuánto es 15 × 6?",o:["90","89","91","88"],a:0},
+  {q:"¿Cuánto es 7 × 6?",o:["42","41","43","40"],a:0},
+  {q:"¿Cuánto es 12 × 8?",o:["96","95","97","94"],a:0}
+],
 
-        @keyframes popUp {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-    </style>
-</head>
-<body>
+div: [
+  {q:"¿Cuánto es 72 ÷ 9?",o:["8","7","9","6"],a:0},
+  {q:"¿Cuánto es 56 ÷ 7?",o:["8","7","9","6"],a:0},
+  {q:"¿Cuánto es 100 ÷ 5?",o:["20","19","21","15"],a:0},
+  {q:"¿Cuánto es 48 ÷ 6?",o:["8","7","9","6"],a:0},
+  {q:"¿Cuánto es 81 ÷ 9?",o:["9","8","10","7"],a:0},
+  {q:"¿Cuánto es 64 ÷ 8?",o:["8","7","9","6"],a:0},
+  {q:"¿Cuánto es 121 ÷ 11?",o:["11","10","12","9"],a:0},
+  {q:"¿Cuánto es 36 ÷ 6?",o:["6","5","7","4"],a:0},
+  {q:"¿Cuánto es 90 ÷ 10?",o:["9","8","10","7"],a:0},
+  {q:"¿Cuánto es 42 ÷ 7?",o:["6","5","7","4"],a:0},
+  {q:"¿Cuánto es 144 ÷ 12?",o:["12","11","13","10"],a:0},
+  {q:"¿Cuánto es 60 ÷ 5?",o:["12","11","13","10"],a:0},
+  {q:"¿Cuánto es 49 ÷ 7?",o:["7","6","8","5"],a:0},
+  {q:"¿Cuánto es 54 ÷ 9?",o:["6","5","7","4"],a:0},
+  {q:"¿Cuánto es 120 ÷ 8?",o:["15","14","16","13"],a:0},
+  {q:"¿Cuánto es 63 ÷ 7?",o:["9","8","10","7"],a:0},
+  {q:"¿Cuánto es 45 ÷ 9?",o:["5","4","6","3"],a:0},
+  {q:"¿Cuánto es 200 ÷ 4?",o:["50","49","51","45"],a:0},
+  {q:"¿Cuánto es 77 ÷ 7?",o:["11","10","12","9"],a:0},
+  {q:"¿Cuánto es 35 ÷ 5?",o:["7","6","8","5"],a:0},
+  {q:"¿Cuánto es 108 ÷ 9?",o:["12","11","13","10"],a:0},
+  {q:"¿Cuánto es 96 ÷ 8?",o:["12","11","13","10"],a:0},
+  {q:"¿Cuánto es 33 ÷ 3?",o:["11","10","12","9"],a:0},
+  {q:"¿Cuánto es 84 ÷ 7?",o:["12","11","13","10"],a:0},
+  {q:"¿Cuánto es 150 ÷ 6?",o:["25","24","26","20"],a:0},
+  {q:"¿Cuánto es 28 ÷ 4?",o:["7","6","8","5"],a:0},
+  {q:"¿Cuánto es 66 ÷ 6?",o:["11","10","12","9"],a:0},
+  {q:"¿Cuánto es 75 ÷ 5?",o:["15","14","16","13"],a:0},
+  {q:"¿Cuánto es 88 ÷ 8?",o:["11","10","12","9"],a:0},
+  {q:"¿Cuánto es 40 ÷ 4?",o:["10","9","11","8"],a:0}
+],
 
-    <header>
-        <h1>Juega y aprende con Profe.: Jhonny Chipana Choque</h1>
-        <div class="phrase">"Nunca te rindas persiste hasta el final"</div>
-        <div class="subtitle">contenido escolar primaria y conociendo el mundo</div>
-    </header>
+geo: [
+  {q:"¿Cuántos lados tiene un triángulo?",o:["3","4","5","6"],a:0},
+  {q:"¿Cuántos lados tiene un cuadrado?",o:["4","3","5","6"],a:0},
+  {q:"¿Cuántos ángulos tiene un rectángulo?",o:["4","3","5","6"],a:0},
+  {q:"El perímetro de un cuadrado de lado 5cm es:",o:["20cm","15cm","25cm","10cm"],a:0},
+  {q:"¿Cómo se llama el punto central de un círculo?",o:["Centro","Foco","Vértice","Eje"],a:0},
+  {q:"Un triángulo con 3 lados iguales se llama:",o:["Equilátero","Isósceles","Escaleno","Rectángulo"],a:0},
+  {q:"¿Cuántos vértices tiene un cubo?",o:["8","6","12","4"],a:0},
+  {q:"El área de un cuadrado de lado 4cm es:",o:["16cm²","8cm²","12cm²","20cm²"],a:0},
+  {q:"¿Cuántas caras tiene un cubo?",o:["6","8","4","12"],a:0},
+  {q:"La línea que une dos puntos de un círculo pasando por el centro es:",o:["Diámetro","Radio","Cuerda","Tangente"],a:0},
+  {q:"¿Cuántos lados tiene un pentágono?",o:["5","4","6","7"],a:0},
+  {q:"¿Cuántos lados tiene un hexágono?",o:["6","5","7","8"],a:0},
+  {q:"El perímetro de un rectángulo de 6cm y 4cm es:",o:["20cm","24cm","10cm","48cm"],a:0},
+  {q:"Un ángulo de 90° se llama:",o:["Recto","Agudo","Obtuso","Llano"],a:0},
+  {q:"Un ángulo menor a 90° se llama:",o:["Agudo","Recto","Obtuso","Llano"],a:0},
+  {q:"¿Cuántos lados tiene un octógono?",o:["8","6","7","9"],a:0},
+  {q:"El radio de un círculo es la mitad del:",o:["Diámetro","Perímetro","Área","Volumen"],a:0},
+  {q:"¿Cuántas aristas tiene un cubo?",o:["12","6","8","10"],a:0},
+  {q:"Un triángulo con dos lados iguales es:",o:["Isósceles","Equilátero","Escaleno","Recto"],a:0},
+  {q:"El área de un rectángulo de 5cm × 3cm es:",o:["15cm²","16cm²","8cm²","10cm²"],a:0},
+  {q:"¿Cuántos vértices tiene un triángulo?",o:["3","4","2","5"],a:0},
+  {q:"¿Cómo se llama una figura con todos los lados iguales?",o:["Equilátero","Escaleno","Isósceles","Irregular"],a:0},
+  {q:"¿Cuántas caras tiene una pirámide cuadrada?",o:["5","4","6","8"],a:0},
+  {q:"Un ángulo mayor a 90° se llama:",o:["Obtuso","Agudo","Recto","Llano"],a:0},
+  {q:"El volumen de un cubo de lado 3cm es:",o:["27cm³","9cm³","18cm³","12cm³"],a:0},
+  {q:"¿Cuántos lados tiene un heptágono?",o:["7","6","8","9"],a:0},
+  {q:"¿Cuántas diagonales tiene un cuadrado?",o:["2","1","3","4"],a:0},
+  {q:"La suma de ángulos de un triángulo es:",o:["180°","90°","270°","360°"],a:0},
+  {q:"La suma de ángulos de un cuadrilátero es:",o:["360°","180°","270°","90°"],a:0},
+  {q:"¿Cómo se llama el segmento del centro al borde del círculo?",o:["Radio","Diámetro","Cuerda","Arco"],a:0}
+],
 
-    <div class="container">
-        <!-- Navegación Principal -->
-        <nav class="tabs-nav">
-            <button class="tab-btn" onclick="selectTab('matematica')">Matemática</button>
-            <button class="tab-btn" onclick="selectTab('comunicacion')">Comunicación y Lenguajes</button>
-            <button class="tab-btn" onclick="selectTab('naturales')">Ciencias Naturales</button>
-            <button class="tab-btn" onclick="selectTab('sociales')">Ciencias Sociales</button>
-            <button class="tab-btn" onclick="selectTab('cultura')">Cultura General</button>
-        </nav>
+com: [
+  {q:"¿Cuántas letras tiene el abecedario español?",o:["27","26","28","29"],a:0},
+  {q:"¿Cuál es el plural de 'lápiz'?",o:["Lápices","Lápizes","Lápizs","Lapices"],a:0},
+  {q:"La palabra 'niño' tiene cuántas sílabas?",o:["2","1","3","4"],a:0},
+  {q:"¿Cuál es el sinónimo de 'feliz'?",o:["Alegre","Triste","Enojado","Asustado"],a:0},
+  {q:"¿Cuál es el antónimo de 'grande'?",o:["Pequeño","Bonito","Fuerte","Rápido"],a:0},
+  {q:"¿Cómo se llama el signo '.'?",o:["Punto","Coma","Punto y coma","Dos puntos"],a:0},
+  {q:"¿Cuántas vocales hay en español?",o:["5","4","6","7"],a:0},
+  {q:"La palabra 'mariposa' tiene cuántas sílabas?",o:["4","3","5","2"],a:0},
+  {q:"¿Cómo se llaman las palabras que nombran personas o cosas?",o:["Sustantivos","Verbos","Adjetivos","Adverbios"],a:0},
+  {q:"¿Cuál es el verbo en 'El perro corre rápido'?",o:["Corre","Perro","Rápido","El"],a:0},
+  {q:"¿Cuál es el adjetivo en 'La flor roja es hermosa'?",o:["Roja","Flor","Es","La"],a:0},
+  {q:"¿Qué signo va al inicio de una pregunta en español?",o:["¿","¡","«","("],a:0},
+  {q:"¿Cuántas consonantes tiene la palabra 'escuela'?",o:["4","3","5","2"],a:0},
+  {q:"El plural de 'ciudad' es:",o:["Ciudades","Ciudads","Ciudades","Ciudaes"],a:0},
+  {q:"¿Qué es una oración?",o:["Conjunto de palabras con sentido","Una letra","Una sílaba","Un signo"],a:0},
+  {q:"¿Cuál es el diminutivo de 'casa'?",o:["Casita","Casota","Casón","Casaza"],a:0},
+  {q:"¿Cuál es el aumentativo de 'perro'?",o:["Perrote","Perrito","Perrillo","Perrín"],a:0},
+  {q:"La palabra 'sol' es:",o:["Monosílaba","Bisílaba","Trisílaba","Polisílaba"],a:0},
+  {q:"¿Qué tipo de texto cuenta una historia inventada?",o:["Cuento","Noticia","Receta","Carta"],a:0},
+  {q:"¿Cuál es el femenino de 'maestro'?",o:["Maestra","Maestroa","Maestrea","Maestreza"],a:0},
+  {q:"¿Cómo se escribe correctamente?",o:["Haber","Aber","Aver","Haver"],a:0},
+  {q:"¿Qué tipo de palabra es 'correr'?",o:["Verbo","Sustantivo","Adjetivo","Artículo"],a:0},
+  {q:"El sujeto de 'María juega en el parque' es:",o:["María","Juega","Parque","En"],a:0},
+  {q:"¿Cuántas sílabas tiene 'elefante'?",o:["4","3","5","2"],a:0},
+  {q:"¿Cuál es el plural de 'pez'?",o:["Peces","Pezs","Pezas","Pezes"],a:0},
+  {q:"¿Qué signo indica sorpresa o exclamación al inicio?",o:["¡","¿","...","—"],a:0},
+  {q:"¿Cómo se llaman las palabras que expresan acción?",o:["Verbos","Sustantivos","Adverbios","Pronombres"],a:0},
+  {q:"¿Cuál es el antónimo de 'rápido'?",o:["Lento","Veloz","Ágil","Activo"],a:0},
+  {q:"La fábula tiene como personajes principales a:",o:["Animales","Solo personas","Robots","Monstruos"],a:0},
+  {q:"¿Cuál es el sinónimo de 'bonito'?",o:["Hermoso","Feo","Horrible","Malo"],a:0},
+  {q:"¿Qué parte de la oración hace la acción?",o:["Sujeto","Predicado","Artículo","Conjunción"],a:0},
+  {q:"La palabra 'bicicleta' tiene cuántas sílabas?",o:["5","4","6","3"],a:0},
+  {q:"¿Cómo se escribe el número 'cien' en letras?",o:["Cien","Sien","Cyen","Scien"],a:0},
+  {q:"¿Qué letra nunca empieza una sílaba sola?",o:["H (muda)","A","E","O"],a:0},
+  {q:"Un poema está escrito en:",o:["Versos","Párrafos","Capítulos","Oraciones"],a:0},
+  {q:"¿Cómo se llama el que narra una historia?",o:["Narrador","Protagonista","Antagonista","Autor"],a:0},
+  {q:"¿Cuál es el femenino de 'rey'?",o:["Reina","Reyina","Reys","Reyia"],a:0},
+  {q:"¿Qué tipo de texto explica cómo hacer algo paso a paso?",o:["Instructivo","Cuento","Leyenda","Poema"],a:0},
+  {q:"La palabra que acompaña al sustantivo describiendo cualidades es:",o:["Adjetivo","Verbo","Adverbio","Artículo"],a:0},
+  {q:"¿Cuántas sílabas tiene 'computadora'?",o:["5","4","6","3"],a:0},
+  {q:"¿Qué es una metáfora?",o:["Comparación sin 'como'","Una pregunta","Una lista","Un número"],a:0},
+  {q:"El plural de 'colibrí' es:",o:["Colibríes","Colibris","Colibríes","Colibrís"],a:0},
+  {q:"¿Qué artículo va con 'árbol'?",o:["El","La","Las","Los"],a:0},
+  {q:"Un texto que da opinión se llama:",o:["Argumentativo","Narrativo","Descriptivo","Expositivo"],a:0},
+  {q:"¿Cuántas letras tiene la palabra 'extraordinario'?",o:["14","13","15","12"],a:0},
+  {q:"¿Qué es un sinónimo?",o:["Palabra de significado similar","Palabra opuesta","Palabra inventada","Palabra en otro idioma"],a:0},
+  {q:"¿Cuál es el tiempo pasado de 'como'?",o:["Comí","Comeré","Comería","Come"],a:0},
+  {q:"¿Qué tipo de oración es '¡Qué bonito día!'?",o:["Exclamativa","Interrogativa","Declarativa","Imperativa"],a:0},
+  {q:"¿Cómo se llama la historia que explica el origen del mundo?",o:["Mito","Cuento","Novela","Fábula"],a:0},
+  {q:"La sílaba tónica es la que se pronuncia con más:",o:["Fuerza o énfasis","Suavidad","Rapidez","Lentitud"],a:0},
+  {q:"¿Cuántas sílabas tiene 'murciélago'?",o:["4","3","5","2"],a:0},
+  {q:"¿Qué es la tilde o acento ortográfico?",o:["Rayita sobre una vocal","Un signo de puntuación","Una consonante","Un artículo"],a:0},
+  {q:"¿Cuál es el plural de 'crisis'?",o:["Crisis","Crises","Crisises","Crisiss"],a:0},
+  {q:"¿Qué palabra conecta dos oraciones?",o:["Conjunción","Sustantivo","Adjetivo","Artículo"],a:0},
+  {q:"Un texto que describe un lugar o persona se llama:",o:["Descriptivo","Narrativo","Argumentativo","Expositivo"],a:0},
+  {q:"¿Cuál es el antónimo de 'comenzar'?",o:["Terminar","Continuar","Repetir","Pausar"],a:0},
+  {q:"¿Qué tipo de oración da una orden?",o:["Imperativa","Interrogativa","Declarativa","Exclamativa"],a:0},
+  {q:"La leyenda es una historia que mezcla realidad con:",o:["Fantasía","Solo hechos reales","Matemáticas","Ciencias"],a:0},
+  {q:"¿Qué es la rima en un poema?",o:["Sonidos iguales al final de los versos","El título del poema","El número de estrofas","La longitud de los versos"],a:0},
+  {q:"¿Cómo se llama el conjunto de versos?",o:["Estrofa","Párrafo","Oración","Capítulo"],a:0},
+  {q:"¿Qué es el diálogo?",o:["Conversación entre personajes","Descripción de un lugar","Lista de palabras","Tipo de letra"],a:0},
+  {q:"¿Cuál es el plural de 'voz'?",o:["Voces","Vozs","Vozes","Voses"],a:0},
+  {q:"¿Qué es una fábula?",o:["Cuento con animales que enseña una lección","Una novela larga","Un poema sin rima","Un texto científico"],a:0},
+  {q:"¿Cuál es el verbo en infinitivo de 'corremos'?",o:["Correr","Corremos","Corrido","Corriendo"],a:0},
+  {q:"¿Cómo se escribe correctamente?",o:["También","Tambien","Tamvién","Tambièn"],a:0},
+  {q:"¿Qué tipo de palabra es 'muy'?",o:["Adverbio","Sustantivo","Verbo","Adjetivo"],a:0},
+  {q:"¿Cuántas sílabas tiene 'hipopótamo'?",o:["5","4","6","3"],a:0},
+  {q:"Una autobiografía es la historia de vida escrita por:",o:["Uno mismo","Otra persona","Un robot","Un editor"],a:0},
+  {q:"¿Cuál es el antónimo de 'anciano'?",o:["Joven","Adulto","Mayor","Viejo"],a:0},
+  {q:"¿Qué tipo de narrador dice 'yo hice...'?",o:["Primera persona","Tercera persona","Segunda persona","Omnisciente"],a:0},
+  {q:"La palabra 'microondas' es una palabra:",o:["Compuesta","Simple","Derivada","Primitiva"],a:0},
+  {q:"¿Qué signo se usa para separar elementos de una lista?",o:["Coma","Punto","Guion","Paréntesis"],a:0},
+  {q:"¿Cuál es el plural de 'rubí'?",o:["Rubíes","Rubis","Rubís","Rubes"],a:0},
+  {q:"Una noticia responde a las preguntas:",o:["¿Qué? ¿Quién? ¿Cuándo? ¿Dónde?","¿Cómo? ¿Por qué no?","Solo ¿Qué?","Solo ¿Quién?"],a:0},
+  {q:"¿Cómo se escribe correctamente?",o:["Porque","Por que","Porqué","Por qué (afirmación)"],a:0},
+  {q:"¿Qué es el prefijo?",o:["Parte que va antes de la raíz","Parte que va al final","La raíz principal","Una vocal"],a:0},
+  {q:"¿Cuál es el femenino de 'actor'?",o:["Actriz","Actora","Actresa","Actriza"],a:0},
+  {q:"Un texto expositivo tiene como objetivo:",o:["Informar","Entretener","Convencer","Emocionar"],a:0},
+  {q:"¿Qué es la aliteración?",o:["Repetición de sonidos iguales","Una comparación","Un tipo de rima","Una pregunta retórica"],a:0},
+  {q:"¿Cuántas sílabas tiene 'arqueológico'?",o:["6","5","7","4"],a:0},
+  {q:"¿Qué tipo de oración pregunta algo?",o:["Interrogativa","Declarativa","Imperativa","Exclamativa"],a:0},
+  {q:"La parte del cuento donde se presenta el problema se llama:",o:["Nudo","Inicio","Desenlace","Final"],a:0},
+  {q:"¿Qué es un acróstico?",o:["Poema donde las iniciales forman una palabra","Un tipo de novela","Una figura retórica","Un párrafo largo"],a:0},
+  {q:"¿Cómo se escribe correctamente?",o:["Hueso","Güeso","Ueso","Hueso"],a:0},
+  {q:"¿Cuál es el sufijo en 'panadero'?",o:["-ero","-pan","-nade","pan-"],a:0},
+  {q:"¿Qué es el clímax de una historia?",o:["El momento de máxima tensión","El inicio","El final","La introducción"],a:0},
+  {q:"¿Cómo se llaman los signos '« »'?",o:["Comillas angulares","Paréntesis","Corchetes","Guiones"],a:0},
+  {q:"¿Qué es un homónimo?",o:["Palabras que suenan igual pero significan distinto","Sinónimos","Antónimos","Palabras inventadas"],a:0},
+  {q:"El protagonista de una historia es:",o:["El personaje principal","El narrador","El autor","El lector"],a:0},
+  {q:"¿Cuántas sílabas tiene 'universidad'?",o:["6","5","7","4"],a:0},
+  {q:"¿Qué tipo de texto es una receta de cocina?",o:["Instructivo","Narrativo","Lírico","Dramático"],a:0},
+  {q:"¿Cuál es el antónimo de 'subir'?",o:["Bajar","Escalar","Trepar","Volar"],a:0},
+  {q:"¿Qué es el desenlace de un cuento?",o:["El final donde se resuelve el conflicto","El inicio","El problema","La descripción"],a:0},
+  {q:"¿Cómo se escribe correctamente?",o:["Hierba","Yerba","Hierva","Yierba"],a:0},
+  {q:"¿Qué es un oxímoron?",o:["Figura que une conceptos opuestos","Un tipo de verbo","Un signo de puntuación","Un sinónimo"],a:0},
+  {q:"¿Cuántas letras tiene el abecedario antes de incluir la 'ñ'?",o:["26","25","27","28"],a:0}
+],
 
-        <!-- Subnavegación Matemática -->
-        <nav class="subtabs-nav" id="math-subtabs">
-            <button class="subtab-btn" onclick="startMathMode('suma')">Suma (30)</button>
-            <button class="subtab-btn" onclick="startMathMode('resta')">Resta (30)</button>
-            <button class="subtab-btn" onclick="startMathMode('mult')">Multiplicación (30)</button>
-            <button class="subtab-btn" onclick="startMathMode('div')">División (30)</button>
-            <button class="subtab-btn" onclick="startMathMode('geo')">Geometría (30)</button>
-        </nav>
+cna: [
+  {q:"¿Cuántos planetas tiene el sistema solar?",o:["8","9","7","10"],a:0},
+  {q:"¿Cuál es el planeta más grande del sistema solar?",o:["Júpiter","Saturno","Urano","Neptuno"],a:0},
+  {q:"¿Qué proceso usan las plantas para hacer su alimento?",o:["Fotosíntesis","Respiración","Digestión","Circulación"],a:0},
+  {q:"¿Cuántos huesos tiene el cuerpo humano adulto?",o:["206","205","207","200"],a:0},
+  {q:"¿Cuál es el órgano más grande del cuerpo humano?",o:["La piel","El hígado","El corazón","El cerebro"],a:0},
+  {q:"¿Qué gas respiramos principalmente?",o:["Oxígeno","Nitrógeno","Dióxido de carbono","Hidrógeno"],a:0},
+  {q:"¿Cuántas capas tiene la Tierra?",o:["3","2","4","5"],a:0},
+  {q:"¿Qué tipo de animal es la ballena?",o:["Mamífero","Pez","Anfibio","Reptil"],a:0},
+  {q:"¿Cómo se llama el proceso de una oruga que se convierte en mariposa?",o:["Metamorfosis","Fotosíntesis","Evolución","Germinación"],a:0},
+  {q:"¿Cuál es el planeta más cercano al Sol?",o:["Mercurio","Venus","Tierra","Marte"],a:0},
+  {q:"¿Qué órgano del cuerpo humano bombea la sangre?",o:["El corazón","El pulmón","El hígado","El riñón"],a:0},
+  {q:"¿Cómo se llama la capa de aire que rodea la Tierra?",o:["Atmósfera","Litosfera","Hidrosfera","Biosfera"],a:0},
+  {q:"¿Qué hace la clorofila en las plantas?",o:["Captura la luz solar","Absorbe agua","Produce semillas","Forma raíces"],a:0},
+  {q:"¿Cuántas cámaras tiene el corazón humano?",o:["4","2","3","5"],a:0},
+  {q:"¿Qué tipo de animal es el murciélago?",o:["Mamífero","Ave","Reptil","Insecto"],a:0},
+  {q:"¿Cuál es el estado del agua cuando está congelada?",o:["Sólido","Líquido","Gaseoso","Plasma"],a:0},
+  {q:"¿Qué parte de la planta absorbe el agua del suelo?",o:["La raíz","La hoja","El tallo","La flor"],a:0},
+  {q:"¿Cómo se llaman los animales que comen solo plantas?",o:["Herbívoros","Carnívoros","Omnívoros","Detritívoros"],a:0},
+  {q:"¿Cuál es el satélite natural de la Tierra?",o:["La Luna","Marte","Plutón","Venus"],a:0},
+  {q:"¿Qué tipo de mezcla es el agua con sal?",o:["Homogénea","Heterogénea","Pura","Azeótropa"],a:0},
+  {q:"¿Cuántos pares de cromosomas tiene el ser humano?",o:["23","22","24","21"],a:0},
+  {q:"¿Qué tipo de animal es el tiburón?",o:["Pez cartilaginoso","Mamífero","Reptil","Anfibio"],a:0},
+  {q:"¿Cómo se llama la célula reproductora femenina?",o:["Óvulo","Espermatozoide","Cigoto","Gameto"],a:0},
+  {q:"¿Qué es la erosión?",o:["Desgaste del suelo por agua o viento","Crecimiento de plantas","Formación de rocas","Ciclo del agua"],a:0},
+  {q:"¿Cuántos sentidos tiene el ser humano?",o:["5","4","6","3"],a:0},
+  {q:"¿Qué gas exhalan las plantas de noche?",o:["Dióxido de carbono","Oxígeno","Nitrógeno","Vapor"],a:0},
+  {q:"¿Cómo se llama la unidad básica de la vida?",o:["Célula","Átomo","Tejido","Órgano"],a:0},
+  {q:"¿Qué tipo de roca se forma por enfriamiento del magma?",o:["Ígnea","Sedimentaria","Metamórfica","Caliza"],a:0},
+  {q:"¿Cuánto dura una revolución de la Tierra alrededor del Sol?",o:["365 días","30 días","24 horas","7 días"],a:0},
+  {q:"¿Qué parte del cerebro controla el equilibrio?",o:["Cerebelo","Cerebro","Tronco encefálico","Hipófisis"],a:0},
+  {q:"¿Qué tipo de animal pone huevos y es de sangre fría?",o:["Reptil","Mamífero","Ave","Anfibio"],a:0},
+  {q:"¿Cómo se llama el proceso de evaporación del agua y su retorno como lluvia?",o:["Ciclo hidrológico","Fotosíntesis","Erosión","Sedimentación"],a:0},
+  {q:"¿Cuántas neuronas tiene el cerebro humano aproximadamente?",o:["86 mil millones","1 millón","1 billón","10 millones"],a:0},
+  {q:"¿Qué es la biodiversidad?",o:["Variedad de seres vivos en un lugar","Solo los animales","Solo las plantas","El clima"],a:0},
+  {q:"¿Cuál es el proceso por el que los seres vivos obtienen energía?",o:["Respiración celular","Fotosíntesis","Digestión","Circulación"],a:0},
+  {q:"¿Qué tipo de animal es el delfín?",o:["Mamífero acuático","Pez","Reptil","Anfibio"],a:0},
+  {q:"¿Cómo se llama la capa más externa de la Tierra?",o:["Corteza","Manto","Núcleo externo","Núcleo interno"],a:0},
+  {q:"¿Qué vitamina produce el sol en nuestro cuerpo?",o:["Vitamina D","Vitamina C","Vitamina A","Vitamina B"],a:0},
+  {q:"¿Cuántas veces late el corazón por minuto aproximadamente?",o:["70-80","30-40","100-120","20-30"],a:0},
+  {q:"¿Qué es el ADN?",o:["Ácido que contiene información genética","Un tipo de vitamina","Un mineral","Una proteína"],a:0},
+  {q:"¿Cuál es el animal más rápido del mundo?",o:["Guepardo","León","Puma","Cebra"],a:0},
+  {q:"¿Cómo se llama la rama de la biología que estudia los hongos?",o:["Micología","Botánica","Zoología","Entomología"],a:0},
+  {q:"¿Qué tipo de energía usa un panel solar?",o:["Solar","Eólica","Hidroeléctrica","Nuclear"],a:0},
+  {q:"¿Cuántos dientes tiene un adulto?",o:["32","28","30","34"],a:0},
+  {q:"¿Qué es un ecosistema?",o:["Comunidad de seres vivos con su ambiente","Solo los animales de un lugar","Solo las plantas","El clima de un lugar"],a:0},
+  {q:"¿Cómo se llama el científico que estudia los dinosaurios?",o:["Paleontólogo","Biólogo","Geólogo","Arqueólogo"],a:0},
+  {q:"¿Cuántos litros de sangre tiene el cuerpo humano?",o:["5-6","3-4","8-9","1-2"],a:0},
+  {q:"¿Qué es la simbiosis?",o:["Relación beneficiosa entre dos especies","Un tipo de célula","Un proceso químico","Una enfermedad"],a:0},
+  {q:"¿Cuál es el metal más abundante en la corteza terrestre?",o:["Aluminio","Hierro","Cobre","Oro"],a:0},
+  {q:"¿Qué tipo de reproducción no necesita dos individuos?",o:["Asexual","Sexual","Binaria","Gamética"],a:0},
+  {q:"¿Cómo se llama la estrella más cercana a la Tierra?",o:["El Sol","Próxima Centauri","Sirio","Betelgeuse"],a:0},
+  {q:"¿Qué es la cadena alimentaria?",o:["Secuencia de quién come a quién","Lista de animales","Tipo de planta","Una mezcla química"],a:0},
+  {q:"¿Cuántos cromosomas tiene una célula humana normal?",o:["46","23","48","44"],a:0},
+  {q:"¿Qué animal produce la seda?",o:["Gusano de seda","Araña","Abeja","Hormiga"],a:0},
+  {q:"¿Cómo se llama la capa de ozono?",o:["Estratosfera","Tropósfera","Mesosfera","Termosfera"],a:0},
+  {q:"¿Qué es la hibernación?",o:["Sueño profundo de ciertos animales en invierno","Migración de aves","Tipo de metamorfosis","Crecimiento de plantas"],a:0},
+  {q:"¿Cuántas alas tiene un insecto adulto típico?",o:["4","2","6","0"],a:0},
+  {q:"¿Qué es la volcán?",o:["Abertura en la Tierra por donde sale magma","Un tipo de montaña de roca","Una isla","Un lago profundo"],a:0},
+  {q:"¿Cómo se llama el proceso de pérdida de hojas en otoño?",o:["Caducifolia","Fotosíntesis","Germinación","Polinización"],a:0},
+  {q:"¿Qué tipo de energía tiene una pelota en movimiento?",o:["Cinética","Potencial","Térmica","Química"],a:0},
+  {q:"¿Cuántas capas tiene la atmósfera terrestre?",o:["5","3","4","6"],a:0},
+  {q:"¿Qué es la polinización?",o:["Transferencia de polen entre flores","Caída de hojas","Formación de semillas","Crecimiento de raíces"],a:0},
+  {q:"¿Cuál es el océano más grande?",o:["Pacífico","Atlántico","Índico","Ártico"],a:0},
+  {q:"¿Qué tipo de animal es la tortuga?",o:["Reptil","Anfibio","Mamífero","Pez"],a:0},
+  {q:"¿Cómo se llama la parte del ojo que capta la imagen?",o:["Retina","Pupila","Iris","Córnea"],a:0},
+  {q:"¿Cuántos pulmones tiene el ser humano?",o:["2","1","3","4"],a:0},
+  {q:"¿Qué es el magma?",o:["Roca fundida bajo la superficie terrestre","Hielo polar","Agua del mar","Gas volcánico"],a:0},
+  {q:"¿Cómo se llama la ciencia que estudia las estrellas?",o:["Astronomía","Astrología","Cosmología","Astrofísica"],a:0},
+  {q:"¿Qué es la germinación?",o:["Inicio del crecimiento de una semilla","Caída de hojas","Formación de flores","Producción de savia"],a:0},
+  {q:"¿Cuántos años tiene la Tierra aproximadamente?",o:["4.500 millones","1.000 millones","10.000 millones","500 millones"],a:0},
+  {q:"¿Qué animal puede regenerar sus extremidades?",o:["Estrella de mar","Ballena","Elefante","Tiburón"],a:0},
+  {q:"¿Cómo se llama el proceso de convertir alimento en energía en las células?",o:["Metabolismo","Digestión","Circulación","Excreción"],a:0},
+  {q:"¿Qué tipo de mezcla se puede separar con un imán?",o:["Lima de hierro y arena","Sal y agua","Aceite y agua","Harina y agua"],a:0},
+  {q:"¿Cuántos litros de aire respira el ser humano por día?",o:["11.000 litros","1.000 litros","100 litros","500 litros"],a:0},
+  {q:"¿Cómo se llama la ciencia que estudia los minerales?",o:["Mineralogía","Geología","Petrología","Química"],a:0},
+  {q:"¿Qué es el efecto invernadero?",o:["Retención de calor en la atmósfera","Cultivo en casa","Tipo de planta","Fenómeno marino"],a:0},
+  {q:"¿Cuántos colores tiene el espectro visible de la luz?",o:["7","6","8","5"],a:0},
+  {q:"¿Qué animal es el símbolo de la paz?",o:["Paloma","Águila","Cóndor","Búho"],a:0},
+  {q:"¿Cómo se llama el campo magnético de la Tierra?",o:["Magnetosfera","Atmósfera","Ionosfera","Biosfera"],a:0},
+  {q:"¿Cuántas venas pulmonares hay en el corazón humano?",o:["4","2","3","6"],a:0},
+  {q:"¿Qué tipo de energía se produce en las presas?",o:["Hidroeléctrica","Solar","Eólica","Geotérmica"],a:0},
+  {q:"¿Cómo se llama la distancia entre la Tierra y la Luna aproximadamente?",o:["384.000 km","1 millón km","100.000 km","500.000 km"],a:0},
+  {q:"¿Qué es la fototropismo?",o:["Crecimiento de plantas hacia la luz","Movimiento de animales","Tipo de fotosíntesis","Ciclo del agua"],a:0},
+  {q:"¿Cuántas veces puede latir el corazón en toda la vida humana?",o:["3.000 millones","1 millón","10 millones","500 millones"],a:0},
+  {q:"¿Qué elemento es el más abundante en el universo?",o:["Hidrógeno","Helio","Oxígeno","Carbono"],a:0},
+  {q:"¿Cómo se llama la ciencia que estudia los animales?",o:["Zoología","Botánica","Biología","Ecología"],a:0},
+  {q:"¿Qué tipo de reproducción tienen los mamíferos?",o:["Sexual vivípara","Asexual","Ovípara","Ovovivípara"],a:0},
+  {q:"¿Cuántos órganos tiene el sistema digestivo?",o:["Varios (boca, esófago, estómago...)","Solo 1","Solo 2","Exactamente 5"],a:0},
+  {q:"¿Qué es el tsunami?",o:["Ola gigante causada por sismos marinos","Un tipo de viento","Una lluvia torrencial","Un terremoto"],a:0},
+  {q:"¿Cómo se llama la luz que no vemos pero nos broncea?",o:["Ultravioleta","Infrarroja","Visible","Gamma"],a:0},
+  {q:"¿Cuántos reinos tiene la clasificación biológica moderna?",o:["6","5","4","7"],a:0},
+  {q:"¿Qué es la adaptación en biología?",o:["Cambio que permite sobrevivir mejor en un ambiente","Un tipo de movimiento","Una enfermedad","Un proceso químico"],a:0},
+  {q:"¿Cuántos millones de km está el Sol de la Tierra?",o:["150 millones","50 millones","1.000 millones","300 millones"],a:0},
+  {q:"¿Cómo se llama el proceso de formación de nubes?",o:["Condensación","Evaporación","Precipitación","Infiltración"],a:0},
+  {q:"¿Qué vitamina se encuentra en las zanahorias?",o:["Vitamina A","Vitamina C","Vitamina D","Vitamina B12"],a:0}
+],
 
-        <!-- Tarjeta de Juego Dinámica -->
-        <main class="game-card" id="game-card">
-            <div id="game-zone">
-                <div class="progress-bar"><div class="progress" id="progress"></div></div>
-                <h3 style="margin-bottom: 0.5rem;" id="category-title">Categoría</h3>
-                <p style="color: #666; margin-bottom: 1rem;" id="question-counter">Pregunta 1 de X</p>
-                <div class="question-text" id="question-text">Cargando pregunta...</div>
-                <div class="options-grid" id="options-container"></div>
-            </div>
-            <div id="result-zone" style="display:none;">
-                <h2>¡Excelente esfuerzo!</h2>
-                <p style="margin: 1.5rem 0; font-size: 1.2rem;" id="score-text"></p>
-                <button class="tab-btn" onclick="restartCurrentCategory()">Volver a jugar</button>
-            </div>
-        </main>
-    </div>
+cso: [
+  {q:"¿Cuál es la capital del Perú?",o:["Lima","Cusco","Arequipa","Trujillo"],a:0},
+  {q:"¿Cuántos departamentos tiene el Perú?",o:["25","24","26","23"],a:0},
+  {q:"¿Quién fue el primer presidente del Perú independiente?",o:["José de San Martín","Simón Bolívar","Túpac Amaru","Ramón Castilla"],a:0},
+  {q:"¿En qué año se proclamó la Independencia del Perú?",o:["1821","1820","1822","1819"],a:0},
+  {q:"¿Cuál es el río más largo del mundo?",o:["Amazonas","Nilo","Yangtsé","Misisipi"],a:0},
+  {q:"¿Cuántos continentes hay en el mundo?",o:["7","5","6","8"],a:0},
+  {q:"¿Cuál es el país más grande del mundo?",o:["Rusia","Canadá","China","EE.UU."],a:0},
+  {q:"¿Cuál es la montaña más alta del mundo?",o:["Everest","Aconcagua","Kilimanjaro","Mont Blanc"],a:0},
+  {q:"¿Cuál es el desierto más grande del mundo?",o:["Sahara","Gobi","Atacama","Arábigo"],a:0},
+  {q:"¿Cuál es el continente más pequeño?",o:["Oceanía","Europa","Antártida","Ártica"],a:0},
+  {q:"¿Cuál es la ciudad más poblada del mundo?",o:["Tokio","Shanghai","Mumbai","São Paulo"],a:0},
+  {q:"¿Cuántos países tiene América del Sur?",o:["12","10","14","11"],a:0},
+  {q:"¿Cuál es el símbolo del sol en la bandera del Perú?",o:["Escudo nacional","La franja roja","La Cruz del Sur","El inca"],a:0},
+  {q:"¿Quién construyó Machu Picchu?",o:["Los incas","Los aztecas","Los mayas","Los españoles"],a:0},
+  {q:"¿En qué año llegó Cristóbal Colón a América?",o:["1492","1500","1491","1493"],a:0},
+  {q:"¿Cuál es el país más poblado del mundo?",o:["India","China","EE.UU.","Indonesia"],a:0},
+  {q:"¿Cuántos países miembros tiene la ONU?",o:["193","190","195","192"],a:0},
+  {q:"¿Cuál es la capital de España?",o:["Madrid","Barcelona","Sevilla","Valencia"],a:0},
+  {q:"¿Cuál es el país más pequeño del mundo?",o:["Vaticano","Mónaco","San Marino","Nauru"],a:0},
+  {q:"¿Cuál es la capital de Francia?",o:["París","Lyon","Marsella","Burdeos"],a:0},
+  {q:"¿Qué civilización construyó las pirámides de Egipto?",o:["Antigua egipcia","Romana","Griega","Fenicia"],a:0},
+  {q:"¿Cuál es el idioma más hablado en el mundo?",o:["Inglés","Chino mandarín","Español","Hindi"],a:0},
+  {q:"¿Cuántos países tiene África?",o:["54","50","60","48"],a:0},
+  {q:"¿Cuál es el lago más grande del mundo?",o:["Mar Caspio","Lago Superior","Lago Victoria","Lago Baikal"],a:0},
+  {q:"¿En qué continente está el Perú?",o:["América del Sur","América Central","América del Norte","Europa"],a:0},
+  {q:"¿Quién fue el último inca?",o:["Atahualpa","Huáscar","Manco Inca","Pachacútec"],a:0},
+  {q:"¿Cuál es el océano que baña las costas del Perú?",o:["Pacífico","Atlántico","Índico","Ártico"],a:0},
+  {q:"¿Cuántas regiones naturales tiene el Perú?",o:["3","2","4","5"],a:0},
+  {q:"¿Cuál es la capital de Brasil?",o:["Brasilia","São Paulo","Río de Janeiro","Salvador"],a:0},
+  {q:"¿Cuántos países conforman América Central?",o:["7","6","8","5"],a:0},
+  {q:"¿Cuál es el río más largo del Perú?",o:["Amazonas","Ucayali","Urubamba","Mantaro"],a:0},
+  {q:"¿Qué tipo de gobierno tiene el Perú actualmente?",o:["República democrática","Monarquía","Dictadura","Federación"],a:0},
+  {q:"¿Cuál fue la primera guerra mundial?",o:["1914-1918","1939-1945","1900-1910","1920-1925"],a:0},
+  {q:"¿Quién fue Simón Bolívar?",o:["Libertador de varios países sudamericanos","Rey de España","Inca peruano","Presidente de México"],a:0},
+  {q:"¿Cuál es el mar interior de América del Sur?",o:["No tiene mar interior","Mar Caribe","Mar de las Antillas","Mar del Plata"],a:0},
+  {q:"¿Cuántos husos horarios tiene el mundo?",o:["24","12","36","48"],a:0},
+  {q:"¿Cuál es el punto más al sur de América?",o:["Cabo de Hornos","Tierra del Fuego","Patagonia","Islas Malvinas"],a:0},
+  {q:"¿En qué país está el Amazonas en su mayor parte?",o:["Brasil","Perú","Colombia","Venezuela"],a:0},
+  {q:"¿Cuál es la civilización más antigua conocida?",o:["Mesopotamia","Egipto","China","India"],a:0},
+  {q:"¿Qué es el PIB?",o:["Producto Interno Bruto","Partido Internacional del Bienestar","Programa Internacional de Bases","Índice de bienes"],a:0},
+  {q:"¿Cuántos países tiene Europa?",o:["44","40","50","35"],a:0},
+  {q:"¿Cuál es la capital de Argentina?",o:["Buenos Aires","Córdoba","Rosario","Mendoza"],a:0},
+  {q:"¿Qué es el meridiano de Greenwich?",o:["Línea imaginaria de longitud 0°","El ecuador","El trópico de Cáncer","El paralelo 30°"],a:0},
+  {q:"¿Cuál fue el Imperio más extenso de la historia?",o:["Imperio Mongol","Imperio Romano","Imperio Británico","Imperio Español"],a:0},
+  {q:"¿Qué es el ecuador?",o:["Línea imaginaria que divide la Tierra en dos hemisferios","Un país de Sudamérica","Un río de América","Una cordillera"],a:0},
+  {q:"¿Cuál es la capital de China?",o:["Pekín (Beijing)","Shanghai","Hong Kong","Shanghái"],a:0},
+  {q:"¿Cuántos lados tiene un mapa típico con sus puntos cardinales?",o:["4","3","8","6"],a:0},
+  {q:"¿Qué continente tiene más países?",o:["África","Asia","América","Europa"],a:0},
+  {q:"¿Cuál es el punto más alto de América del Sur?",o:["Aconcagua","Huascarán","Chimborazo","Cotopaxi"],a:0},
+  {q:"¿En qué año cayó el Imperio Romano de Occidente?",o:["476 d.C.","1453 d.C.","410 d.C.","500 d.C."],a:0},
+  {q:"¿Cuál es la capital de México?",o:["Ciudad de México","Guadalajara","Monterrey","Puebla"],a:0},
+  {q:"¿Qué son los Derechos Humanos?",o:["Derechos básicos de toda persona","Leyes de un solo país","Reglas de un club","Normas deportivas"],a:0},
+  {q:"¿Cuál es el idioma oficial del Brasil?",o:["Portugués","Español","Inglés","Francés"],a:0},
+  {q:"¿Qué es la democracia?",o:["Sistema donde el pueblo elige a sus gobernantes","Gobierno de una sola persona","Gobierno militar","Gobierno religioso"],a:0},
+  {q:"¿Cuántas estrellas tiene la bandera de los Estados Unidos?",o:["50","48","52","45"],a:0},
+  {q:"¿Cuál es la capital de Japón?",o:["Tokio","Osaka","Kioto","Hiroshima"],a:0},
+  {q:"¿Qué es la inmigración?",o:["Llegada de personas de otro país a vivir","Salida de personas de un país","Movimiento de animales","Transporte de mercancías"],a:0},
+  {q:"¿Cuál es el mar más salado del mundo?",o:["Mar Muerto","Mar Mediterráneo","Mar Rojo","Mar Caribe"],a:0},
+  {q:"¿En qué año llegó el hombre a la Luna?",o:["1969","1968","1970","1971"],a:0},
+  {q:"¿Qué es el comercio justo?",o:["Intercambio donde productores reciben precio justo","Comercio solo entre amigos","Trueque de bienes","Comercio ilegal"],a:0},
+  {q:"¿Cuál es el río más largo de Europa?",o:["Volga","Danubio","Rin","Sena"],a:0},
+  {q:"¿Cuántos países tiene Asia?",o:["48","45","50","40"],a:0},
+  {q:"¿Qué es el trópico de Capricornio?",o:["Paralelo 23.5° al sur del ecuador","Paralelo 23.5° al norte","El ecuador","El polo sur"],a:0},
+  {q:"¿Cuál es la capital de Australia?",o:["Canberra","Sídney","Melbourne","Brisbane"],a:0},
+  {q:"¿Qué significa OEA?",o:["Organización de Estados Americanos","Organización Escolar de América","Orden de Estados Aliados","Oficina de Educación Americana"],a:0},
+  {q:"¿Cuál fue la primera civilización de América?",o:["Olmeca","Maya","Azteca","Inca"],a:0},
+  {q:"¿En qué continente está Egipto?",o:["África","Asia","Europa","Oriente Medio"],a:0},
+  {q:"¿Cuántos países tiene Oceanía?",o:["14","12","16","10"],a:0},
+  {q:"¿Qué es el Coliseo Romano?",o:["Anfiteatro de gladiadores en Roma","Una catedral","Un palacio real","Un museo"],a:0},
+  {q:"¿Cuál es la lengua con más hablantes nativos?",o:["Chino mandarín","Español","Inglés","Hindi"],a:0},
+  {q:"¿Cuál es la capital de Rusia?",o:["Moscú","San Petersburgo","Novosibirsk","Volgograd"],a:0},
+  {q:"¿Qué es un estado federal?",o:["País formado por varios estados autónomos","Un solo estado centralizado","Una colonia","Un territorio dependiente"],a:0},
+  {q:"¿Cuántos mares tiene el Perú en su costa?",o:["1 (Pacífico)","2","3","0"],a:0},
+  {q:"¿Qué civilización inventó el cero?",o:["Maya","Griega","Romana","Egipcia"],a:0},
+  {q:"¿Cuál es la capital de Italia?",o:["Roma","Milán","Florencia","Venecia"],a:0},
+  {q:"¿Qué evento fue la Revolución Francesa?",o:["Fin de la monarquía absoluta en Francia en 1789","Guerra entre Francia y España","Descubrimiento de América","Invasión napoleónica"],a:0},
+  {q:"¿Cuántas regiones tiene el Perú?",o:["25","24","26","23"],a:0},
+  {q:"¿Qué es el comercio exterior?",o:["Intercambio de bienes entre países","Comercio en la calle","Tiendas de barrio","Mercados locales"],a:0},
+  {q:"¿Cuál es el punto más al norte del Perú?",o:["Tumbes","Piura","Cajamarca","Amazonas"],a:0},
+  {q:"¿Qué es una constitución?",o:["Ley fundamental de un país","Un reglamento escolar","Una norma regional","Una costumbre social"],a:0},
+  {q:"¿Cuál es la capital de Colombia?",o:["Bogotá","Medellín","Cali","Barranquilla"],a:0},
+  {q:"¿En qué año se fundó Lima?",o:["1535","1521","1500","1550"],a:0},
+  {q:"¿Qué es la emigración?",o:["Salida de personas de un país para vivir en otro","Llegada de extranjeros","Movimiento interno","Turismo"],a:0},
+  {q:"¿Cuál es el Coliseo o Anfiteatro más famoso del mundo?",o:["Coliseo Romano","Estadio Azteca","Teatro de Epidauro","Arena de Nimes"],a:0},
+  {q:"¿Cuántos pisos ecológicos tiene el Perú?",o:["8","6","7","9"],a:0},
+  {q:"¿Qué es la globalización?",o:["Integración mundial de economías y culturas","Solo el comercio internacional","Solo la tecnología global","Las redes sociales"],a:0},
+  {q:"¿Cuál es la capital de Chile?",o:["Santiago","Valparaíso","Concepción","Antofagasta"],a:0},
+  {q:"¿Qué país tiene forma de bota?",o:["Italia","España","Grecia","Portugal"],a:0},
+  {q:"¿Cuál es el símbolo de la ONU?",o:["Mapa del mundo con ramas de olivo","Una bandera azul","El escudo americano","Una paloma blanca"],a:0},
+  {q:"¿Qué es un censo?",o:["Conteo oficial de la población","Un impuesto","Una ley","Un mapa"],a:0},
+  {q:"¿Cuál es la capital de Bolivia?",o:["Sucre (constitucional)","La Paz (sede)","Santa Cruz","Cochabamba"],a:0},
+  {q:"¿Cuántos presidentes ha tenido el Perú hasta el 2024?",o:["Más de 50","10","25","100"],a:0},
+  {q:"¿Qué es un mapa político?",o:["Mapa que muestra fronteras y capitales","Mapa de ríos y montañas","Mapa del clima","Mapa de carreteras"],a:0},
+  {q:"¿Cuál es el desierto más seco del mundo?",o:["Atacama","Sahara","Gobi","Arábigo"],a:0}
+],
 
-    <footer>
-        <p>"Nunca te rindas persiste hasta el final"</p>
-        <div class="author">Pro.: Jhonny Chipana Choque</div>
-    </footer>
+cul: [
+  {q:"¿Quién pintó la Mona Lisa?",o:["Leonardo da Vinci","Miguel Ángel","Rafael","Botticelli"],a:0},
+  {q:"¿Cuántos anillos tiene la bandera olímpica?",o:["5","4","6","3"],a:0},
+  {q:"¿Quién escribió 'Don Quijote de la Mancha'?",o:["Miguel de Cervantes","Lope de Vega","Quevedo","Góngora"],a:0},
+  {q:"¿En qué ciudad están los Juegos Olímpicos de verano 2024?",o:["París","Tokyo","Londres","Los Ángeles"],a:0},
+  {q:"¿Cuántos jugadores tiene un equipo de fútbol?",o:["11","10","12","9"],a:0},
+  {q:"¿Quién inventó el teléfono?",o:["Alexander Graham Bell","Thomas Edison","Nikola Tesla","Marconi"],a:0},
+  {q:"¿Cuántos libros tiene la Biblia?",o:["66","70","60","72"],a:0},
+  {q:"¿Quién fue Albert Einstein?",o:["Físico creador de la teoría de la relatividad","Inventor del teléfono","Descubridor de América","Presidente de EE.UU."],a:0},
+  {q:"¿Cuál es el deporte más popular del mundo?",o:["Fútbol","Básquetbol","Béisbol","Tenis"],a:0},
+  {q:"¿Quién escribió 'Romeo y Julieta'?",o:["Shakespeare","Cervantes","Dante","Homero"],a:0},
+  {q:"¿Cuántos colores tiene el arcoíris?",o:["7","6","8","5"],a:0},
+  {q:"¿Quién inventó la imprenta?",o:["Gutenberg","Leonardo da Vinci","Newton","Galileo"],a:0},
+  {q:"¿Cuál es el libro más vendido de la historia?",o:["La Biblia","Don Quijote","Harry Potter","El Quijote"],a:0},
+  {q:"¿Quién fue Marie Curie?",o:["Primera mujer Nobel de Ciencias","Reina de Francia","Escritora famosa","Pintora impresionista"],a:0},
+  {q:"¿En qué país se inventó el fútbol moderno?",o:["Inglaterra","Brasil","España","Argentina"],a:0},
+  {q:"¿Cuántos gramos tiene un kilogramo?",o:["1000","100","10000","500"],a:0},
+  {q:"¿Quién fue el primer hombre en el espacio?",o:["Yuri Gagarin","Neil Armstrong","Buzz Aldrin","Alan Shepard"],a:0},
+  {q:"¿Cuántos segundos tiene un minuto?",o:["60","100","30","120"],a:0},
+  {q:"¿Quién descubrió la penicilina?",o:["Alexander Fleming","Louis Pasteur","Robert Koch","Joseph Lister"],a:0},
+  {q:"¿Cuántos minutos tiene una hora?",o:["60","100","30","120"],a:0},
+  {q:"¿Cuál es la moneda del Perú?",o:["Sol","Peso","Dólar","Bolívar"],a:0},
+  {q:"¿Quién fue Napoleón Bonaparte?",o:["Emperador francés y general","Rey de España","Poeta italiano","Explorador portugués"],a:0},
+  {q:"¿Cuántos días tiene un año bisiesto?",o:["366","365","367","364"],a:0},
+  {q:"¿Cuál es la figura geométrica del escudo olímpico?",o:["Círculo","Cuadrado","Triángulo","Hexágono"],a:0},
+  {q:"¿Quién fue Isaac Newton?",o:["Científico que descubrió la gravedad","Inventor del avión","Pintor renacentista","Explorador del Ártico"],a:0},
+  {q:"¿Cuántas horas tiene un día?",o:["24","12","48","36"],a:0},
+  {q:"¿Qué instrumento usa un médico para escuchar el corazón?",o:["Estetoscopio","Termómetro","Otoscopio","Tensiómetro"],a:0},
+  {q:"¿Quién fue Frida Kahlo?",o:["Pintora mexicana","Cantante argentina","Escultora colombiana","Escritora española"],a:0},
+  {q:"¿Cuántos lados tiene un dado normal?",o:["6","4","8","12"],a:0},
+  {q:"¿Qué instrumento toca Beethoven?",o:["Piano","Violín","Flauta","Guitarra"],a:0},
+  {q:"¿Cuántos meses tiene un año?",o:["12","10","11","13"],a:0},
+  {q:"¿Quién fue Nikola Tesla?",o:["Inventor de la corriente alterna","Descubridor de la vacuna","Pintor impresionista","Explorador ártico"],a:0},
+  {q:"¿Cuál es el deporte que se juega con una raqueta y una pelota amarilla?",o:["Tenis","Bádminton","Squash","Pádel"],a:0},
+  {q:"¿Quién fue Pablo Picasso?",o:["Pintor cubista español","Escritor francés","Escultor italiano","Arquitecto alemán"],a:0},
+  {q:"¿Cuántos jugadores tiene un equipo de básquetbol?",o:["5","6","7","4"],a:0},
+  {q:"¿Qué país ganó más medallas de oro en los Juegos Olímpicos histórico?",o:["EE.UU.","Rusia/URSS","China","Alemania"],a:0},
+  {q:"¿Cuántos planetas del sistema solar tienen anillos?",o:["4","2","3","5"],a:0},
+  {q:"¿Quién escribió 'Cien años de soledad'?",o:["Gabriel García Márquez","Mario Vargas Llosa","Isabel Allende","Pablo Neruda"],a:0},
+  {q:"¿En qué año se fundó Internet?",o:["1983","1990","1975","1995"],a:0},
+  {q:"¿Quién fue Charles Darwin?",o:["Científico de la teoría de la evolución","Físico nuclear","Matemático francés","Arquitecto inglés"],a:0},
+  {q:"¿Cuántas notas musicales hay?",o:["7","5","8","6"],a:0},
+  {q:"¿Quién fue Leonardo da Vinci?",o:["Artista, científico e inventor renacentista","Solo pintor","Solo escultor","Solo arquitecto"],a:0},
+  {q:"¿Cuál es el metal más valioso del mundo?",o:["Rodio","Oro","Platino","Paladio"],a:0},
+  {q:"¿Quién fue Galileo Galilei?",o:["Astrónomo que mejoró el telescopio","Pintor del Renacimiento","Escritor de comedias","Rey italiano"],a:0},
+  {q:"¿Cuántos días tiene el mes de febrero en un año normal?",o:["28","29","30","27"],a:0},
+  {q:"¿Qué famoso estadio de fútbol está en Brasil?",o:["Maracaná","Camp Nou","Bernabéu","Wembley"],a:0},
+  {q:"¿Quién fue Steve Jobs?",o:["Cofundador de Apple","Creador de Microsoft","Fundador de Google","Inventor del teléfono"],a:0},
+  {q:"¿Cuántos idiomas oficiales tiene Suiza?",o:["4","2","3","5"],a:0},
+  {q:"¿Quién fue Homero?",o:["Poeta griego autor de la Ilíada","Filósofo griego","Matemático griego","Rey de Grecia"],a:0},
+  {q:"¿Cuántos huesos tiene el cráneo humano?",o:["22","20","24","18"],a:0},
+  {q:"¿Qué es la IA (Inteligencia Artificial)?",o:["Tecnología que simula la inteligencia humana","Un robot físico","Un sistema de GPS","Solo un juego"],a:0},
+  {q:"¿Quién fue Wolfgang Amadeus Mozart?",o:["Compositor austríaco genio de la música","Pintor alemán","Escritor francés","Rey de Austria"],a:0},
+  {q:"¿En qué ciudad está la Torre Eiffel?",o:["París","Lyon","Roma","Berlín"],a:0},
+  {q:"¿Cuántos meses tienen 31 días?",o:["7","6","8","5"],a:0},
+  {q:"¿Quién fue Bill Gates?",o:["Cofundador de Microsoft","Creador de Apple","Fundador de Google","Inventor de Internet"],a:0},
+  {q:"¿Cuál es el lenguaje de programación más usado en el mundo?",o:["Python","Java","JavaScript","C++"],a:0},
+  {q:"¿Quién fue Gandhi?",o:["Líder pacifista de la independencia india","Presidente de Sudáfrica","Rey de Nepal","General del ejército chino"],a:0},
+  {q:"¿Cuántos metros tiene un kilómetro?",o:["1000","100","10000","500"],a:0},
+  {q:"¿Qué es el Renacimiento?",o:["Movimiento cultural europeo siglos XIV-XVII","Una revolución política","Un estilo arquitectónico moderno","Una corriente religiosa"],a:0},
+  {q:"¿Quién pintó la Capilla Sixtina?",o:["Miguel Ángel","Leonardo da Vinci","Rafael","Botticelli"],a:0},
+  {q:"¿Cuántas semanas tiene un año?",o:["52","48","54","50"],a:0},
+  {q:"¿Qué premio reciben los mejores actores de Hollywood?",o:["Oscar","Grammy","Globo de Oro","Bafta"],a:0},
+  {q:"¿Quién fue Nelson Mandela?",o:["Presidente de Sudáfrica contra el apartheid","Rey de Nigeria","General de Etiopía","Político de Kenya"],a:0},
+  {q:"¿Cuántos gramos tiene una libra?",o:["453","500","400","600"],a:0},
+  {q:"¿Qué es el WiFi?",o:["Tecnología de conexión inalámbrica a Internet","Un satélite","Un cable de fibra óptica","Un tipo de antena"],a:0},
+  {q:"¿Quién fue Vincent van Gogh?",o:["Pintor impresionista holandés","Escritor belga","Escultor francés","Arquitecto alemán"],a:0},
+  {q:"¿Cuántas patas tiene una araña?",o:["8","6","10","4"],a:0},
+  {q:"¿Cuál es el deporte nacional de Japón?",o:["Sumo","Karate","Judo","Kendo"],a:0},
+  {q:"¿Quién fue Sigmund Freud?",o:["Padre del psicoanálisis","Físico nuclear","Matemático famoso","Poeta austríaco"],a:0},
+  {q:"¿Cuántos Oscars ganó Titanic?",o:["11","10","12","9"],a:0},
+  {q:"¿Qué país tiene el mayor número de Premios Nobel?",o:["EE.UU.","Alemania","Inglaterra","Francia"],a:0},
+  {q:"¿Quién fue Alan Turing?",o:["Padre de la computación moderna","Inventor del teléfono","Físico del átomo","Explorador polar"],a:0},
+  {q:"¿Cuántos litros tiene un galón americano?",o:["3.78","4","3","5"],a:0},
+  {q:"¿Qué es el blockchain?",o:["Tecnología de registro de datos descentralizado","Una criptomoneda","Un tipo de antivirus","Un lenguaje de programación"],a:0},
+  {q:"¿Quién fue Dante Alighieri?",o:["Poeta italiano de la Divina Comedia","Pintor renacentista","Escultor florentino","Filósofo romano"],a:0},
+  {q:"¿Cuántos jugadores tiene un equipo de volleyball?",o:["6","5","7","8"],a:0},
+  {q:"¿En qué año se fundó Facebook?",o:["2004","2003","2005","2006"],a:0},
+  {q:"¿Quién fue Copérnico?",o:["Astrónomo que propuso el modelo heliocéntrico","Físico de la gravedad","Matemático polaco","Explorador europeo"],a:0},
+  {q:"¿Cuántos músculos tiene el cuerpo humano?",o:["más de 600","100","300","500"],a:0},
+  {q:"¿Qué es el metaverso?",o:["Entorno virtual de realidad extendida","Un tipo de criptomoneda","Un juego de estrategia","Una red social"],a:0},
+  {q:"¿Quién fue Sócrates?",o:["Filósofo griego considerado padre de la filosofía occidental","Matemático griego","Rey de Atenas","General macedonio"],a:0},
+  {q:"¿Cuántos huesos tiene el pie humano?",o:["26","20","30","24"],a:0},
+  {q:"¿Qué es el GPT?",o:["Modelo de lenguaje de inteligencia artificial","Un tipo de procesador","Un lenguaje de programación","Un protocolo de Internet"],a:0},
+  {q:"¿Quién fue Platón?",o:["Filósofo griego discípulo de Sócrates","Matemático romano","Rey de Esparta","Poeta épico"],a:0},
+  {q:"¿Cuántos pares de costillas tiene el ser humano?",o:["12","10","11","13"],a:0},
+  {q:"¿En qué año se inventó el automóvil?",o:["1885","1900","1870","1910"],a:0},
+  {q:"¿Quién fue Carlos Gardel?",o:["Cantante de tango argentino-uruguayo","Cantante de salsa cubana","Poeta colombiano","Músico peruano"],a:0},
+  {q:"¿Cuántos milímetros tiene un centímetro?",o:["10","100","1000","5"],a:0},
+  {q:"¿Qué es un satélite artificial?",o:["Objeto lanzado al espacio que orbita la Tierra","Una estrella artificial","Un avión muy alto","Un telescopio espacial"],a:0},
+  {q:"¿Quién fue Julio César?",o:["General y dictador romano","Rey de Grecia","Filósofo romano","Poeta latino"],a:0},
+  {q:"¿Cuántos tipos de sangre hay en el sistema ABO?",o:["4","3","5","2"],a:0},
+  {q:"¿Qué país inventó el ajedrez?",o:["India","China","Persia","Egipto"],a:0},
+  {q:"¿Quién fue Marilyn Monroe?",o:["Actriz y símbolo del cine americano","Cantante inglesa","Modelo francesa","Escritora americana"],a:0},
+  {q:"¿Cuántos centímetros tiene un metro?",o:["100","10","1000","50"],a:0},
+  {q:"¿Qué es la robótica?",o:["Ciencia del diseño y uso de robots","Estudio de los insectos","Rama de la medicina","Arte digital"],a:0},
+  {q:"¿Quién fue Carl Sagan?",o:["Astrónomo y divulgador científico","Físico cuántico","Matemático famoso","Biólogo evolutivo"],a:0},
+  {q:"¿Cuántos jugadores hay en el béisbol por equipo en campo?",o:["9","10","8","11"],a:0},
+  {q:"¿Cuál es el instrumento de cuerda más grande de la orquesta?",o:["Contrabajo","Violonchelo","Viola","Violín"],a:0},
+  {q:"¿Quién fue Ada Lovelace?",o:["Primera programadora de la historia","Inventora del radio","Primera mujer en el espacio","Descubridora de la penicilina"],a:0},
+  {q:"¿Cuántos años duró la guerra de los Cien Años?",o:["116","100","90","120"],a:0},
+  {q:"¿En qué año se inventó el avión?",o:["1903","1900","1905","1910"],a:0},
+  {q:"¿Quién fue Tupac Shakur?",o:["Rapero y actor americano","Cantante de salsa","Músico de jazz","Compositor clásico"],a:0},
+  {q:"¿Cuántos puntos vale un try en rugby?",o:["5","3","4","6"],a:0},
+  {q:"¿Qué es la nanotecnología?",o:["Tecnología a escala de nanómetros","Tecnología espacial","Robótica avanzada","Biotecnología marina"],a:0},
+  {q:"¿Quién fue Ramses II?",o:["Faraón más importante del Antiguo Egipto","Rey de Persia","General griego","Filósofo egipcio"],a:0},
+  {q:"¿Cuántos continentes tocan el océano Pacífico?",o:["5","3","4","6"],a:0},
+  {q:"¿Cuál es el país que consume más chocolate?",o:["Suiza","Bélgica","Alemania","EE.UU."],a:0},
+  {q:"¿Quién fue Arquímedes?",o:["Matemático griego inventor del principio de flotación","Filósofo romano","Rey griego","Arquitecto antiguo"],a:0},
+  {q:"¿Cuántos ases tiene una baraja española?",o:["4","3","5","6"],a:0},
+  {q:"¿En qué año cayó el Muro de Berlín?",o:["1989","1990","1988","1991"],a:0},
+  {q:"¿Qué es el jazz?",o:["Género musical nacido en EE.UU. con influencias africanas","Música clásica europea","Música folclórica latinoamericana","Género musical coreano"],a:0},
+  {q:"¿Quién fue Hernán Cortés?",o:["Conquistador español del Imperio Azteca","Navegante portugués","Explorador inglés","Conquistador del Imperio Inca"],a:0},
+  {q:"¿Cuántos premios Grammy puede ganar un artista en una sola noche?",o:["Sin límite definido","1","5","10"],a:0},
+  {q:"¿Qué país tiene más patrimonio de la humanidad UNESCO?",o:["Italia","China","España","México"],a:0},
+  {q:"¿Quién fue Cleopatra?",o:["Última reina del Antiguo Egipto","Primera reina de Roma","Emperatriz de Persia","Reina de Grecia"],a:0},
+  {q:"¿Cuántas cuerdas tiene una guitarra clásica?",o:["6","5","7","4"],a:0},
+  {q:"¿Cuál es el animal más inteligente después de los humanos?",o:["Chimpancé","Delfín","Elefante","Cuervo"],a:0},
+  {q:"¿Quién fue Michael Jackson?",o:["Rey del pop, cantante y bailarín americano","Jugador de fútbol","Escritor de novelas","Director de cine"],a:0},
+  {q:"¿Cuántas veces se han realizado los Juegos Olímpicos modernos hasta 2024?",o:["33","30","35","28"],a:0},
+  {q:"¿Qué es el veganismo?",o:["Estilo de vida que evita productos de origen animal","Dieta sin gluten","Dieta sin carbohidratos","Solo vegetarianismo"],a:0},
+  {q:"¿Quién fue Cristiano Ronaldo?",o:["Futbolista portugués de los más exitosos de la historia","Tenista español","Ciclista francés","Boxeador argentino"],a:0},
+  {q:"¿Cuántos tipos de energía renovable principales hay?",o:["6 (solar, eólica, hídrica, geotérmica, biomasa, mareas)","3","4","8"],a:0},
+  {q:"¿En qué año se lanzó el primer iPhone?",o:["2007","2005","2008","2006"],a:0},
+  {q:"¿Quién fue Stephen Hawking?",o:["Físico teórico experto en cosmología y agujeros negros","Biólogo evolutivo","Matemático puro","Químico cuántico"],a:0},
+  {q:"¿Cuántas palabras tiene el idioma español aproximadamente?",o:["más de 80.000","10.000","50.000","200.000"],a:0},
+  {q:"¿Cuál es el país con más islas del mundo?",o:["Suecia","Indonesia","Filipinas","Noruega"],a:0},
+  {q:"¿Quién fue Pelé?",o:["Futbolista brasileño considerado el mejor de la historia","Tenista argentino","Nadador americano","Ciclista español"],a:0},
+  {q:"¿Cuántos tonos tiene el idioma chino mandarín?",o:["4","5","3","6"],a:0},
+  {q:"¿Qué es la realidad aumentada?",o:["Tecnología que superpone elementos virtuales al mundo real","Realidad virtual completa","Un tipo de videojuego","Una simulación completa"],a:0},
+  {q:"¿Quién fue Sun Tzu?",o:["General y estratega chino del Arte de la Guerra","Filósofo confuciano","Emperador chino","Matemático asiático"],a:0},
+  {q:"¿Cuántas veces ha ganado Brasil el Mundial de Fútbol?",o:["5","4","6","3"],a:0},
+  {q:"¿En qué año se fundó Google?",o:["1998","1997","2000","1999"],a:0},
+  {q:"¿Quién fue Lionel Messi?",o:["Futbolista argentino de los más exitosos de la historia","Ciclista colombiano","Tenista canadiense","Nadador español"],a:0},
+  {q:"¿Cuántos tipos de triángulo hay según sus ángulos?",o:["3","2","4","5"],a:0},
+  {q:"¿Qué es la inteligencia emocional?",o:["Capacidad de reconocer y gestionar emociones","Tipo de cociente intelectual","Habilidad matemática","Memoria fotográfica"],a:0},
+  {q:"¿Quién fue Simón Bolívar?",o:["Libertador de seis países latinoamericanos","Solo libertador de Venezuela","Presidente de España","Conquistador portugués"],a:0},
+  {q:"¿Cuántos años tenía Mozart cuando empezó a componer?",o:["5","8","3","10"],a:0},
+  {q:"¿Qué país tiene la mayor reserva de agua dulce del mundo?",o:["Brasil","Rusia","Canadá","China"],a:0},
+  {q:"¿Quién fue Marco Polo?",o:["Explorador italiano que viajó a China en el siglo XIII","Explorador español","Navegante portugués","Comerciante árabe"],a:0},
+  {q:"¿Cuántos escalones tiene la Torre Eiffel?",o:["1.665","1.000","2.000","800"],a:0},
+  {q:"¿En qué año se inventó la televisión?",o:["1927","1920","1935","1945"],a:0},
+  {q:"¿Quién fue Tesla (Nikola)?",o:["Inventor serbio-americano de la corriente alterna","Inventor del motor a vapor","Descubridor de la electricidad","Fundador de la empresa Tesla"],a:0},
+  {q:"¿Cuántas pirámides hay en Giza, Egipto?",o:["3","2","4","7"],a:0},
+  {q:"¿Qué es la epigenética?",o:["Estudio de cambios en expresión génica sin alterar ADN","Tipo de cirugía genética","Clon de animales","Terapia génica"],a:0},
+  {q:"¿Quién fue Maradona?",o:["Futbolista argentino ídolo mundial","Tenista argentino","Boxeador colombiano","Ciclista peruano"],a:0},
+  {q:"¿Cuántos océanos tiene el planeta Tierra?",o:["5","4","3","6"],a:0},
+  {q:"¿Cuál es la capital del arte y la moda según la tradición?",o:["París","Milán","Nueva York","Londres"],a:0},
+  {q:"¿Quién fue César Vallejo?",o:["Poeta peruano de vanguardia latinoamericana","Escritor colombiano","Novelista argentino","Dramaturgo mexicano"],a:0},
+  {q:"¿Cuántas horas de vuelo hay entre Lima y Madrid aproximadamente?",o:["12","8","16","20"],a:0},
+  {q:"¿Qué es el machine learning?",o:["Subcampo de la IA donde las máquinas aprenden de datos","Robótica industrial","Programación clásica","Diseño de software"],a:0},
+  {q:"¿Quién fue Elon Musk?",o:["Empresario de Tesla, SpaceX y otras compañías tecnológicas","Solo fundador de Tesla","Creador de Facebook","Fundador de Amazon"],a:0},
+  {q:"¿Cuántos países integran el G20?",o:["20","19","21","18"],a:0},
+  {q:"¿Cuál es la danza nacional del Perú?",o:["Marinera","Huayno","Festejo","Saya"],a:0},
+  {q:"¿Quién fue Pablo Neruda?",o:["Poeta chileno Premio Nobel de Literatura","Escritor argentino","Dramaturgo cubano","Narrador mexicano"],a:0},
+  {q:"¿Cuántos años tiene la Gran Muralla China aproximadamente?",o:["más de 2.000 años","500 años","1.000 años","100 años"],a:0},
+  {q:"¿En qué año se creó YouTube?",o:["2005","2004","2006","2007"],a:0},
+  {q:"¿Quién fue José Carlos Mariátegui?",o:["Pensador marxista y periodista peruano","Poeta peruano","General del ejército","Presidente del Perú"],a:0},
+  {q:"¿Cuántos metros mide la Torre Eiffel?",o:["330 m","250 m","400 m","200 m"],a:0},
+  {q:"¿Qué es la criptografía?",o:["Técnica para cifrar información","Tipo de fotografía","Estudio de monedas antiguas","Rama de la biología"],a:0},
+  {q:"¿Quién fue Juana de Arco?",o:["Heroína francesa que luchó contra Inglaterra","Reina de España","Emperatriz romana","Reina de Portugal"],a:0},
+  {q:"¿Cuántos bits tiene un byte?",o:["8","4","16","2"],a:0},
+  {q:"¿Cuál es el festival de cine más prestigioso del mundo?",o:["Festival de Cannes","Sundance","Venecia","Berlín"],a:0},
+  {q:"¿Quién fue Pizarro?",o:["Conquistador español del Imperio Inca","Conquistador de México","Explorador del Brasil","Navegante del Caribe"],a:0},
+  {q:"¿Cuántos metros cuadrados tiene una hectárea?",o:["10.000","1.000","100.000","5.000"],a:0},
+  {q:"¿En qué año se inventó la bombilla eléctrica?",o:["1879","1860","1900","1850"],a:0},
+  {q:"¿Quién fue Copérnico?",o:["Astrónomo polaco del modelo heliocéntrico","Físico alemán","Matemático italiano","Filósofo holandés"],a:0},
+  {q:"¿Cuántos países tienen el español como idioma oficial?",o:["20","18","22","16"],a:0},
+  {q:"¿Qué es la cuántica?",o:["Rama de la física que estudia el mundo subatómico","Tipo de matemática","Ciencia de los planetas","Estudio de minerales"],a:0},
+  {q:"¿Quién fue Agatha Christie?",o:["Escritora inglesa de novelas policiales","Poetisa francesa","Dramaturga americana","Novelista rusa"],a:0},
+  {q:"¿Cuántas veces ha ganado EE.UU. el Mundial de básquetbol masculino?",o:["5","3","7","4"],a:0},
+  {q:"¿En qué año se realizó la primera transmisión de radio?",o:["1906","1900","1910","1895"],a:0},
+  {q:"¿Quién fue J.K. Rowling?",o:["Autora de la saga Harry Potter","Escritora de ciencia ficción","Poetisa inglesa","Dramaturga escocesa"],a:0},
+  {q:"¿Cuántos idiomas habla el papa Francisco como mínimo?",o:["5","3","7","4"],a:0},
+  {q:"¿Cuál es el instrumento de viento más pequeño de la orquesta?",o:["Flautín (piccolo)","Flauta traversa","Oboe","Clarinete"],a:0},
+  {q:"¿Quién fue Andrés Avelino Cáceres?",o:["Héroe peruano de la Guerra del Pacífico","General de la Independencia","Presidente fundador del Perú","Político del siglo XXI"],a:0},
+  {q:"¿Cuántos países tienen energía nuclear?",o:["30 aproximadamente","10","50","100"],a:0},
+  {q:"¿En qué año se creó Twitter (ahora X)?",o:["2006","2005","2007","2008"],a:0},
+  {q:"¿Quién fue Linus Torvalds?",o:["Creador del kernel de Linux","Fundador de Microsoft","Inventor del Wi-Fi","Creador de Python"],a:0},
+  {q:"¿Cuántos tipos de leucocitos hay?",o:["5","3","4","6"],a:0},
+  {q:"¿Cuál es el número más grande que tiene nombre propio?",o:["Googolplex","Millón","Billón","Gogol"],a:0},
+  {q:"¿Quién fue Túpac Amaru II?",o:["Líder de la mayor rebelión indígena del Perú colonial","Inca fundador del Tahuantinsuyo","General de la Independencia","Rey inca antes de Atahualpa"],a:0},
+  {q:"¿Cuántos metros nada un maratón acuático?",o:["10 km","5 km","20 km","50 km"],a:0},
+  {q:"¿Qué es la neurociencia?",o:["Ciencia que estudia el sistema nervioso","Ciencia del comportamiento animal","Estudio de músculos","Rama de la cardiología"],a:0},
+  {q:"¿Cuántos ases tiene una baraja inglesa?",o:["4","3","5","2"],a:0},
+  {q:"¿Quién fue Rumi?",o:["Poeta y místico persa del siglo XIII","Filósofo griego","Matemático árabe","Rey de Persia"],a:0},
+  {q:"¿Cuántos gramos tiene una onza?",o:["28.35","30","25","35"],a:0},
+  {q:"¿En qué año se puso en órbita el primer satélite artificial (Sputnik)?",o:["1957","1955","1960","1961"],a:0},
+  {q:"¿Quién fue Confucio?",o:["Filósofo chino cuyas enseñanzas fundaron el confucianismo","Emperador chino","General de la China antigua","Matemático asiático"],a:0},
+  {q:"¿Cuántos jugadores hay en un equipo de polo?",o:["4","3","5","6"],a:0},
+  {q:"¿Cuál es la moneda oficial de la Unión Europea?",o:["Euro","Marco","Franco","Corona"],a:0},
+  {q:"¿Quién fue Jorge Luis Borges?",o:["Escritor argentino maestro del cuento fantástico","Poeta chileno","Novelista peruano","Dramaturgo colombiano"],a:0}
+]
+};
 
-    <script>
-        // Sistema de generación y almacenamiento de base de preguntas eficientes y dinámicas
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let activeCategory = '';
-        let activeSubcategory = '';
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  tab: 'mat',
+  sub: 'suma',
+  current: 0,
+  score: 0,
+  answered: false,
+  order: [],
+  started: false
+};
 
-        // Helper para mezclar arreglos (Fisher-Yates)
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+// ============================================================
+// SHUFFLE
+// ============================================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-        // Generador dinámico para cumplir con las cuotas masivas sin ralentizar la página
-        function generateMath(type, count) {
-            let list = [];
-            for(let i=1; i<=count; i++) {
-                let a = Math.floor(Math.random() * 50) + 1;
-                let b = Math.floor(Math.random() * 50) + 1;
-                let q = "", ans = 0, opts = [];
-                
-                if(type === 'suma') { q = `¿Cuánto es ${a} + ${b}?`; ans = a + b; }
-                else if(type === 'resta') { if(a<b)[a,b]=[b,a]; q = `¿Cuánto es ${a} - ${b}?`; ans = a - b; }
-                else if(type === 'mult') { a=Math.floor(Math.random()*10)+2; b=Math.floor(Math.random()*10)+2; q = `¿Cuánto es ${a} × ${b}?`; ans = a * b; }
-                else if(type === 'div') { b=Math.floor(Math.random()*9)+2; ans=Math.floor(Math.random()*9)+2; a=b*ans; q = `¿Cuánto es ${a} ÷ ${b}?`; }
-                else { 
-                    let geos = [
-                        {q: "¿Cuántos lados tiene un triángulo?", a: "3", o: ["4","5","6"]},
-                        {q: "¿Cómo se llama el polígono de 4 lados iguales?", a: "Cuadrado", o: ["Triángulo","Círculo","Pentágono"]},
-                        {q: "¿Cuánto suman los ángulos internos de un triángulo?", a: "180°", o: ["90°","360°","270°"]},
-                        {q: "¿Qué cuerpo geométrico es como una pelota?", a: "Esfera", o: ["Cubo","Cilindro","Cono"]}
-                    ];
-                    let base = geos[i % geos.length];
-                    list.push({q: `${base.q} (${i})`, a: base.a, o: shuffle([...base.o, base.a])});
-                    continue;
-                }
-                opts = [ans, ans+Math.floor(Math.random()*5)+1, ans-Math.floor(Math.random()*3)-1, ans+10];
-                list.push({q: q, a: ans.toString(), o: shuffle([...new Set(opts)].map(String)).slice(0,4)});
-            }
-            return shuffle(list);
-        }
+// ============================================================
+// GET CURRENT KEY
+// ============================================================
+function getKey() {
+  return state.tab === 'mat' ? state.sub : state.tab;
+}
 
-        function generateGenericQuestions(categoryName, total) {
-            let list = [];
-            let branches = ["General", "Avanzado", "Exploración", "Curiosidades"];
-            for(let i=1; i<=total; i++) {
-                let branch = branches[i % branches.length];
-                list.push({
-                    q: `Pregunta de ${categoryName} #${i}: ¿Cuál es la opción correcta para esta consigna sobre ${branch}?`,
-                    a: "Opción Correcta",
-                    o: shuffle(["Opción Correcta", "Opción Incorrecta A", "Opción Incorrecta B", "Opción Incorrecta C"])
-                });
-            }
-            return shuffle(list);
-        }
+function getQuestions() {
+  return QUESTIONS[getKey()] || [];
+}
 
-        // Control de Navegación
-        function selectTab(category) {
-            activeCategory = category;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const mathSub = document.getElementById('math-subtabs');
-            const gameCard = document.getElementById('game-card');
-            
-            if(category === 'matematica') {
-                mathSub.style.display = 'flex';
-                gameCard.style.display = 'none';
-            } else {
-                mathSub.style.display = 'none';
-                gameCard.style.display = 'block';
-                let titles = {comunicacion: 'Comunicación y Lenguajes', naturales: 'Ciencias Naturales', sociales: 'Ciencias Sociales', cultura: 'Cultura General'};
-                let counts = {comunicacion: 100, naturales: 100, sociales: 100, cultura: 300};
-                
-                document.getElementById('category-title').innerText = titles[category];
-                currentQuestions = generateGenericQuestions(titles[category], counts[category]);
-                initGame();
-            }
-        }
+// ============================================================
+// TABS
+// ============================================================
+function showTab(tab) {
+  state.tab = tab;
+  state.started = false;
+  document.querySelectorAll('.main-tabs .mtab').forEach((b,i) => {
+    const tabs = ['mat','com','cna','cso','cul'];
+    b.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab !== 'mat') renderStart();
+}
 
-        function startMathMode(type) {
-            activeSubcategory = type;
-            document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('game-card').style.display = 'block';
-            document.getElementById('category-title').innerText = `Matemática: ${type.toUpperCase()}`;
-            
-            currentQuestions = generateMath(type, 30);
-            initGame();
-        }
+function showSub(sub) {
+  state.sub = sub;
+  state.started = false;
+  document.querySelectorAll('.stab').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(sub === 'suma' ? 'Suma' : sub === 'resta' ? 'Resta' : sub === 'multi' ? 'Multi' : sub === 'div' ? 'Divis' : 'Geo'));
+  });
+  renderStart();
+}
 
-        // Motor del Juego
-        function initGame() {
-            currentIndex = 0;
-            score = 0;
-            document.getElementById('game-zone').style.display = 'block';
-            document.getElementById('result-zone').style.display = 'none';
-            showQuestion();
-        }
+// ============================================================
+// RENDER START
+// ============================================================
+function renderStart() {
+  const key = getKey();
+  const qs = getQuestions();
+  const icons = {suma:'➕',resta:'➖',multi:'✖️',div:'➗',geo:'📐',com:'📖',cna:'🌿',cso:'🌍',cul:'🏆'};
+  const names = {suma:'Suma',resta:'Resta',multi:'Multiplicación',div:'División',geo:'Geometría',com:'Comunicación y Lenguaje',cna:'Ciencias Naturales',cso:'Ciencias Sociales',cul:'Cultura General'};
+  const area = state.tab === 'mat' ? 'quizArea-mat' : 'quizArea-' + state.tab;
+  document.getElementById(area).innerHTML = `
+    <div class="quiz-box">
+      <div class="start-box">
+        <div class="start-icon">${icons[key]||'📚'}</div>
+        <div class="start-title">${names[key]||key}</div>
+        <div class="start-info">${qs.length} preguntas preparadas<br>¡Cada vez en orden diferente!<br>Responde y gana puntos ⭐</div>
+        <button class="start-btn" onclick="startQuiz()">¡Empezar a Jugar!</button>
+      </div>
+    </div>`;
+}
 
-        function showQuestion() {
-            if(currentIndex >= currentQuestions.length) {
-                showResults();
-                return;
-            }
-            
-            let progress = (currentIndex / currentQuestions.length) * 100;
-            document.getElementById('progress').style.width = `${progress}%`;
-            document.getElementById('question-counter').innerText = `Pregunta ${currentIndex + 1} de ${currentQuestions.length}`;
-            
-            let q = currentQuestions[currentIndex];
-            document.getElementById('question-text').innerText = q.q;
-            
-            let container = document.getElementById('options-container');
-            container.innerHTML = '';
-            
-            q.o.forEach(opt => {
-                let btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(opt, q.a);
-                container.appendChild(btn);
-            });
-        }
+// ============================================================
+// START QUIZ
+// ============================================================
+function startQuiz() {
+  const qs = getQuestions();
+  state.order = shuffle(qs.map((_,i)=>i));
+  state.current = 0;
+  state.score = 0;
+  state.answered = false;
+  state.started = true;
+  renderQuestion();
+}
 
-        function checkAnswer(selected, correct) {
-            if(selected === correct) score++;
-            currentIndex++;
-            showQuestion();
-        }
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+function renderQuestion() {
+  const qs = getQuestions();
+  const idx = state.order[state.current];
+  const q = qs[idx];
+  const total = qs.length;
+  const pct = ((state.current) / total * 100).toFixed(0);
+  const area = state.tab === 'mat' ? 'quizArea-mat' : 'quizArea-' + state.tab;
+  const opts = q.o.map((o,i) => `
+    <button class="opt-btn" id="opt${i}" onclick="checkAnswer(${i},${q.a})">
+      <span class="opt-letter">${'ABCD'[i]}</span>${o}
+    </button>`).join('');
+  document.getElementById(area).innerHTML = `
+    <div class="quiz-box" id="tab-${state.tab}">
+      <div class="quiz-header">
+        <span class="quiz-title">Pregunta ${state.current+1} de ${total}</span>
+        <div class="quiz-stats">
+          <span class="stat-badge">✅ ${state.score}</span>
+          <span class="stat-badge">❌ ${state.current - state.score}</span>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="question-area">
+        <div class="q-num">Pregunta ${state.current+1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="options">${opts}</div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>`;
+}
 
-        function showResults() {
-            document.getElementById('game-zone').style.display = 'none';
-            document.getElementById('result-zone').style.display = 'block';
-            document.getElementById('score-text').innerText = `Lograste responder acertadamente ${score} de ${currentQuestions.length} preguntas. ¡Sigue adelante!`;
-        }
+// ============================================================
+// CHECK ANSWER
+// ============================================================
+function checkAnswer(chosen, correct) {
+  if (state.answered) return;
+  state.answered = true;
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  if (chosen === correct) {
+    state.score++;
+    fb.textContent = '🎉 ¡Correcto! ¡Muy bien!';
+    fb.className = 'feedback correct show';
+  } else {
+    fb.textContent = `😅 Incorrecto. La respuesta era: ${QUESTIONS[getKey()][state.order[state.current]].o[correct]}`;
+    fb.className = 'feedback wrong show';
+  }
+  const nav = document.createElement('div');
+  nav.className = 'nav-btns';
+  const qs = getQuestions();
+  if (state.current + 1 < qs.length) {
+    nav.innerHTML = `<button class="nav-btn btn-next" onclick="nextQuestion()">Siguiente ▶</button>`;
+  } else {
+    nav.innerHTML = `<button class="nav-btn btn-restart" onclick="showResult()">Ver Resultado 🏆</button>`;
+  }
+  document.querySelector('.question-area').appendChild(nav);
+  state.answered = false;
+}
 
-        function restartCurrentCategory() {
-            if(activeCategory === 'matematica') {
-                currentQuestions = generateMath(activeSubcategory, 30);
-            } else {
-                let titles = {comunicacion: 'Comunicación y Lenguajes', naturales: 'Ciencias Naturales', sociales: 'Ciencias Sociales', cultura: 'Cultura General'};
-                let counts = {comunicacion: 100, naturales: 100, sociales: 100, cultura: 300};
-                currentQuestions = generateGenericQuestions(titles[activeCategory], counts[activeCategory]);
-            }
-            initGame();
-        }
-    </script>
-</body>
-</html>
+// ============================================================
+// NEXT QUESTION
+// ============================================================
+function nextQuestion() {
+  state.current++;
+  state.answered = false;
+  renderQuestion();
+}
+
+// ============================================================
+// SHOW RESULT
+// ============================================================
+function showResult() {
+  const total = getQuestions().length;
+  const pct = Math.round((state.score / total) * 100);
+  const stars = pct >= 90 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : '⭐';
+  const msg = pct >= 90 ? '¡Excelente! ¡Eres un genio!' : pct >= 70 ? '¡Muy bien! ¡Sigue adelante!' : pct >= 50 ? '¡Buen intento! ¡Practica más!' : '¡No te rindas! ¡Inténtalo de nuevo!';
+  const area = state.tab === 'mat' ? 'quizArea-mat' : 'quizArea-' + state.tab;
+  document.getElementById(area).innerHTML = `
+    <div class="quiz-box">
+      <div class="result-box">
+        <div class="result-stars">${stars}</div>
+        <div class="result-score">${state.score}/${total}</div>
+        <div class="result-label">${pct}% de aciertos</div>
+        <div class="result-msg" style="margin-top:12px">${msg}</div>
+        <div style="margin-top:8px;font-size:13px;color:#999">Profe: Jhonny Chipana Choque</div>
+        <button class="nav-btn btn-restart" style="margin-top:24px;width:100%;max-width:280px" onclick="startQuiz()">🔄 Jugar de Nuevo</button>
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// STARS ANIMATION
+// ============================================================
+const sc = document.getElementById('starsContainer');
+for(let i=0;i<15;i++){
+  const s = document.createElement('div');
+  s.className='star-dot';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=Math.random()*3+'s';
+  s.style.animationDuration=(1+Math.random()*2)+'s';
+  sc.appendChild(s);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+state.sub = 'suma';
+renderStart();
+</script>
